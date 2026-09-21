@@ -2,6 +2,7 @@ import SwiftUI
 import Foundation
 import UIKit
 import Security
+import ImageIO
 
 // ============================================================
 // MARK: - CONTENT VIEW
@@ -40,16 +41,16 @@ struct ContentView: View {
                 if tab == 0 {
                     ExternalFunctionsView(darkMode: darkMode)
                 } else if tab == 1 {
-                    TexturasView(darkMode: darkMode)
+                    PreviewView(darkMode: darkMode)
                 } else {
-                    ConfigDashboardView(darkMode: $darkMode)
+                    ConfigDashboardView(darkMode: $darkMode, auth: auth)
                 }
             }
             .padding(.bottom, 72)
 
             HStack(spacing: 8) {
                 BottomItem(icon: "house.fill", title: "Function", selected: tab == 0, darkMode: darkMode) { tab = 0 }
-                BottomItem(icon: "figure.stand", title: "Texturas", selected: tab == 1, darkMode: darkMode) { tab = 1 }
+                BottomItem(icon: "play.rectangle.fill", title: "Preview", selected: tab == 1, darkMode: darkMode) { tab = 1 }
                 BottomItem(icon: "cube.fill", title: "Config", selected: tab == 2, darkMode: darkMode) { tab = 2 }
             }
             .padding(.horizontal, 22)
@@ -397,6 +398,17 @@ private struct MoonLoginView: View {
                             )
                     }
 
+                    AnimatedGIFView(filename: "realm-banner.gif")
+                        .frame(height: 86)
+                        .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+                        .overlay {
+                            RoundedRectangle(cornerRadius: 20, style: .continuous)
+                                .stroke(cyan.opacity(0.28), lineWidth: 1)
+                        }
+                        .shadow(color: moon.opacity(0.20), radius: 18, y: 8)
+                        .padding(.horizontal, 4)
+                        .padding(.bottom, 18)
+
                     Text("MOON X7")
                         .font(.system(size: 38, weight: .black, design: .rounded))
                         .tracking(5)
@@ -532,6 +544,25 @@ private struct PatchOption: Identifiable {
     let patchFile: String
     let patchPassword: String
     let manualControls: Bool
+    let isTexture: Bool
+
+    init(
+        id: String,
+        title: String,
+        subtitle: String?,
+        patchFile: String,
+        patchPassword: String,
+        manualControls: Bool,
+        isTexture: Bool = false
+    ) {
+        self.id = id
+        self.title = title
+        self.subtitle = subtitle
+        self.patchFile = patchFile
+        self.patchPassword = patchPassword
+        self.manualControls = manualControls
+        self.isTexture = isTexture
+    }
 }
 
 
@@ -605,7 +636,16 @@ private struct ExternalFunctionsView: View {
         PatchOption(id: "ffmx-07", title: "MOON MAGICA", subtitle: "FF MAX", patchFile: PatchSlots.ffmx7, patchPassword: PatchSlots.password, manualControls: true),
         PatchOption(id: "ffmx-08", title: "MOON PECHO ATN", subtitle: "FF MAX", patchFile: PatchSlots.ffmx8, patchPassword: PatchSlots.password, manualControls: true),
         PatchOption(id: "ffmx-09", title: "MOON PECHO", subtitle: "FF MAX", patchFile: PatchSlots.ffmx9, patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "ffmx-10", title: "MOON CABEZA", subtitle: "FF MAX", patchFile: PatchSlots.ffmx10, patchPassword: PatchSlots.password, manualControls: true)
+        PatchOption(id: "ffmx-10", title: "MOON CABEZA", subtitle: "FF MAX", patchFile: PatchSlots.ffmx10, patchPassword: PatchSlots.password, manualControls: true),
+
+        // Texture options moved into FF MAX.
+        PatchOption(id: "ffmx-texture-01", title: "ARM HOLO BORDE AZUL Y ROJO", subtitle: "FF MAX • TEXTURA", patchFile: "ARM HOLO BORDE AZUL Y ROJO.3105", patchPassword: PatchSlots.password, manualControls: false, isTexture: true),
+        PatchOption(id: "ffmx-texture-02", title: "ARM HOLO BORDE RTX", subtitle: "FF MAX • TEXTURA", patchFile: "ARM HOLO BORDE RTX.3105", patchPassword: PatchSlots.password, manualControls: false, isTexture: true),
+        PatchOption(id: "ffmx-texture-03", title: "ARM HOLO BORDE VERDE AMARILLO", subtitle: "FF MAX • TEXTURA", patchFile: "ARM HOLO BORDE VERDE AMARILLO.3105", patchPassword: PatchSlots.password, manualControls: false, isTexture: true),
+        PatchOption(id: "ffmx-texture-04", title: "PJ HOLO MOON VIP", subtitle: "FF MAX • TEXTURA", patchFile: "PJ HOLO MOON VIP.3105", patchPassword: PatchSlots.password, manualControls: false, isTexture: true),
+        PatchOption(id: "ffmx-texture-05", title: "PJ HOLO ROBOT AMARILLO", subtitle: "FF MAX • TEXTURA", patchFile: "PJ HOLO ROBOT AMARILLO.3105", patchPassword: PatchSlots.password, manualControls: false, isTexture: true),
+        PatchOption(id: "ffmx-texture-06", title: "PJ HOLO ROBOT CIAN", subtitle: "FF MAX • TEXTURA", patchFile: "PJ HOLO ROBOT CIAN.3105", patchPassword: PatchSlots.password, manualControls: false, isTexture: true),
+        PatchOption(id: "ffmx-texture-07", title: "PJ HOLO ROBOT ROJO", subtitle: "FF MAX • TEXTURA", patchFile: "PJ HOLO ROBOT ROJO.3105", patchPassword: PatchSlots.password, manualControls: false, isTexture: true)
     ]
 
     private var currentOptions: [PatchOption] {
@@ -643,6 +683,15 @@ private struct ExternalFunctionsView: View {
                 .font(.system(size: 11, weight: .semibold, design: .rounded))
                 .tracking(2.4)
                 .foregroundStyle(Theme.dim(darkMode, 0.42))
+
+            AnimatedGIFView(filename: "realm-banner.gif")
+                .frame(height: 78)
+                .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+                .overlay {
+                    RoundedRectangle(cornerRadius: 18, style: .continuous)
+                        .stroke(Theme.accent.opacity(0.24), lineWidth: 1)
+                }
+                .padding(.top, 12)
         }
         .frame(maxWidth: .infinity)
         .padding(.top, 70)
@@ -1134,95 +1183,68 @@ private enum PatchSlotRunner {
 // MARK: - TEXTURAS VIEW
 // ============================================================
 
-private struct TexturasView: View {
+private struct PreviewItem: Identifiable {
+    let id: String
+    let title: String
+    let fileName: String
+    let imageName: String
+}
+
+private struct PreviewView: View {
     let darkMode: Bool
 
+    private let items: [PreviewItem] = [
+        PreviewItem(id: "preview-01", title: "ARM HOLO BORDE AZUL Y ROJO", fileName: "ARM HOLO BORDE AZUL Y ROJO.3105", imageName: "preview-01"),
+        PreviewItem(id: "preview-02", title: "ARM HOLO BORDE RTX", fileName: "ARM HOLO BORDE RTX.3105", imageName: "preview-02"),
+        PreviewItem(id: "preview-03", title: "ARM HOLO BORDE VERDE AMARILLO", fileName: "ARM HOLO BORDE VERDE AMARILLO.3105", imageName: "preview-03"),
+        PreviewItem(id: "preview-04", title: "PJ HOLO MOON VIP", fileName: "PJ HOLO MOON VIP.3105", imageName: "preview-04"),
+        PreviewItem(id: "preview-05", title: "PJ HOLO ROBOT AMARILLO", fileName: "PJ HOLO ROBOT AMARILLO.3105", imageName: "preview-05"),
+        PreviewItem(id: "preview-06", title: "PJ HOLO ROBOT CIAN", fileName: "PJ HOLO ROBOT CIAN.3105", imageName: "preview-06"),
+        PreviewItem(id: "preview-07", title: "PJ HOLO ROBOT ROJO", fileName: "PJ HOLO ROBOT ROJO.3105", imageName: "preview-07"),
+        PreviewItem(id: "preview-08", title: "EXTRA PREVIEW", fileName: "", imageName: "preview-08")
+    ]
+
     private var background: Color {
-        darkMode ? .black : Color(uiColor: .systemGroupedBackground)
-    }
-
-    private var textureOptions: [PatchOption] {
-        guard let root = Bundle.main.resourceURL else { return [] }
-        let directory = root.appendingPathComponent("Textures", isDirectory: true)
-
-        guard let urls = try? FileManager.default.contentsOfDirectory(
-            at: directory,
-            includingPropertiesForKeys: [.isRegularFileKey],
-            options: [.skipsHiddenFiles]
-        ) else {
-            return []
-        }
-
-        return urls
-            .filter { $0.pathExtension.lowercased() == "3105" }
-            .sorted {
-                $0.lastPathComponent.localizedCaseInsensitiveCompare($1.lastPathComponent)
-                    == .orderedAscending
-            }
-            .map { url in
-                PatchOption(
-                    id: "texture-\(url.lastPathComponent)",
-                    title: url.deletingPathExtension().lastPathComponent,
-                    subtitle: "TEXTURA",
-                    patchFile: url.lastPathComponent,
-                    patchPassword: "",
-                    manualControls: false
-                )
-            }
+        darkMode ? Color.black : Color(uiColor: .systemGroupedBackground)
     }
 
     var body: some View {
         ScrollView(showsIndicators: false) {
-            VStack(alignment: .leading, spacing: 0) {
-                VStack(spacing: 7) {
+            VStack(spacing: 0) {
+                VStack(spacing: 8) {
                     Text("MOON")
                         .font(.system(size: 34, weight: .black, design: .rounded))
                         .tracking(4)
-
-                    Text("TEXTURAS")
-                        .font(.system(size: 11, weight: .semibold, design: .rounded))
-                        .tracking(2.4)
+                    Text("PREVIEW GALLERY")
+                        .font(.system(size: 11, weight: .bold, design: .rounded))
+                        .tracking(2.6)
+                        .foregroundStyle(Theme.accent)
+                    Text("Vista previa de las opciones antes de aplicarlas.")
+                        .font(.system(size: 12, weight: .medium))
                         .foregroundStyle(Theme.dim(darkMode, 0.42))
+                        .multilineTextAlignment(.center)
                 }
                 .frame(maxWidth: .infinity)
-                .padding(.top, 70)
-                .padding(.bottom, 26)
+                .padding(.top, 68)
+                .padding(.bottom, 24)
 
-                HStack(spacing: 9) {
-                    Circle()
-                        .fill(Theme.accent)
-                        .frame(width: 7, height: 7)
+                AnimatedGIFView(filename: "realm-banner.gif")
+                    .frame(height: 92)
+                    .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 22, style: .continuous)
+                            .stroke(Theme.accent.opacity(0.30), lineWidth: 1)
+                    }
+                    .shadow(color: Theme.accent.opacity(0.16), radius: 20, y: 8)
+                    .padding(.bottom, 22)
 
-                    Text("TEXTURAS DISPONIBLES")
-                        .font(.system(size: 13, weight: .bold, design: .rounded))
-                        .tracking(1.2)
-
-                    Spacer()
-
-                    Text("\(textureOptions.count) OPTIONS")
-                        .font(.system(size: 9.5, weight: .semibold, design: .rounded))
-                        .foregroundStyle(Theme.dim(darkMode, 0.32))
-                }
-                .padding(.bottom, 13)
-
-                if textureOptions.isEmpty {
-                    Text("No hay archivos de texturas disponibles.")
-                        .font(.system(size: 14, weight: .medium))
-                        .foregroundStyle(Theme.dim(darkMode, 0.5))
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 45)
-                } else {
-                    VStack(spacing: 11) {
-                        ForEach(textureOptions) { row in
-                            TexturePatchCard(
-                                row: row,
-                                darkMode: darkMode
-                            )
-                        }
+                VStack(spacing: 13) {
+                    ForEach(items) { item in
+                        PreviewCard(item: item, darkMode: darkMode)
                     }
                 }
 
-                Spacer().frame(height: 90)
+                Spacer().frame(height: 100)
             }
             .padding(.horizontal, 20)
         }
@@ -1230,177 +1252,112 @@ private struct TexturasView: View {
     }
 }
 
-
-// ============================================================
-// MARK: - TEXTURE PATCH CARD
-// ============================================================
-
-private struct TexturePatchCard: View {
-    let row: PatchOption
+private struct PreviewCard: View {
+    let item: PreviewItem
     let darkMode: Bool
+    @State private var showPreview = false
 
-    @State private var busy = false
-    @State private var successMessage: String?
-    @State private var errorMessage: String?
-
-    private var cardBackground: Color {
-        darkMode ? Color.white.opacity(0.045) : Color.black.opacity(0.035)
-    }
-
-    private var iconBackground: Color {
-        darkMode ? Color.white.opacity(0.065) : Color.black.opacity(0.045)
-    }
-
-    private var titleColor: Color {
-        darkMode ? .white : .black
-    }
-
-    private var subtitleColor: Color {
-        Theme.dim(darkMode, 0.40)
-    }
-
-    private var strokeColor: Color {
-        Theme.dim(darkMode, 0.085)
-    }
-
-    private var messageBinding: Binding<Bool> {
-        Binding(
-            get: { errorMessage != nil },
-            set: { shown in
-                if !shown {
-                    errorMessage = nil
-                }
-            }
-        )
+    private var imageURL: URL? {
+        guard let root = Bundle.main.resourceURL else { return nil }
+        let directory = root.appendingPathComponent("PreviewImages", isDirectory: true)
+        for ext in ["jpg", "jpeg", "png", "webp"] {
+            let url = directory.appendingPathComponent("\(item.imageName).\(ext)")
+            if FileManager.default.fileExists(atPath: url.path) { return url }
+        }
+        return nil
     }
 
     var body: some View {
         VStack(spacing: 0) {
             HStack(spacing: 13) {
                 ZStack {
-                    RoundedRectangle(cornerRadius: 13)
-                        .fill(iconBackground)
-
-                    Image(systemName: "photo.fill")
-                        .font(.system(size: 17, weight: .semibold))
+                    RoundedRectangle(cornerRadius: 14)
+                        .fill(Theme.accent.opacity(0.10))
+                    Image(systemName: "sparkles.rectangle.stack.fill")
+                        .font(.system(size: 19, weight: .bold))
                         .foregroundStyle(Theme.accent)
                 }
-                .frame(width: 47, height: 47)
+                .frame(width: 52, height: 52)
 
-                VStack(alignment: .leading, spacing: 4) {
-                    Text(row.title)
-                        .font(.system(size: 15, weight: .semibold, design: .rounded))
-                        .foregroundStyle(titleColor)
-
-                    Text("TEXTURA")
-                        .font(.system(size: 11, weight: .regular))
-                        .foregroundStyle(subtitleColor)
+                VStack(alignment: .leading, spacing: 5) {
+                    Text(item.title)
+                        .font(.system(size: 14.5, weight: .bold, design: .rounded))
+                        .foregroundStyle(darkMode ? .white : .black)
+                        .lineLimit(2)
+                    Text("PREVIEW • \(item.imageName).jpg")
+                        .font(.system(size: 9.5, weight: .semibold, design: .rounded))
+                        .foregroundStyle(Theme.dim(darkMode, 0.38))
                 }
 
-                Spacer(minLength: 5)
-
-                if busy {
-                    ProgressView()
-                        .scaleEffect(0.78)
-                }
+                Spacer()
             }
             .padding(15)
 
-            HStack(spacing: 10) {
-                textureActionButton("INJETAR", enabled: !busy) {
-                    run(apply: true)
+            Button {
+                withAnimation(.spring(response: 0.36, dampingFraction: 0.82)) {
+                    showPreview.toggle()
                 }
-
-                textureActionButton("RESTORE ORIGINAL", enabled: !busy) {
-                    run(apply: false)
+            } label: {
+                HStack(spacing: 8) {
+                    Image(systemName: showPreview ? "eye.slash.fill" : "eye.fill")
+                    Text(showPreview ? "OCULTAR PREVIEW" : "VER PREVIEW")
                 }
-            }
-            .padding(.horizontal, 15)
-            .padding(.bottom, 14)
-        }
-        .background(cardBackground)
-        .overlay(
-            RoundedRectangle(cornerRadius: 19)
-                .stroke(strokeColor, lineWidth: 1)
-        )
-        .clipShape(RoundedRectangle(cornerRadius: 19))
-        .alert(
-            "MOON X7",
-            isPresented: Binding(
-                get: { successMessage != nil },
-                set: { shown in
-                    if !shown {
-                        successMessage = nil
-                    }
-                }
-            )
-        ) {
-            Button("OK") {
-                successMessage = nil
-            }
-        } message: {
-            Text(successMessage ?? "")
-        }
-        .alert("MOON X7", isPresented: messageBinding) {
-            Button("OK") {
-                errorMessage = nil
-            }
-        } message: {
-            Text(errorMessage ?? "")
-        }
-    }
-
-    private func textureActionButton(
-        _ title: String,
-        enabled: Bool,
-        action: @escaping () -> Void
-    ) -> some View {
-        Button(action: action) {
-            Text(title)
-                .font(.system(size: 11.5, weight: .bold, design: .rounded))
+                .font(.system(size: 12, weight: .black, design: .rounded))
                 .foregroundStyle(.black)
                 .frame(maxWidth: .infinity)
-                .frame(height: 42)
-                .background(Color.white)
-                .clipShape(RoundedRectangle(cornerRadius: 11))
-        }
-        .buttonStyle(.plain)
-        .opacity(enabled ? 1 : 0.45)
-        .disabled(!enabled)
-    }
-
-    private func run(apply: Bool) {
-        guard !busy else { return }
-
-        busy = true
-
-        DispatchQueue.global(qos: .userInitiated).async {
-            let result: Result<String, Error>
-
-            if apply {
-                result = TexturePatchRunner.inject(
-                    fileName: row.patchFile,
-                    configuredPassword: row.patchPassword
-                )
-            } else {
-                result = TexturePatchRunner.restore(
-                    fileName: row.patchFile,
-                    configuredPassword: row.patchPassword
+                .frame(height: 44)
+                .background(
+                    LinearGradient(
+                        colors: [Theme.accent, Theme.accentAlt],
+                        startPoint: .leading,
+                        endPoint: .trailing
+                    ),
+                    in: RoundedRectangle(cornerRadius: 13, style: .continuous)
                 )
             }
+            .buttonStyle(.plain)
+            .padding(.horizontal, 15)
+            .padding(.bottom, 15)
 
-            DispatchQueue.main.async {
-                busy = false
-
-                switch result {
-                case .success(let message):
-                    successMessage = message
-
-                case .failure(let error):
-                    errorMessage = TexturePatchRunner.message(for: error)
+            if showPreview {
+                Group {
+                    if let url = imageURL, let image = UIImage(contentsOfFile: url.path) {
+                        Image(uiImage: image)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(maxWidth: .infinity)
+                            .frame(minHeight: 180, maxHeight: 360)
+                            .background(Color.black.opacity(0.20))
+                            .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                    } else {
+                        VStack(spacing: 10) {
+                            Image(systemName: "photo.badge.plus")
+                                .font(.system(size: 34, weight: .semibold))
+                                .foregroundStyle(Theme.accent.opacity(0.85))
+                            Text("Sube la imagen en PreviewImages/\(item.imageName).jpg")
+                                .font(.system(size: 12, weight: .semibold))
+                                .multilineTextAlignment(.center)
+                                .foregroundStyle(Theme.dim(darkMode, 0.58))
+                            Text("La carpeta ya está preparada en el repositorio.")
+                                .font(.system(size: 10.5, weight: .medium))
+                                .foregroundStyle(Theme.dim(darkMode, 0.35))
+                        }
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 180)
+                        .background(Color.black.opacity(0.18), in: RoundedRectangle(cornerRadius: 16))
+                    }
                 }
+                .padding(.horizontal, 15)
+                .padding(.bottom, 15)
+                .transition(.opacity.combined(with: .scale(scale: 0.97)))
             }
         }
+        .background(darkMode ? Color.white.opacity(0.045) : Color.black.opacity(0.035), in: RoundedRectangle(cornerRadius: 21, style: .continuous))
+        .overlay {
+            RoundedRectangle(cornerRadius: 21, style: .continuous)
+                .stroke(Theme.accent.opacity(showPreview ? 0.38 : 0.10), lineWidth: showPreview ? 1.2 : 1)
+        }
+        .animation(.easeInOut(duration: 0.22), value: showPreview)
     }
 }
 
@@ -1411,6 +1368,7 @@ private struct TexturePatchCard: View {
 
 private struct ConfigDashboardView: View {
     @EnvironmentObject private var appState: AppState
+    @ObservedObject var auth: MoonAuthManager
     @Binding var darkMode: Bool
     @State private var showSettings = false
 
@@ -1441,12 +1399,36 @@ private struct ConfigDashboardView: View {
     }
 
     private var accountSection: some View {
-        Section("CONTA") {
-            LabeledContent("Key", value: "–")
-            LabeledContent("Expira em", value: "–")
+        Section {
+            LabeledContent("Key", value: auth.licenseKey ?? "—")
+                .textSelection(.enabled)
+            LabeledContent("Estado", value: auth.isAuthenticated ? "ACTIVA" : "—")
+            LabeledContent("Expira", value: expiryText)
+            LabeledContent("Duración restante", value: remainingText)
             LabeledContent("Build", value: "10")
-            LabeledContent("Versão", value: "1.10")
+            LabeledContent("Versión", value: "1.10")
+        } header: {
+            Text("CUENTA / LICENCIA")
+        } footer: {
+            Text("La información de la key se toma de la sesión validada por Supabase.")
         }
+    }
+
+    private var expiryText: String {
+        guard let date = auth.expiresAt else { return "—" }
+        return date.formatted(date: .abbreviated, time: .shortened)
+    }
+
+    private var remainingText: String {
+        guard let date = auth.expiresAt else { return "—" }
+        let seconds = max(0, Int(date.timeIntervalSinceNow))
+        let days = seconds / 86_400
+        let hours = (seconds % 86_400) / 3_600
+        let minutes = (seconds % 3_600) / 60
+
+        if days > 0 { return "\(days)d \(hours)h" }
+        if hours > 0 { return "\(hours)h \(minutes)m" }
+        return "\(minutes)m"
     }
 
     private var deviceSection: some View {
@@ -1494,6 +1476,63 @@ private struct ConfigDashboardView: View {
     }
 }
 
+
+// ============================================================
+// MARK: - ANIMATED GIF
+// ============================================================
+
+private struct AnimatedGIFView: UIViewRepresentable {
+    let filename: String
+
+    func makeUIView(context: Context) -> UIImageView {
+        let view = UIImageView()
+        view.contentMode = .scaleAspectFill
+        view.clipsToBounds = true
+        view.backgroundColor = .clear
+        view.image = animatedImage()
+        return view
+    }
+
+    func updateUIView(_ uiView: UIImageView, context: Context) {
+        if uiView.image == nil {
+            uiView.image = animatedImage()
+        }
+    }
+
+    private func animatedImage() -> UIImage? {
+        guard
+            let url = Bundle.main.url(forResource: filename, withExtension: nil),
+            let source = CGImageSourceCreateWithURL(url as CFURL, nil)
+        else { return nil }
+
+        let count = CGImageSourceGetCount(source)
+        guard count > 0 else { return nil }
+
+        var frames: [UIImage] = []
+        var duration: TimeInterval = 0.0
+
+        for index in 0..<count {
+            guard let cgImage = CGImageSourceCreateImageAtIndex(source, index, nil) else { continue }
+            frames.append(UIImage(cgImage: cgImage))
+            duration += frameDuration(source: source, index: index)
+        }
+
+        guard !frames.isEmpty else { return nil }
+        return UIImage.animatedImage(with: frames, duration: max(duration, 0.8))
+    }
+
+    private func frameDuration(source: CGImageSource, index: Int) -> TimeInterval {
+        let defaultDuration = 0.08
+        guard
+            let properties = CGImageSourceCopyPropertiesAtIndex(source, index, nil) as? [CFString: Any],
+            let gif = properties[kCGImagePropertyGIFDictionary] as? [CFString: Any]
+        else { return defaultDuration }
+
+        let unclamped = gif[kCGImagePropertyGIFUnclampedDelayTime] as? Double
+        let clamped = gif[kCGImagePropertyGIFDelayTime] as? Double
+        return max(unclamped ?? clamped ?? defaultDuration, 0.02)
+    }
+}
 
 // ============================================================
 // MARK: - DEVICE INFO
