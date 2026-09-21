@@ -58,17 +58,24 @@ jobs:
           echo "ContentView SHA256:"
           shasum -a 256 "$BUILD_SOURCE"
 
-      - name: Clean DerivedData and Build
+      - name: Clean build directory and Build
         shell: bash
         run: |
           set -euo pipefail
           rm -rf "$GITHUB_WORKSPACE/build"
+          mkdir -p "$GITHUB_WORKSPACE/build/Release-iphoneos"
 
-          DERIVED_DATA="$GITHUB_WORKSPACE/build/DerivedData"
-          rm -rf "$DERIVED_DATA"
-          mkdir -p "$DERIVED_DATA"
-
-          xcodebuild             -project "$PROJECT"             -target 3105             -configuration Release             -sdk iphoneos             -derivedDataPath "$DERIVED_DATA"             CODE_SIGNING_ALLOWED=NO             CODE_SIGNING_REQUIRED=NO             CODE_SIGN_IDENTITY=""             build 2>&1 | tee "$GITHUB_WORKSPACE/xcodebuild.log"
+          xcodebuild \
+            -project "$PROJECT" \
+            -target 3105 \
+            -configuration Release \
+            -sdk iphoneos \
+            BUILD_DIR="$GITHUB_WORKSPACE/build" \
+            CONFIGURATION_BUILD_DIR="$GITHUB_WORKSPACE/build/Release-iphoneos" \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY="" \
+            build 2>&1 | tee "$GITHUB_WORKSPACE/xcodebuild.log"
 
           test ${PIPESTATUS[0]} -eq 0
 
