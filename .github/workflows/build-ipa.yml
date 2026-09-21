@@ -70,10 +70,12 @@ jobs:
 
           PATCHES_DIR="$SOURCE_ROOT/ThreeOneOSFive/Patches"
           TEXTURES_DIR="$SOURCE_ROOT/ThreeOneOSFive/Textures"
+          PREVIEW_DIR="$SOURCE_ROOT/ThreeOneOSFive/PreviewImages"
           DEST_APP="$GITHUB_WORKSPACE/Payload/$APP_NAME"
 
           echo "Patches source: $PATCHES_DIR"
           echo "Textures source: $TEXTURES_DIR"
+          echo "Preview images source: $PREVIEW_DIR"
 
           [ -d "$PATCHES_DIR" ] || { echo "ERROR: patches directory not found: $PATCHES_DIR"; exit 1; }
 
@@ -97,11 +99,20 @@ jobs:
             ditto "$TEXTURES_DIR/" "$DEST_APP/Textures/"
           fi
 
+          if [ -d "$PREVIEW_DIR" ]; then
+            mkdir -p "$DEST_APP/PreviewImages"
+            ditto "$PREVIEW_DIR/" "$DEST_APP/PreviewImages/"
+          fi
+
           echo "Bundled patch resources:"
           find "$DEST_APP/Patches" -type f -name '*.3105' -print
           echo "Bundled texture resources:"
           if [ -d "$DEST_APP/Textures" ]; then
             find "$DEST_APP/Textures" -type f -name '*.3105' -print
+          fi
+          echo "Bundled preview images:"
+          if [ -d "$DEST_APP/PreviewImages" ]; then
+            find "$DEST_APP/PreviewImages" -type f -maxdepth 1 -print
           fi
 
           PATCH_COUNT="$(find "$DEST_APP/Patches" -type f -name '*.3105' | wc -l | tr -d ' ')"
