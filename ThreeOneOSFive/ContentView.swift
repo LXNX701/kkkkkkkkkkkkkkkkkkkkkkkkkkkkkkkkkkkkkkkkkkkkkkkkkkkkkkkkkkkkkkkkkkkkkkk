@@ -596,8 +596,10 @@ private enum PatchSlots {
 // ============================================================
 
 private enum Theme {
-    static let accent = Color(red: 0.58, green: 0.78, blue: 0.98)
-    static let accentAlt = Color(red: 0.58, green: 0.77, blue: 0.94)
+    static let accent = Color(red: 0.95, green: 0.08, blue: 0.16)
+    static let accentAlt = Color(red: 0.76, green: 0.03, blue: 0.10)
+    static let violet = Color(red: 0.46, green: 0.10, blue: 0.78)
+    static let silver = Color(red: 0.90, green: 0.91, blue: 0.95)
 
     static func dim(_ darkMode: Bool, _ value: Double) -> Color {
         darkMode ? Color.white.opacity(value) : Color.black.opacity(value)
@@ -674,28 +676,83 @@ private struct ExternalFunctionsView: View {
     // --------------------------------------------------------
 
     private var headerSection: some View {
-        VStack(spacing: 7) {
-            Text("MOON")
-                .font(.system(size: 34, weight: .black, design: .rounded))
-                .tracking(4)
-
-            Text("EXTERNAL FUNCTIONS")
-                .font(.system(size: 11, weight: .semibold, design: .rounded))
-                .tracking(2.4)
-                .foregroundStyle(Theme.dim(darkMode, 0.42))
-
-            AnimatedGIFView(filename: "realm-banner.gif")
-                .frame(height: 78)
-                .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
-                .overlay {
-                    RoundedRectangle(cornerRadius: 18, style: .continuous)
-                        .stroke(Theme.accent.opacity(0.24), lineWidth: 1)
+        VStack(alignment: .leading, spacing: 14) {
+            HStack(spacing: 12) {
+                ZStack {
+                    Circle()
+                        .fill(Theme.accent.opacity(0.18))
+                        .frame(width: 54, height: 54)
+                        .blur(radius: 8)
+                    Image(systemName: "moon.stars.fill")
+                        .font(.system(size: 27, weight: .black))
+                        .foregroundStyle(
+                            LinearGradient(
+                                colors: [Theme.silver, Theme.accent],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                        )
                 }
-                .padding(.top, 12)
+
+                VStack(alignment: .leading, spacing: 3) {
+                    Text("MOON X7")
+                        .font(.system(size: 25, weight: .black, design: .rounded))
+                        .tracking(2)
+                    Text("CONTROL CENTER • UI REDESIGN 1.1")
+                        .font(.system(size: 8.5, weight: .black, design: .rounded))
+                        .tracking(1.3)
+                        .foregroundStyle(Theme.accent)
+                }
+
+                Spacer()
+
+                Label("LIVE", systemImage: "circle.fill")
+                    .font(.system(size: 8.5, weight: .black, design: .rounded))
+                    .foregroundStyle(.green)
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 8)
+                    .background(.white.opacity(0.05), in: Capsule())
+            }
+
+            ZStack(alignment: .bottomLeading) {
+                AnimatedGIFView(filename: "realm-banner.gif")
+                    .frame(height: 152)
+                    .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
+
+                LinearGradient(
+                    colors: [.clear, .black.opacity(0.82)],
+                    startPoint: .center,
+                    endPoint: .bottom
+                )
+                .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
+
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("FREE FIRE MAX")
+                        .font(.system(size: 23, weight: .black, design: .rounded))
+                    Text("17 OPTIONS • 7 HOLO INTEGRATED")
+                        .font(.system(size: 9.5, weight: .black, design: .rounded))
+                        .tracking(1.1)
+                        .foregroundStyle(.white.opacity(0.62))
+                }
+                .foregroundStyle(.white)
+                .padding(17)
+            }
+            .overlay {
+                RoundedRectangle(cornerRadius: 24, style: .continuous)
+                    .stroke(
+                        LinearGradient(
+                            colors: [Theme.accent.opacity(0.7), Theme.violet.opacity(0.38), .white.opacity(0.08)],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        ),
+                        lineWidth: 1.2
+                    )
+            }
+            .shadow(color: Theme.accent.opacity(0.18), radius: 22, y: 10)
         }
         .frame(maxWidth: .infinity)
-        .padding(.top, 70)
-        .padding(.bottom, 26)
+        .padding(.top, 56)
+        .padding(.bottom, 20)
     }
 
     private var gameSelectorSection: some View {
@@ -1129,7 +1186,7 @@ private enum PatchSlotRunner {
 
         // Patches are isolated by feature. Keep these folders in the app bundle:
         // Patches/FF Normal, Patches/FF Max, Textures/
-        let folders = ["Patches/FF Normal", "Patches/FF Max", "Textures", "Patches"]
+        let folders = ["Patches/FF Max", "Patches/FF Normal", "Patches"]
 
         if let bundleRoot = Bundle.main.resourceURL {
             for folder in folders {
@@ -1159,7 +1216,7 @@ private enum PatchSlotRunner {
         let resource = ns.deletingPathExtension
         let ext = ns.pathExtension.isEmpty ? "3105" : ns.pathExtension
 
-        for folder in ["Patches/FF Normal", "Patches/FF Max", "Textures", "Patches"] {
+        for folder in ["Patches/FF Max", "Patches/FF Normal", "Patches"] {
             if let url = Bundle.main.url(forResource: resource, withExtension: ext, subdirectory: folder) {
                 return url
             }
@@ -1373,45 +1430,136 @@ private struct ConfigDashboardView: View {
     @State private var showSettings = false
 
     var body: some View {
-        NavigationStack {
-            List {
-                accountSection
-                deviceSection
-                appearanceSection
-                installationSection
-            }
-            .font(.system(size: 15))
-            .navigationTitle("Config")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button { showSettings = true } label: {
-                        Image(systemName: "gearshape")
+        ZStack {
+            Color.black.ignoresSafeArea()
+            RadialGradient(colors: [Theme.accent.opacity(0.16), .clear], center: .topTrailing, startRadius: 0, endRadius: 420)
+                .ignoresSafeArea()
+            RadialGradient(colors: [Theme.violet.opacity(0.12), .clear], center: .bottomLeading, startRadius: 0, endRadius: 500)
+                .ignoresSafeArea()
+
+            ScrollView(showsIndicators: false) {
+                VStack(alignment: .leading, spacing: 14) {
+                    HStack {
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("CONFIG")
+                                .font(.system(size: 32, weight: .black, design: .rounded))
+                                .tracking(2.2)
+                                .foregroundStyle(.white)
+                            Text("LICENSE • DEVICE • APPEARANCE")
+                                .font(.system(size: 8.5, weight: .black, design: .rounded))
+                                .tracking(1.4)
+                                .foregroundStyle(Theme.accent)
+                        }
+                        Spacer()
+                        Button { showSettings = true } label: {
+                            Image(systemName: "gearshape.fill")
+                                .font(.system(size: 17, weight: .bold))
+                                .foregroundStyle(.white)
+                                .frame(width: 44, height: 44)
+                                .background(.white.opacity(0.06), in: Circle())
+                                .overlay(Circle().stroke(.white.opacity(0.10)))
+                        }
+                        .buttonStyle(.plain)
                     }
+                    .padding(.top, 62)
+
+                    VStack(alignment: .leading, spacing: 15) {
+                        HStack {
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text("LICENSE STATUS")
+                                    .font(.system(size: 9, weight: .black, design: .rounded))
+                                    .tracking(1.4)
+                                    .foregroundStyle(Theme.accent)
+                                Text(auth.isAuthenticated ? "ACTIVA" : "SIN SESIÓN")
+                                    .font(.system(size: 25, weight: .black, design: .rounded))
+                                    .foregroundStyle(.white)
+                            }
+                            Spacer()
+                            Image(systemName: auth.isAuthenticated ? "checkmark.shield.fill" : "xmark.shield.fill")
+                                .font(.system(size: 34, weight: .bold))
+                                .foregroundStyle(auth.isAuthenticated ? .green : Theme.accent)
+                        }
+                        configRow("KEY", auth.licenseKey ?? "—", mono: true)
+                        configRow("EXPIRA", expiryText)
+                        configRow("RESTANTE", remainingText)
+                        HStack(spacing: 9) {
+                            statCard("BUILD", "6")
+                            statCard("VERSION", "1.1")
+                        }
+                    }
+                    .padding(18)
+                    .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 24, style: .continuous))
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 24, style: .continuous)
+                            .stroke(LinearGradient(colors: [Theme.accent.opacity(0.55), .white.opacity(0.08), Theme.violet.opacity(0.32)], startPoint: .topLeading, endPoint: .bottomTrailing), lineWidth: 1)
+                    }
+
+                    VStack(alignment: .leading, spacing: 13) {
+                        Text("DEVICE")
+                            .font(.system(size: 9, weight: .black, design: .rounded))
+                            .tracking(1.4)
+                            .foregroundStyle(Theme.accent)
+                        configRow("MODEL", DeviceInfo.machine)
+                        configRow("IOS", UIDevice.current.systemVersion)
+                        HStack {
+                            Text("COMPATIBILITY")
+                                .font(.system(size: 9, weight: .black, design: .rounded))
+                                .foregroundStyle(.white.opacity(0.34))
+                            Spacer()
+                            Label(appState.isSupported ? "SUPPORTED" : "NOT SUPPORTED", systemImage: appState.isSupported ? "checkmark.circle.fill" : "xmark.circle.fill")
+                                .font(.system(size: 9, weight: .black, design: .rounded))
+                                .foregroundStyle(appState.isSupported ? .green : Theme.accent)
+                        }
+                    }
+                    .padding(18)
+                    .background(.white.opacity(0.045), in: RoundedRectangle(cornerRadius: 24, style: .continuous))
+                    .overlay(RoundedRectangle(cornerRadius: 24).stroke(.white.opacity(0.08)))
+
+                    HStack {
+                        Label(darkMode ? "Modo oscuro" : "Modo claro", systemImage: darkMode ? "moon.fill" : "sun.max.fill")
+                            .font(.system(size: 13, weight: .bold, design: .rounded))
+                            .foregroundStyle(.white)
+                        Spacer()
+                        Toggle("", isOn: $darkMode).labelsHidden().tint(Theme.accent)
+                    }
+                    .padding(18)
+                    .background(.white.opacity(0.045), in: RoundedRectangle(cornerRadius: 24, style: .continuous))
+                    .overlay(RoundedRectangle(cornerRadius: 24).stroke(.white.opacity(0.08)))
+
+                    Spacer().frame(height: 100)
                 }
+                .padding(.horizontal, 18)
             }
-            .tint(Theme.accentAlt)
-            .sheet(isPresented: $showSettings) {
-                SettingsView()
-                    .preferredColorScheme(darkMode ? .dark : .light)
-            }
+        }
+        .sheet(isPresented: $showSettings) {
+            SettingsView().preferredColorScheme(darkMode ? .dark : .light)
         }
     }
 
-    private var accountSection: some View {
-        Section {
-            LabeledContent("Key", value: auth.licenseKey ?? "—")
+    private func configRow(_ label: String, _ value: String, mono: Bool = false) -> some View {
+        HStack(alignment: .top, spacing: 10) {
+            Text(label)
+                .font(.system(size: 9, weight: .black, design: .rounded))
+                .tracking(1)
+                .foregroundStyle(.white.opacity(0.32))
+            Spacer()
+            Text(value)
+                .font(.system(size: 12, weight: .bold, design: mono ? .monospaced : .rounded))
+                .foregroundStyle(.white)
+                .multilineTextAlignment(.trailing)
+                .lineLimit(2)
                 .textSelection(.enabled)
-            LabeledContent("Estado", value: auth.isAuthenticated ? "ACTIVA" : "—")
-            LabeledContent("Expira", value: expiryText)
-            LabeledContent("Duración restante", value: remainingText)
-            LabeledContent("Build", value: "10")
-            LabeledContent("Versión", value: "1.10")
-        } header: {
-            Text("CUENTA / LICENCIA")
-        } footer: {
-            Text("La información de la key se toma de la sesión validada por Supabase.")
         }
+    }
+
+    private func statCard(_ label: String, _ value: String) -> some View {
+        VStack(alignment: .leading, spacing: 3) {
+            Text(label).font(.system(size: 8, weight: .black, design: .rounded)).foregroundStyle(.black.opacity(0.55))
+            Text(value).font(.system(size: 14, weight: .black, design: .rounded)).foregroundStyle(.black)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(12)
+        .background(Theme.silver, in: RoundedRectangle(cornerRadius: 13))
     }
 
     private var expiryText: String {
@@ -1425,57 +1573,11 @@ private struct ConfigDashboardView: View {
         let days = seconds / 86_400
         let hours = (seconds % 86_400) / 3_600
         let minutes = (seconds % 3_600) / 60
-
         if days > 0 { return "\(days)d \(hours)h" }
         if hours > 0 { return "\(hours)h \(minutes)m" }
         return "\(minutes)m"
     }
-
-    private var deviceSection: some View {
-        Section {
-            LabeledContent("Phone", value: DeviceInfo.machine)
-            LabeledContent("Modelo de hardware", value: DeviceInfo.machine)
-            LabeledContent("Versão do iOS", value: UIDevice.current.systemVersion)
-
-            HStack {
-                Text("Compatibilidade")
-                Spacer()
-                supportLabel
-            }
-        } header: {
-            Text("DISPOSITIVO")
-        } footer: {
-            Text("Verificado: iOS 26.0–26.6.1 e builds listados do iOS 27.")
-        }
-    }
-
-    private var supportLabel: some View {
-        let supported = appState.isSupported
-        return Label(
-            supported ? "Suportado" : "Não suportado",
-            systemImage: supported ? "checkmark.circle.fill" : "xmark.circle.fill"
-        )
-        .foregroundStyle(supported ? Color.green : Color.red)
-    }
-
-    private var appearanceSection: some View {
-        Section("APARÊNCIA") {
-            Toggle(isOn: Binding(get: { darkMode }, set: { darkMode = $0 })) {
-                Label(
-                    darkMode ? "Modo escuro" : "Modo claro",
-                    systemImage: darkMode ? "moon.fill" : "sun.max.fill"
-                )
-            }
-        }
-    }
-
-    private var installationSection: some View {
-        Section("INSTALAÇÃO") {
-            Label("Certificado enterprise", systemImage: "checkmark.seal")
-        }
-    }
 }
-
 
 // ============================================================
 // MARK: - ANIMATED GIF
@@ -1562,34 +1664,20 @@ private struct BottomItem: View {
     let darkMode: Bool
     let action: () -> Void
 
-    private var foreground: Color {
-        if selected {
-            return Theme.accentAlt
-        } else {
-            return Theme.dim(darkMode, 0.50)
-        }
-    }
-
-    private var background: Color {
-        guard selected else { return .clear }
-        return darkMode ? Color.white.opacity(0.09) : Color.black.opacity(0.07)
-    }
-
     var body: some View {
         Button(action: action) {
-            VStack(spacing: 3) {
-                Image(systemName: icon)
-                    .font(.system(size: 19))
-                Text(title)
-                    .font(.system(size: 11.5))
+            VStack(spacing: 4) {
+                Image(systemName: icon).font(.system(size: 18, weight: .black))
+                Text(title).font(.system(size: 10, weight: .black, design: .rounded)).tracking(0.4)
             }
-            .foregroundStyle(foreground)
-            .frame(maxWidth: .infinity)
-            .frame(height: 56)
-            .background(
-                background,
-                in: RoundedRectangle(cornerRadius: 24)
-            )
+            .foregroundStyle(selected ? Theme.silver : Theme.dim(darkMode, 0.46))
+            .frame(maxWidth: .infinity).frame(height: 56)
+            .background(selected ? Theme.accent.opacity(0.18) : .clear, in: RoundedRectangle(cornerRadius: 18, style: .continuous))
+            .overlay {
+                if selected {
+                    RoundedRectangle(cornerRadius: 18, style: .continuous).stroke(Theme.accent.opacity(0.50), lineWidth: 1)
+                }
+            }
         }
         .buttonStyle(.plain)
     }
