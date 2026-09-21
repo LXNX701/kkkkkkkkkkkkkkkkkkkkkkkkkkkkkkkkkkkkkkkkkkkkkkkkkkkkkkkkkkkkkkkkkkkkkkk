@@ -615,7 +615,7 @@ private struct ExternalFunctionsView: View {
 
     let darkMode: Bool
 
-    @State private var game = 0
+    @State private var game = 1
     @State private var enabled: Set<String> = []
 
     // --------------------------------------------------------
@@ -641,13 +641,13 @@ private struct ExternalFunctionsView: View {
         PatchOption(id: "ffmx-10", title: "MOON CABEZA", subtitle: "FF MAX", patchFile: PatchSlots.ffmx10, patchPassword: PatchSlots.password, manualControls: true),
 
         // Texture options moved into FF MAX.
-        PatchOption(id: "ffmx-texture-01", title: "ARM HOLO BORDE AZUL Y ROJO", subtitle: "FF MAX • TEXTURA", patchFile: "ARM HOLO BORDE AZUL Y ROJO.3105", patchPassword: PatchSlots.password, manualControls: false, isTexture: true),
-        PatchOption(id: "ffmx-texture-02", title: "ARM HOLO BORDE RTX", subtitle: "FF MAX • TEXTURA", patchFile: "ARM HOLO BORDE RTX.3105", patchPassword: PatchSlots.password, manualControls: false, isTexture: true),
-        PatchOption(id: "ffmx-texture-03", title: "ARM HOLO BORDE VERDE AMARILLO", subtitle: "FF MAX • TEXTURA", patchFile: "ARM HOLO BORDE VERDE AMARILLO.3105", patchPassword: PatchSlots.password, manualControls: false, isTexture: true),
-        PatchOption(id: "ffmx-texture-04", title: "PJ HOLO MOON VIP", subtitle: "FF MAX • TEXTURA", patchFile: "PJ HOLO MOON VIP.3105", patchPassword: PatchSlots.password, manualControls: false, isTexture: true),
-        PatchOption(id: "ffmx-texture-05", title: "PJ HOLO ROBOT AMARILLO", subtitle: "FF MAX • TEXTURA", patchFile: "PJ HOLO ROBOT AMARILLO.3105", patchPassword: PatchSlots.password, manualControls: false, isTexture: true),
-        PatchOption(id: "ffmx-texture-06", title: "PJ HOLO ROBOT CIAN", subtitle: "FF MAX • TEXTURA", patchFile: "PJ HOLO ROBOT CIAN.3105", patchPassword: PatchSlots.password, manualControls: false, isTexture: true),
-        PatchOption(id: "ffmx-texture-07", title: "PJ HOLO ROBOT ROJO", subtitle: "FF MAX • TEXTURA", patchFile: "PJ HOLO ROBOT ROJO.3105", patchPassword: PatchSlots.password, manualControls: false, isTexture: true)
+        PatchOption(id: "ffmx-texture-01", title: "ARM HOLO BORDE AZUL Y ROJO", subtitle: "FF MAX • HOLO", patchFile: "ARM HOLO BORDE AZUL Y ROJO.3105", patchPassword: PatchSlots.password, manualControls: false, isTexture: true),
+        PatchOption(id: "ffmx-texture-02", title: "ARM HOLO BORDE RTX", subtitle: "FF MAX • HOLO", patchFile: "ARM HOLO BORDE RTX.3105", patchPassword: PatchSlots.password, manualControls: false, isTexture: true),
+        PatchOption(id: "ffmx-texture-03", title: "ARM HOLO BORDE VERDE AMARILLO", subtitle: "FF MAX • HOLO", patchFile: "ARM HOLO BORDE VERDE AMARILLO.3105", patchPassword: PatchSlots.password, manualControls: false, isTexture: true),
+        PatchOption(id: "ffmx-texture-04", title: "PJ HOLO MOON VIP", subtitle: "FF MAX • HOLO", patchFile: "PJ HOLO MOON VIP.3105", patchPassword: PatchSlots.password, manualControls: false, isTexture: true),
+        PatchOption(id: "ffmx-texture-05", title: "PJ HOLO ROBOT AMARILLO", subtitle: "FF MAX • HOLO", patchFile: "PJ HOLO ROBOT AMARILLO.3105", patchPassword: PatchSlots.password, manualControls: false, isTexture: true),
+        PatchOption(id: "ffmx-texture-06", title: "PJ HOLO ROBOT CIAN", subtitle: "FF MAX • HOLO", patchFile: "PJ HOLO ROBOT CIAN.3105", patchPassword: PatchSlots.password, manualControls: false, isTexture: true),
+        PatchOption(id: "ffmx-texture-07", title: "PJ HOLO ROBOT ROJO", subtitle: "FF MAX • HOLO", patchFile: "PJ HOLO ROBOT ROJO.3105", patchPassword: PatchSlots.password, manualControls: false, isTexture: true)
     ]
 
     private var currentOptions: [PatchOption] {
