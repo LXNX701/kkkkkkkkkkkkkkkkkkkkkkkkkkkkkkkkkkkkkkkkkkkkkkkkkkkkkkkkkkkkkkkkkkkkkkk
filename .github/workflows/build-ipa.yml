@@ -71,6 +71,8 @@ jobs:
             -configuration Release \
             -sdk iphoneos \
             BUILD_DIR="$GITHUB_WORKSPACE/build" \
+            OBJROOT="$GITHUB_WORKSPACE/build/obj" \
+            SYMROOT="$GITHUB_WORKSPACE/build/sym" \
             CONFIGURATION_BUILD_DIR="$GITHUB_WORKSPACE/build/Release-iphoneos" \
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO \
@@ -79,14 +81,33 @@ jobs:
 
           test ${PIPESTATUS[0]} -eq 0
 
+      - name: Verify compiled UI is the redesigned build
+        shell: bash
+        run: |
+          set -euo pipefail
+          APP_PATH="$GITHUB_WORKSPACE/build/Release-iphoneos/MOONX7.app"
+          EXEC="$APP_PATH/MOONX7"
+          [ -d "$APP_PATH" ] || { echo "ERROR: exact MOONX7.app missing"; find "$GITHUB_WORKSPACE/build" -type d -name '*.app' -print || true; exit 1; }
+          [ -f "$EXEC" ] || { echo "ERROR: MOONX7 executable missing"; exit 1; }
+
+          strings "$EXEC" > "$GITHUB_WORKSPACE/compiled-strings.txt"
+          for marker in             "MOON-X7-UI-REDESIGN-2.0.0-B7"             "VER PREVIEW"             "FREE FIRE MAX"             "ffmx-texture-07"; do
+            grep -Fq "$marker" "$GITHUB_WORKSPACE/compiled-strings.txt" || {
+              echo "ERROR: compiled executable is missing UI marker: $marker"
+              exit 1
+            }
+          done
+          echo "Compiled UI verification PASSED"
+          shasum -a 256 "$EXEC"
+
       - name: Package IPA with patches and previews
         shell: bash
         run: |
           set -euo pipefail
-          APP_PATH="$(find "$GITHUB_WORKSPACE/build" -type d -name '*.app' -print -quit)"
-          [ -n "$APP_PATH" ] || { echo "ERROR: application bundle not found"; find "$GITHUB_WORKSPACE/build" -maxdepth 6 -type d -name '*.app' -print || true; exit 1; }
+          APP_PATH="$GITHUB_WORKSPACE/build/Release-iphoneos/MOONX7.app"
+          [ -d "$APP_PATH" ] || { echo "ERROR: exact MOONX7.app missing"; exit 1; }
 
-          APP_NAME="$(basename "$APP_PATH")"
+          APP_NAME="MOONX7.app"
           rm -rf "$GITHUB_WORKSPACE/Payload"
           mkdir -p "$GITHUB_WORKSPACE/Payload/$APP_NAME"
           ditto "$APP_PATH/" "$GITHUB_WORKSPACE/Payload/$APP_NAME/"
