@@ -132,10 +132,27 @@ jobs:
           [ "$PATCH_COUNT" -ge 17 ] || { echo "ERROR: packaged patch count is $PATCH_COUNT"; exit 1; }
 
           cd "$GITHUB_WORKSPACE"
-          rm -f MOON-X7-unsigned.ipa
-          ditto -c -k --sequesterRsrc --keepParent Payload MOON-X7-unsigned.ipa
-          [ -f MOON-X7-unsigned.ipa ] || { echo "ERROR: IPA not created"; exit 1; }
-          ls -lh MOON-X7-unsigned.ipa
+          IPA_NAME="MOON-X7-UI-${GITHUB_RUN_NUMBER}-${GITHUB_SHA::7}.ipa"
+          rm -f "$IPA_NAME"
+          ditto -c -k --sequesterRsrc --keepParent Payload "$IPA_NAME"
+          [ -f "$IPA_NAME" ] || { echo "ERROR: IPA not created"; exit 1; }
+
+          rm -rf "$GITHUB_WORKSPACE/IPA_VERIFY"
+          mkdir -p "$GITHUB_WORKSPACE/IPA_VERIFY"
+          unzip -q "$IPA_NAME" -d "$GITHUB_WORKSPACE/IPA_VERIFY"
+          VERIFY_EXEC="$GITHUB_WORKSPACE/IPA_VERIFY/Payload/MOONX7.app/MOONX7"
+          [ -f "$VERIFY_EXEC" ] || { echo "ERROR: packaged executable missing"; exit 1; }
+          strings "$VERIFY_EXEC" > "$GITHUB_WORKSPACE/ipa-compiled-strings.txt"
+          for marker in             "MOON-X7-UI-REDESIGN-2.0.0-B7"             "VER PREVIEW"             "FREE FIRE MAX"             "ffmx-texture-07"; do
+            grep -Fq "$marker" "$GITHUB_WORKSPACE/ipa-compiled-strings.txt" || {
+              echo "ERROR: IPA contains wrong/old binary; missing marker: $marker"
+              exit 1
+            }
+          done
+
+          echo "FINAL IPA VERIFICATION PASSED"
+          shasum -a 256 "$IPA_NAME"
+          ls -lh "$IPA_NAME"
 
       - uses: actions/upload-artifact@v4
         with:
