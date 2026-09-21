@@ -139,8 +139,8 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: MOON-X7-unsigned-ipa
-          path: MOON-X7-unsigned.ipa
+          name: MOON-X7-UI-${{ github.run_number }}-${{ github.sha }}
+          path: MOON-X7-UI-*.ipa
           if-no-files-found: error
 
       - name: Upload build log
