@@ -43,7 +43,7 @@ struct ContentView: View {
                 } else if tab == 1 {
                     PreviewView(darkMode: darkMode)
                 } else {
-                    ConfigDashboardView(darkMode: $darkMode, auth: auth)
+                    ConfigDashboardView(auth: auth, darkMode: $darkMode)
                 }
             }
             .padding(.bottom, 72)
