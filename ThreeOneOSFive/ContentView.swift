@@ -3,6 +3,7 @@ import Foundation
 import UIKit
 import Security
 import ImageIO
+import AVKit
 
 // ============================================================
 // MARK: - CONTENT VIEW
@@ -88,6 +89,9 @@ private final class MoonAuthManager: ObservableObject {
     @Published var errorMessage: String?
     @Published private(set) var licenseKey: String?
     @Published private(set) var expiresAt: Date?
+    @Published private(set) var plan: String?
+    @Published private(set) var durationDays: Int?
+    @Published private(set) var activatedAt: Date?
 
     private let supabaseURL = URL(string: "https://qgetvnmrhrcagnvpfgmr.supabase.co")!
     private let publishableKey = "sb_publishable_fyPxGwyJtHFK9gxkYv6FKw_1xi15e_l"
@@ -132,6 +136,9 @@ private final class MoonAuthManager: ObservableObject {
 
             licenseKey = key
             expiresAt = expiry
+            plan = response.plan
+            durationDays = response.durationDays
+            activatedAt = parseDate(response.activatedAt)
             isAuthenticated = true
         } catch {
             isAuthenticated = false
@@ -190,6 +197,9 @@ private final class MoonAuthManager: ObservableObject {
 
                 licenseKey = key
                 expiresAt = parseDate(verified.expiresAt)
+                plan = verified.plan
+                durationDays = verified.durationDays
+                activatedAt = parseDate(verified.activatedAt)
                 isAuthenticated = true
                 isChecking = false
             } catch {
@@ -205,6 +215,9 @@ private final class MoonAuthManager: ObservableObject {
         deleteKeychain(licenseAccount)
         licenseKey = nil
         expiresAt = nil
+        plan = nil
+        durationDays = nil
+        activatedAt = nil
         isAuthenticated = false
         errorMessage = nil
     }
@@ -212,14 +225,21 @@ private final class MoonAuthManager: ObservableObject {
     private struct RPCResponse: Decodable {
         let success: Bool
         let status: String?
+        let plan: String?
+        let durationDays: Int?
+        let activatedAt: String?
         let expiresAt: String?
+        let remainingMS: Double?
+        let deviceBound: Bool?
         let message: String?
 
         enum CodingKeys: String, CodingKey {
-            case success
-            case status
-            case message
+            case success, status, plan, message
+            case durationDays = "duration_days"
+            case activatedAt = "activated_at"
             case expiresAt = "expires_at"
+            case remainingMS = "remaining_ms"
+            case deviceBound = "device_bound"
         }
     }
 
@@ -322,6 +342,9 @@ private final class MoonAuthManager: ObservableObject {
         deleteKeychain(licenseAccount)
         licenseKey = nil
         expiresAt = nil
+        plan = nil
+        durationDays = nil
+        activatedAt = nil
         isAuthenticated = false
     }
 
@@ -1314,10 +1337,10 @@ private struct PreviewCard: View {
     let darkMode: Bool
     @State private var showPreview = false
 
-    private var imageURL: URL? {
+    private var mediaURL: URL? {
         guard let root = Bundle.main.resourceURL else { return nil }
         let directory = root.appendingPathComponent("PreviewImages", isDirectory: true)
-        for ext in ["jpg", "jpeg", "png", "webp"] {
+        for ext in ["jpg", "jpeg", "png", "webp", "gif", "mp4", "mov", "m4v"] {
             let url = directory.appendingPathComponent("\(item.imageName).\(ext)")
             if FileManager.default.fileExists(atPath: url.path) { return url }
         }
@@ -1378,12 +1401,10 @@ private struct PreviewCard: View {
 
             if showPreview {
                 Group {
-                    if let url = imageURL, let image = UIImage(contentsOfFile: url.path) {
-                        Image(uiImage: image)
-                            .resizable()
-                            .scaledToFit()
+                    if let url = mediaURL {
+                        PreviewMediaView(url: url)
                             .frame(maxWidth: .infinity)
-                            .frame(minHeight: 180, maxHeight: 360)
+                            .frame(minHeight: 180, maxHeight: 380)
                             .background(Color.black.opacity(0.20))
                             .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
                     } else {
@@ -1418,6 +1439,28 @@ private struct PreviewCard: View {
     }
 }
 
+
+private struct PreviewMediaView: View {
+    let url: URL
+
+    var body: some View {
+        switch url.pathExtension.lowercased() {
+        case "gif":
+            AnimatedGIFView(filename: url.lastPathComponent)
+        case "mp4", "mov", "m4v":
+            VideoPlayer(player: AVPlayer(url: url))
+                .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+        default:
+            if let image = UIImage(contentsOfFile: url.path) {
+                Image(uiImage: image)
+                    .resizable()
+                    .scaledToFit()
+            } else {
+                Color.clear
+            }
+        }
+    }
+}
 
 // ============================================================
 // MARK: - CONFIG DASHBOARD VIEW
@@ -1480,6 +1523,9 @@ private struct ConfigDashboardView: View {
                                 .foregroundStyle(auth.isAuthenticated ? .green : Theme.accent)
                         }
                         configRow("KEY", auth.licenseKey ?? "—", mono: true)
+                        configRow("PLAN", auth.plan?.uppercased() ?? "—")
+                        configRow("DURACIÓN", durationText)
+                        configRow("ACTIVADA", activationText)
                         configRow("EXPIRA", expiryText)
                         configRow("RESTANTE", remainingText)
                         HStack(spacing: 9) {
@@ -1562,8 +1608,22 @@ private struct ConfigDashboardView: View {
         .background(Theme.silver, in: RoundedRectangle(cornerRadius: 13))
     }
 
+    private var durationText: String {
+        guard let days = auth.durationDays else {
+            return auth.plan?.lowercased() == "lifetime" ? "LIFETIME" : "—"
+        }
+        return days == 1 ? "1 día" : "\(days) días"
+    }
+
+    private var activationText: String {
+        guard let date = auth.activatedAt else { return "—" }
+        return date.formatted(date: .abbreviated, time: .shortened)
+    }
+
     private var expiryText: String {
-        guard let date = auth.expiresAt else { return "—" }
+        guard let date = auth.expiresAt else {
+            return auth.plan?.lowercased() == "lifetime" ? "SIN EXPIRACIÓN" : "—"
+        }
         return date.formatted(date: .abbreviated, time: .shortened)
     }
 
