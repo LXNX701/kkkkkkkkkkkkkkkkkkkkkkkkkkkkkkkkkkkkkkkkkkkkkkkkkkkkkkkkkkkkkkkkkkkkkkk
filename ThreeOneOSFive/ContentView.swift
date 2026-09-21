@@ -725,6 +725,9 @@ private struct ExternalFunctionsView: View {
                         .font(.system(size: 8.5, weight: .black, design: .rounded))
                         .tracking(1.3)
                         .foregroundStyle(Theme.accent)
+                    Text(moonX7UIBuildStamp)
+                        .font(.system(size: 7.5, weight: .bold, design: .monospaced))
+                        .foregroundStyle(.white.opacity(0.30))
                 }
 
                 Spacer()
