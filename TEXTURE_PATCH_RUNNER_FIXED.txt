@@ -1,0 +1,11 @@
+MOON X7 - TEXTURE RUNNER FIXED
+
+This project uses ThreeOneOSFive/ContentView.swift as the active ContentView.
+Textures use ThreeOneOSFive/helpers/TexturePatchRunner.swift.
+Texture cards expose only:
+  - INJETAR
+  - RESTORE ORIGINAL
+
+The duplicate legacy ThreeOneOSFive/ThreeOneOSFive source tree was removed.
+The Xcode project explicitly includes TexturePatchRunner.swift in the 3105 target.
+Texture packages are copied into the final IPA by .github/workflows/build-ipa.yml.

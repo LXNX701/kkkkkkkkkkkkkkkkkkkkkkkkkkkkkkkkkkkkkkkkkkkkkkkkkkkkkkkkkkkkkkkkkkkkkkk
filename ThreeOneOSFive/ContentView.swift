@@ -1165,8 +1165,8 @@ private struct TexturasView: View {
                     title: url.deletingPathExtension().lastPathComponent,
                     subtitle: "TEXTURA",
                     patchFile: url.lastPathComponent,
-                    patchPassword: PatchSlots.password,
-                    manualControls: true
+                    patchPassword: "",
+                    manualControls: false
                 )
             }
     }
