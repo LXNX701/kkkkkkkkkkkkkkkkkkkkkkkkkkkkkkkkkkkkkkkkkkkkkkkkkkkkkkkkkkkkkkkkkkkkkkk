@@ -115,11 +115,20 @@ jobs:
           [ -f "$DEST_APP/realm-banner.gif" ] && ls -lh "$DEST_APP/realm-banner.gif" || true
 
           PATCH_COUNT="$(find "$DEST_APP/Patches" -type f -name '*.3105' | wc -l | tr -d ' ')"
-          echo "FF MAX .3105 resources bundled: $PATCH_COUNT"
-          [ "$PATCH_COUNT" -ge 17 ] || { echo "ERROR: expected at least 17 FF MAX .3105 resources after moving HOLO options"; exit 1; }
+          echo "Bundled .3105 resources: $PATCH_COUNT"
+          [ "$PATCH_COUNT" -ge 17 ] || { echo "ERROR: expected at least 17 .3105 resources"; exit 1; }
+
+          PREVIEW_COUNT="$(find "$DEST_APP/PreviewImages" -maxdepth 1 -type f \( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o -iname '*.webp' -o -iname '*.gif' -o -iname '*.mp4' -o -iname '*.mov' -o -iname '*.m4v' \) 2>/dev/null | wc -l | tr -d ' ')"
+          echo "Preview media bundled: $PREVIEW_COUNT"
 
           grep -q "CONTROL CENTER • UI REDESIGN 1.1" "$SOURCE_ROOT/ThreeOneOSFive/ContentView.swift" || {
             echo "ERROR: redesigned ContentView marker not found"; exit 1;
+          }
+          grep -q "PreviewMediaView" "$SOURCE_ROOT/ThreeOneOSFive/ContentView.swift" || {
+            echo "ERROR: preview media renderer missing"; exit 1;
+          }
+          grep -q "durationDays" "$SOURCE_ROOT/ThreeOneOSFive/ContentView.swift" || {
+            echo "ERROR: license duration metadata missing"; exit 1;
           }
 
           cd "$GITHUB_WORKSPACE"
