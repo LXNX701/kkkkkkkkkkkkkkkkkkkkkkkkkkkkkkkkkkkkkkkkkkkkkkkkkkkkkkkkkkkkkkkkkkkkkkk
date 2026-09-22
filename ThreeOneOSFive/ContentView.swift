@@ -620,8 +620,15 @@ private struct PatchOption: Identifiable {
 
 private enum PatchSlots {
 
-    // FREE FIRE NORMAL - reserved for future patches.
-    // Keep this section empty until normal FF resources are added.
+    // FREE FIRE NORMAL - 8 available options.
+    static let ffn1 = "MOON CABEZA ATN--.3105"
+    static let ffn2 = "MOON CUELLO ATN --.3105"
+    static let ffn3 = "MOON DRAG ANT ---.3105"
+    static let ffn4 = "MOON CABEZA--.3105"
+    static let ffn5 = "MOON DRAG --.3105"
+    static let ffn6 = "MOON CUELLO--.3105"
+    static let ffn7 = "MOON PECHO ---∩╕Å-.3105"
+    static let ffn8 = "MOON PECHO ATN ---.3105"
 
     // FREE FIRE MAX - all 10 current options.
     static let ffmx1 = "FFMX MOON CABEZA ATN.3105"
@@ -670,7 +677,16 @@ private struct ExternalFunctionsView: View {
     // FREE FIRE
     // --------------------------------------------------------
 
-    private let freeFireOptions: [PatchOption] = []
+    private let freeFireOptions: [PatchOption] = [
+        PatchOption(id: "ffn-01", title: "MOON CABEZA ATN", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn1, patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "ffn-02", title: "MOON CUELLO ATN", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn2, patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "ffn-03", title: "MOON DRAG ANT", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn3, patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "ffn-04", title: "MOON CABEZA", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn4, patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "ffn-05", title: "MOON DRAG", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn5, patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "ffn-06", title: "MOON CUELLO", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn6, patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "ffn-07", title: "MOON PECHO", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn7, patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "ffn-08", title: "MOON PECHO ATN", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn8, patchPassword: PatchSlots.password, manualControls: true)
+    ]
 
     // --------------------------------------------------------
     // FREE FIRE MAX
