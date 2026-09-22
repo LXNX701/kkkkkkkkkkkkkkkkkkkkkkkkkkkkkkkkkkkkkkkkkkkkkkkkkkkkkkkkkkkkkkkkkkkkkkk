@@ -44,11 +44,15 @@ jobs:
           grep -q "durationDays" "$BUILD_SOURCE" || { echo "ERROR: license metadata missing"; exit 1; }
           grep -q "ffmx-texture-01" "$BUILD_SOURCE" || { echo "ERROR: FFMAX option 01 missing"; exit 1; }
           grep -q "ffmx-texture-07" "$BUILD_SOURCE" || { echo "ERROR: FFMAX option 07 missing"; exit 1; }
+          grep -q "moonx7-login-loop.gif" "$BUILD_SOURCE" || { echo "ERROR: login banner reference missing"; exit 1; }
+          grep -q "moonx7-dashboard-loop.gif" "$BUILD_SOURCE" || { echo "ERROR: dashboard banner reference missing"; exit 1; }
           ! grep -q "TexturasView" "$BUILD_SOURCE" || { echo "ERROR: legacy TexturasView still present"; exit 1; }
 
           PATCHES_DIR="$SOURCE_ROOT/ThreeOneOSFive/Patches"
           PREVIEW_DIR="$SOURCE_ROOT/ThreeOneOSFive/PreviewImages"
           BANNER_FILE="$SOURCE_ROOT/ThreeOneOSFive/realm-banner.gif"
+          LOGIN_BANNER="$SOURCE_ROOT/ThreeOneOSFive/moonx7-login-loop.gif"
+          DASHBOARD_BANNER="$SOURCE_ROOT/ThreeOneOSFive/moonx7-dashboard-loop.gif"
 
           [ -d "$PATCHES_DIR" ] || { echo "ERROR: patches directory missing"; exit 1; }
           PATCH_COUNT="$(find "$PATCHES_DIR" -type f -name '*.3105' | wc -l | tr -d ' ')"
@@ -91,7 +95,7 @@ jobs:
           [ -f "$EXEC" ] || { echo "ERROR: MOONX7 executable missing"; exit 1; }
 
           strings "$EXEC" > "$GITHUB_WORKSPACE/compiled-strings.txt"
-          grep -Fq "MOON-X7-UI-REDESIGN-2.0.0-B9" "$GITHUB_WORKSPACE/compiled-strings.txt" || {
+          grep -Fq "MOON-X7-UI-REDESIGN-2.0.0-B10" "$GITHUB_WORKSPACE/compiled-strings.txt" || {
             echo "ERROR: compiled executable is missing the unique MOON X7 redesign build stamp"
             exit 1
           }
@@ -125,6 +129,10 @@ jobs:
             ditto "$PREVIEW_DIR/" "$DEST_APP/PreviewImages/"
           fi
           [ ! -f "$BANNER_FILE" ] || cp -f "$BANNER_FILE" "$DEST_APP/realm-banner.gif"
+          [ ! -f "$LOGIN_BANNER" ] || cp -f "$LOGIN_BANNER" "$DEST_APP/moonx7-login-loop.gif"
+          [ ! -f "$DASHBOARD_BANNER" ] || cp -f "$DASHBOARD_BANNER" "$DEST_APP/moonx7-dashboard-loop.gif"
+          [ -f "$LOGIN_BANNER" ] || echo "INFO: moonx7-login-loop.gif not present in repo; app will use realm-banner.gif fallback"
+          [ -f "$DASHBOARD_BANNER" ] || echo "INFO: moonx7-dashboard-loop.gif not present in repo; app will use realm-banner.gif fallback"
 
           PATCH_COUNT="$(find "$DEST_APP/Patches" -type f -name '*.3105' | wc -l | tr -d ' ')"
           [ "$PATCH_COUNT" -ge 17 ] || { echo "ERROR: packaged patch count is $PATCH_COUNT"; exit 1; }
