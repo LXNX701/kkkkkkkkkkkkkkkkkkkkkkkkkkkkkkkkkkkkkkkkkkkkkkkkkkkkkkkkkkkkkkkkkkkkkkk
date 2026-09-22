@@ -1707,7 +1707,7 @@ private enum MoonSocialLinks {
     static let youtube = "https://www.youtube.com/@MOONZADA.H4X"
     static let discord = "https://discord.gg/hD6qXCtXm"
     static let telegram = "https://t.me/moonzazax7?text=I%20want%20contact%20the%20dev%20"
-    static let web = "https://moonzx7.com"
+    static let web = ""
 }
 
 private struct SocialLinkButton: View {
