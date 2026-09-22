@@ -9,7 +9,9 @@ import AVKit
 // MARK: - CONTENT VIEW
 // ============================================================
 
-private let moonX7UIBuildStamp = "MOON-X7-UI-REDESIGN-2.0.0-B7"\n\nstruct ContentView: View {
+private let moonX7UIBuildStamp = "MOON-X7-UI-REDESIGN-2.0.0-B7"
+
+struct ContentView: View {
     @State private var tab = 0
     @AppStorage("external.darkMode") private var darkMode = true
 
@@ -438,7 +440,13 @@ private struct MoonLoginView: View {
                         .foregroundStyle(.white)
                         .padding(.top, 18)
 
-                    Text(moonX7UIBuildStamp)\n                        .font(.system(size: 8, weight: .bold, design: .monospaced))\n                        .tracking(1.2)\n                        .foregroundStyle(.white.opacity(0.30))\n                        .padding(.top, 5)\n\n                    Text("ACCESS CONTROL")
+                    Text(moonX7UIBuildStamp)
+                        .font(.system(size: 8, weight: .bold, design: .monospaced))
+                        .tracking(1.2)
+                        .foregroundStyle(.white.opacity(0.30))
+                        .padding(.top, 5)
+
+                    Text("ACCESS CONTROL")
                         .font(.system(size: 10, weight: .bold, design: .rounded))
                         .tracking(3.2)
                         .foregroundStyle(cyan.opacity(0.82))
