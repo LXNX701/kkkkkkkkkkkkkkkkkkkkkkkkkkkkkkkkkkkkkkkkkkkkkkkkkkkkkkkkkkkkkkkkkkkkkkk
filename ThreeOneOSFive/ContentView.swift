@@ -9,7 +9,7 @@ import AVKit
 // MARK: - CONTENT VIEW
 // ============================================================
 
-private let moonX7UIBuildStamp = "MOON-X7-UI-REDESIGN-2.0.0-B8"
+private let moonX7UIBuildStamp = "MOON-X7-UI-REDESIGN-2.0.0-B9"
 
 struct ContentView: View {
     @State private var tab = 0
@@ -56,10 +56,10 @@ struct ContentView: View {
                     BottomItem(icon: "play.rectangle.fill", title: "Preview", selected: tab == 1, darkMode: darkMode) { tab = 1 }
                     BottomItem(icon: "cube.fill", title: "Config", selected: tab == 2, darkMode: darkMode) { tab = 2 }
                 }
-                .padding(.horizontal, 18)
-                .padding(.top, 7)
+                .padding(.horizontal, 12)
+                .padding(.top, 6)
                 .padding(.bottom, 4)
-                .background(.black.opacity(0.94))
+                .background(.black.opacity(0.96))
             }
 
             if auth.isAuthenticated {
@@ -428,9 +428,8 @@ private struct MoonLoginView: View {
 
                     AnimatedGIFView(filename: "realm-banner.gif")
                         .frame(maxWidth: .infinity)
-                        .frame(height: 132)
-                        .clipped()
-                        .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
+                        .frame(height: 118)
+                        .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
                         .overlay {
                             RoundedRectangle(cornerRadius: 22, style: .continuous)
                                 .stroke(
@@ -447,8 +446,8 @@ private struct MoonLoginView: View {
                         .padding(.bottom, 14)
 
                     Text("MOON X7")
-                        .font(.system(size: 34, weight: .black, design: .rounded))
-                        .tracking(4)
+                        .font(.system(size: 32, weight: .black, design: .rounded))
+                        .tracking(3.2)
                         .foregroundStyle(.white)
                         .padding(.top, 18)
 
@@ -481,33 +480,37 @@ private struct MoonLoginView: View {
                                 .tracking(1.5)
                                 .foregroundStyle(.white.opacity(0.42))
 
-                            HStack(spacing: 12) {
+                            HStack(spacing: 9) {
                                 Image(systemName: "key.horizontal.fill")
-                                    .font(.system(size: 16, weight: .semibold))
+                                    .font(.system(size: 15, weight: .semibold))
                                     .foregroundStyle(cyan)
+                                    .frame(width: 20)
 
                                 TextField("MOONX7-XXXX-XXXX", text: $licenseKey)
                                     .textInputAutocapitalization(.characters)
                                     .autocorrectionDisabled()
                                     .foregroundStyle(.white)
-                                    .font(.system(size: 14, weight: .semibold, design: .monospaced))
-                                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                                    .font(.system(size: 13, weight: .semibold, design: .monospaced))
+                                    .lineLimit(1)
+                                    .minimumScaleFactor(0.78)
                                     .layoutPriority(1)
 
                                 Button {
                                     licenseKey = UIPasteboard.general.string ?? licenseKey
                                 } label: {
                                     Text("PEGAR")
-                                        .font(.system(size: 11, weight: .bold, design: .rounded))
+                                        .font(.system(size: 10, weight: .black, design: .rounded))
                                         .foregroundStyle(cyan)
-                                        .padding(.horizontal, 10)
-                                        .padding(.vertical, 7)
+                                        .frame(width: 54, height: 32)
                                         .background(cyan.opacity(0.12), in: Capsule())
                                 }
+                                .buttonStyle(.plain)
+                                .fixedSize()
                                 .accessibilityLabel("Pegar key desde el portapapeles")
                             }
-                            .padding(.horizontal, 15)
-                            .frame(height: 58)
+                            .padding(.horizontal, 12)
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 54)
                             .background(.black.opacity(0.24), in: RoundedRectangle(cornerRadius: 16))
                             .overlay {
                                 RoundedRectangle(cornerRadius: 16)
@@ -556,14 +559,13 @@ private struct MoonLoginView: View {
                         .animation(.easeInOut(duration: 0.2), value: auth.isChecking)
                         .animation(.easeInOut(duration: 0.2), value: auth.errorMessage)
                     }
-                    .padding(20)
-                    .background(panel.opacity(0.90), in: RoundedRectangle(cornerRadius: 26, style: .continuous))
+                    .padding(17)
+                    .background(panel.opacity(0.94), in: RoundedRectangle(cornerRadius: 22, style: .continuous))
                     .overlay {
-                        RoundedRectangle(cornerRadius: 28, style: .continuous)
-                            .stroke(.white.opacity(0.10), lineWidth: 1)
+                        RGBGlowBorder(cornerRadius: 22, lineWidth: 1.1)
                     }
-                    .padding(.horizontal, 18)
-                    .padding(.top, 26)
+                    .padding(.horizontal, 4)
+                    .padding(.top, 22)
 
                     Text("MOONX7 • SECURE LICENSE ACCESS")
                         .font(.system(size: 10, weight: .semibold, design: .rounded))
@@ -572,8 +574,8 @@ private struct MoonLoginView: View {
                         .padding(.top, 22)
                         .padding(.bottom, 30)
                 }
-                .frame(maxWidth: 520)
                 .frame(maxWidth: .infinity)
+                .padding(.horizontal, 16)
             }
         }
         .preferredColorScheme(.dark)
@@ -713,7 +715,8 @@ private struct ExternalFunctionsView: View {
                 optionsListSection
                 Spacer().frame(height: 90)
             }
-            .padding(.horizontal, 20)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.horizontal, 14)
         }
     }
 
@@ -766,7 +769,7 @@ private struct ExternalFunctionsView: View {
             ZStack(alignment: .bottomLeading) {
                 AnimatedGIFView(filename: "realm-banner.gif")
                     .frame(maxWidth: .infinity)
-                    .frame(height: 152)
+                    .frame(height: 146)
                     .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
 
                 LinearGradient(
@@ -1336,8 +1339,8 @@ private struct PreviewView: View {
                         .multilineTextAlignment(.center)
                 }
                 .frame(maxWidth: .infinity)
-                .padding(.top, 68)
-                .padding(.bottom, 24)
+                .padding(.top, 48)
+                .padding(.bottom, 20)
 
                 AnimatedGIFView(filename: "realm-banner.gif")
                     .frame(maxWidth: .infinity)
@@ -1358,7 +1361,8 @@ private struct PreviewView: View {
 
                 Spacer().frame(height: 100)
             }
-            .padding(.horizontal, 20)
+            .frame(maxWidth: .infinity, alignment: .center)
+            .padding(.horizontal, 14)
         }
         .background(background.ignoresSafeArea())
     }
@@ -1464,8 +1468,12 @@ private struct PreviewCard: View {
         }
         .background(darkMode ? Color.white.opacity(0.045) : Color.black.opacity(0.035), in: RoundedRectangle(cornerRadius: 21, style: .continuous))
         .overlay {
-            RoundedRectangle(cornerRadius: 21, style: .continuous)
-                .stroke(Theme.accent.opacity(showPreview ? 0.38 : 0.10), lineWidth: showPreview ? 1.2 : 1)
+            if showPreview {
+                RGBGlowBorder(cornerRadius: 21, lineWidth: 1.1)
+            } else {
+                RoundedRectangle(cornerRadius: 21, style: .continuous)
+                    .stroke(Theme.accent.opacity(0.10), lineWidth: 1)
+            }
         }
         .animation(.easeInOut(duration: 0.22), value: showPreview)
     }
@@ -1530,13 +1538,13 @@ private struct ConfigDashboardView: View {
                             Image(systemName: "gearshape.fill")
                                 .font(.system(size: 17, weight: .bold))
                                 .foregroundStyle(.white)
-                                .frame(width: 44, height: 44)
+                                .frame(width: 40, height: 40)
                                 .background(.white.opacity(0.06), in: Circle())
                                 .overlay(Circle().stroke(.white.opacity(0.10)))
                         }
                         .buttonStyle(.plain)
                     }
-                    .padding(.top, 62)
+                    .padding(.top, 46)
 
                     VStack(alignment: .leading, spacing: 15) {
                         HStack {
@@ -1624,7 +1632,8 @@ private struct ConfigDashboardView: View {
 
                     Spacer().frame(height: 100)
                 }
-                .padding(.horizontal, 18)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.horizontal, 14)
             }
         }
         .sheet(isPresented: $showSettings) {
@@ -1694,11 +1703,11 @@ private struct ConfigDashboardView: View {
 
 private enum MoonSocialLinks {
     // Reemplazar estos cinco valores por tus enlaces reales.
-    static let whatsapp = ""
-    static let youtube = ""
-    static let discord = ""
-    static let telegram = ""
-    static let web = ""
+    static let whatsapp = "https://wa.me/529811958565?text=Quiero%20contactar%20al%20developer%20moon"
+    static let youtube = "https://www.youtube.com/@MOONZADA.H4X"
+    static let discord = "https://discord.gg/hD6qXCtXm"
+    static let telegram = "https://t.me/moonzazax7?text=I%20want%20contact%20the%20dev%20"
+    static let web = "https://moonzx7.com"
 }
 
 private struct SocialLinkButton: View {
@@ -1745,6 +1754,37 @@ private struct SocialLinkButton: View {
 // MARK: - ANIMATED GIF
 // ============================================================
 
+private struct RGBGlowBorder: View {
+    let cornerRadius: CGFloat
+    let lineWidth: CGFloat
+
+    var body: some View {
+        TimelineView(.animation(minimumInterval: 1.0 / 30.0)) { context in
+            let phase = context.date.timeIntervalSinceReferenceDate.truncatingRemainder(dividingBy: 8.0) / 8.0
+            RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
+                .stroke(
+                    AngularGradient(
+                        colors: [
+                            Color.red,
+                            Color.orange,
+                            Color.yellow,
+                            Color.green,
+                            Color.cyan,
+                            Color.blue,
+                            Color.purple,
+                            Color.red
+                        ],
+                        center: .center,
+                        angle: .degrees(phase * 360)
+                    ),
+                    lineWidth: lineWidth
+                )
+                .shadow(color: Color.cyan.opacity(0.22), radius: 7)
+        }
+        .allowsHitTesting(false)
+    }
+}
+
 private struct AnimatedGIFView: UIViewRepresentable {
     let filename: String
 
@@ -1761,6 +1801,12 @@ private struct AnimatedGIFView: UIViewRepresentable {
         if uiView.image == nil {
             uiView.image = animatedImage()
         }
+    }
+
+    func sizeThatFits(_ proposal: ProposedViewSize, uiView: UIImageView, context: Context) -> CGSize? {
+        let width = proposal.width ?? 320
+        let height = proposal.height ?? 120
+        return CGSize(width: max(1, width), height: max(1, height))
     }
 
     private func animatedImage() -> UIImage? {
@@ -1837,7 +1883,7 @@ private struct BottomItem: View {
             .background(selected ? Theme.accent.opacity(0.18) : .clear, in: RoundedRectangle(cornerRadius: 18, style: .continuous))
             .overlay {
                 if selected {
-                    RoundedRectangle(cornerRadius: 18, style: .continuous).stroke(Theme.accent.opacity(0.50), lineWidth: 1)
+                    RGBGlowBorder(cornerRadius: 18, lineWidth: 1.15)
                 }
             }
         }
