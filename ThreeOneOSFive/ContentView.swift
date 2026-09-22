@@ -424,14 +424,24 @@ private struct MoonLoginView: View {
                     }
 
                     AnimatedGIFView(filename: "realm-banner.gif")
-                        .frame(height: 86)
-                        .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+                        .aspectRatio(contentMode: .fit)
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 132)
+                        .clipped()
+                        .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
                         .overlay {
-                            RoundedRectangle(cornerRadius: 20, style: .continuous)
-                                .stroke(cyan.opacity(0.28), lineWidth: 1)
+                            RoundedRectangle(cornerRadius: 22, style: .continuous)
+                                .stroke(
+                                    LinearGradient(
+                                        colors: [cyan.opacity(0.50), moon.opacity(0.45)],
+                                        startPoint: .leading,
+                                        endPoint: .trailing
+                                    ),
+                                    lineWidth: 1
+                                )
                         }
-                        .shadow(color: moon.opacity(0.20), radius: 18, y: 8)
-                        .padding(.horizontal, 4)
+                        .shadow(color: moon.opacity(0.22), radius: 20, y: 9)
+                        .padding(.horizontal, 22)
                         .padding(.bottom, 18)
 
                     Text("MOON X7")
