@@ -9,7 +9,7 @@ import AVKit
 // MARK: - CONTENT VIEW
 // ============================================================
 
-private let moonX7UIBuildStamp = "MOON-X7-UI-REDESIGN-2.0.0-B9"
+private let moonX7UIBuildStamp = "MOON-X7-UI-REDESIGN-2.0.0-B10"
 
 struct ContentView: View {
     @State private var tab = 0
@@ -426,7 +426,7 @@ private struct MoonLoginView: View {
                             )
                     }
 
-                    AnimatedGIFView(filename: "realm-banner.gif")
+                    MoonBannerView(filename: "moonx7-login-loop.gif")
                         .frame(maxWidth: .infinity)
                         .frame(height: 118)
                         .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
@@ -767,7 +767,7 @@ private struct ExternalFunctionsView: View {
             }
 
             ZStack(alignment: .bottomLeading) {
-                AnimatedGIFView(filename: "realm-banner.gif")
+                MoonBannerView(filename: "moonx7-dashboard-loop.gif")
                     .frame(maxWidth: .infinity)
                     .frame(height: 146)
                     .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
@@ -1342,7 +1342,7 @@ private struct PreviewView: View {
                 .padding(.top, 48)
                 .padding(.bottom, 20)
 
-                AnimatedGIFView(filename: "realm-banner.gif")
+                MoonBannerView(filename: "moonx7-dashboard-loop.gif")
                     .frame(maxWidth: .infinity)
                     .frame(height: 92)
                     .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
@@ -1782,6 +1782,18 @@ private struct RGBGlowBorder: View {
                 .shadow(color: Color.cyan.opacity(0.22), radius: 7)
         }
         .allowsHitTesting(false)
+    }
+}
+
+private struct MoonBannerView: View {
+    let filename: String
+
+    var body: some View {
+        if Bundle.main.url(forResource: filename, withExtension: nil) != nil {
+            AnimatedGIFView(filename: filename)
+        } else {
+            AnimatedGIFView(filename: "realm-banner.gif")
+        }
     }
 }
 
