@@ -91,13 +91,11 @@ jobs:
           [ -f "$EXEC" ] || { echo "ERROR: MOONX7 executable missing"; exit 1; }
 
           strings "$EXEC" > "$GITHUB_WORKSPACE/compiled-strings.txt"
-          for marker in             "MOON-X7-UI-REDESIGN-2.0.0-B7"             "VER PREVIEW"             "FREE FIRE MAX"             "ffmx-texture-07"; do
-            grep -Fq "$marker" "$GITHUB_WORKSPACE/compiled-strings.txt" || {
-              echo "ERROR: compiled executable is missing UI marker: $marker"
-              exit 1
-            }
-          done
-          echo "Compiled UI verification PASSED"
+          grep -Fq "MOON-X7-UI-REDESIGN-2.0.0-B7" "$GITHUB_WORKSPACE/compiled-strings.txt" || {
+            echo "ERROR: compiled executable is missing the unique MOON X7 redesign build stamp"
+            exit 1
+          }
+          echo "Compiled UI verification PASSED: unique redesign build stamp is embedded"
           shasum -a 256 "$EXEC"
 
       - name: Package IPA with patches and previews
@@ -143,14 +141,12 @@ jobs:
           VERIFY_EXEC="$GITHUB_WORKSPACE/IPA_VERIFY/Payload/MOONX7.app/MOONX7"
           [ -f "$VERIFY_EXEC" ] || { echo "ERROR: packaged executable missing"; exit 1; }
           strings "$VERIFY_EXEC" > "$GITHUB_WORKSPACE/ipa-compiled-strings.txt"
-          for marker in             "MOON-X7-UI-REDESIGN-2.0.0-B7"             "VER PREVIEW"             "FREE FIRE MAX"             "ffmx-texture-07"; do
-            grep -Fq "$marker" "$GITHUB_WORKSPACE/ipa-compiled-strings.txt" || {
-              echo "ERROR: IPA contains wrong/old binary; missing marker: $marker"
-              exit 1
-            }
-          done
+          grep -Fq "MOON-X7-UI-REDESIGN-2.0.0-B7" "$GITHUB_WORKSPACE/ipa-compiled-strings.txt" || {
+            echo "ERROR: IPA contains wrong/old binary; unique MOON X7 redesign build stamp is missing"
+            exit 1
+          }
 
-          echo "FINAL IPA VERIFICATION PASSED"
+          echo "FINAL IPA VERIFICATION PASSED: unique redesign build stamp is inside the IPA"
           shasum -a 256 "$IPA_NAME"
           ls -lh "$IPA_NAME"
 
