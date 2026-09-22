@@ -404,7 +404,7 @@ private struct MoonLoginView: View {
 
             ScrollView(showsIndicators: false) {
                 VStack(spacing: 0) {
-                    Spacer(minLength: 72)
+                    Spacer(minLength: 24)
 
                     ZStack {
                         Circle()
@@ -441,12 +441,12 @@ private struct MoonLoginView: View {
                                 )
                         }
                         .shadow(color: moon.opacity(0.22), radius: 20, y: 9)
-                        .padding(.horizontal, 22)
-                        .padding(.bottom, 18)
+                        .padding(.horizontal, 18)
+                        .padding(.bottom, 14)
 
                     Text("MOON X7")
-                        .font(.system(size: 38, weight: .black, design: .rounded))
-                        .tracking(5)
+                        .font(.system(size: 34, weight: .black, design: .rounded))
+                        .tracking(4)
                         .foregroundStyle(.white)
                         .padding(.top, 18)
 
@@ -462,7 +462,7 @@ private struct MoonLoginView: View {
                         .foregroundStyle(cyan.opacity(0.82))
                         .padding(.top, 8)
 
-                    VStack(alignment: .leading, spacing: 20) {
+                    VStack(alignment: .leading, spacing: 18) {
                         VStack(alignment: .leading, spacing: 6) {
                             Text("Acceso privado")
                                 .font(.system(size: 20, weight: .bold, design: .rounded))
@@ -552,14 +552,14 @@ private struct MoonLoginView: View {
                         .animation(.easeInOut(duration: 0.2), value: auth.isChecking)
                         .animation(.easeInOut(duration: 0.2), value: auth.errorMessage)
                     }
-                    .padding(24)
-                    .background(panel.opacity(0.90), in: RoundedRectangle(cornerRadius: 28, style: .continuous))
+                    .padding(20)
+                    .background(panel.opacity(0.90), in: RoundedRectangle(cornerRadius: 26, style: .continuous))
                     .overlay {
                         RoundedRectangle(cornerRadius: 28, style: .continuous)
                             .stroke(.white.opacity(0.10), lineWidth: 1)
                     }
-                    .padding(.horizontal, 22)
-                    .padding(.top, 36)
+                    .padding(.horizontal, 18)
+                    .padding(.top, 26)
 
                     Text("MOONX7 • SECURE LICENSE ACCESS")
                         .font(.system(size: 10, weight: .semibold, design: .rounded))
@@ -1669,8 +1669,8 @@ private struct AnimatedGIFView: UIViewRepresentable {
 
     func makeUIView(context: Context) -> UIImageView {
         let view = UIImageView()
-        view.contentMode = .scaleAspectFill
-        view.clipsToBounds = true
+        view.contentMode = .scaleAspectFit
+        view.clipsToBounds = false
         view.backgroundColor = .clear
         view.image = animatedImage()
         return view
