@@ -1561,8 +1561,8 @@ private struct ConfigDashboardView: View {
                         configRow("EXPIRA", expiryText)
                         configRow("RESTANTE", remainingText)
                         HStack(spacing: 9) {
-                            statCard("BUILD", "6")
-                            statCard("VERSION", "1.1")
+                            statCard("BUILD", "7")
+                            statCard("VERSION", "2.0.0")
                         }
                     }
                     .padding(18)
