@@ -91,7 +91,7 @@ jobs:
           [ -f "$EXEC" ] || { echo "ERROR: MOONX7 executable missing"; exit 1; }
 
           strings "$EXEC" > "$GITHUB_WORKSPACE/compiled-strings.txt"
-          grep -Fq "MOON-X7-UI-REDESIGN-2.0.0-B7" "$GITHUB_WORKSPACE/compiled-strings.txt" || {
+          grep -Fq "MOON-X7-UI-REDESIGN-2.0.0-B8" "$GITHUB_WORKSPACE/compiled-strings.txt" || {
             echo "ERROR: compiled executable is missing the unique MOON X7 redesign build stamp"
             exit 1
           }
@@ -141,7 +141,7 @@ jobs:
           VERIFY_EXEC="$GITHUB_WORKSPACE/IPA_VERIFY/Payload/MOONX7.app/MOONX7"
           [ -f "$VERIFY_EXEC" ] || { echo "ERROR: packaged executable missing"; exit 1; }
           strings "$VERIFY_EXEC" > "$GITHUB_WORKSPACE/ipa-compiled-strings.txt"
-          grep -Fq "MOON-X7-UI-REDESIGN-2.0.0-B7" "$GITHUB_WORKSPACE/ipa-compiled-strings.txt" || {
+          grep -Fq "MOON-X7-UI-REDESIGN-2.0.0-B8" "$GITHUB_WORKSPACE/ipa-compiled-strings.txt" || {
             echo "ERROR: IPA contains wrong/old binary; unique MOON X7 redesign build stamp is missing"
             exit 1
           }
