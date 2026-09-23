@@ -9,7 +9,7 @@ import AVKit
 // MARK: - CONTENT VIEW
 // ============================================================
 
-private let moonX7UIBuildStamp = "MOON-X7-UI-REDESIGN-2.0.0-B9"
+private let moonX7UIBuildStamp = "MOON-X7-UI-REDESIGN-2.1.0-HOLO"
 
 struct ContentView: View {
     @State private var tab = 0
@@ -630,17 +630,7 @@ private enum PatchSlots {
     static let ffn7 = "MOON PECHO ---∩╕Å-.3105"
     static let ffn8 = "MOON PECHO ATN ---.3105"
 
-    // FREE FIRE MAX - all 10 current options.
-    static let ffmx1 = "FFMX MOON CABEZA ATN.3105"
-    static let ffmx2 = "FFMX MOON CUELLO ATN.3105"
-    static let ffmx3 = "FFMX MOON CUELLO.3105"
-    static let ffmx4 = "FFMX MOON DRAG ATN.3105"
-    static let ffmx5 = "FFMX MOON DRAG.3105"
-    static let ffmx6 = "FFMX MOON MAGIC ATN.3105"
-    static let ffmx7 = "FFMX MOON MAGICA.3105"
-    static let ffmx8 = "FFMX MOON PECHO ATN.3105"
-    static let ffmx9 = "FFMX MOON PECHO.3105"
-    static let ffmx10 = "MOON CABEZA.3105"
+    // FF MAX now resolves the three new PJ HOLO packages directly from Patches/FF Max.
 
     static let password = "0"
 }
@@ -693,25 +683,9 @@ private struct ExternalFunctionsView: View {
     // --------------------------------------------------------
 
     private let freeFireMaxOptions: [PatchOption] = [
-        PatchOption(id: "ffmx-01", title: "MOON CABEZA ATN", subtitle: "FF MAX", patchFile: PatchSlots.ffmx1, patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "ffmx-02", title: "MOON CUELLO ATN", subtitle: "FF MAX", patchFile: PatchSlots.ffmx2, patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "ffmx-03", title: "MOON CUELLO", subtitle: "FF MAX", patchFile: PatchSlots.ffmx3, patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "ffmx-04", title: "MOON DRAG ATN", subtitle: "FF MAX", patchFile: PatchSlots.ffmx4, patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "ffmx-05", title: "MOON DRAG", subtitle: "FF MAX", patchFile: PatchSlots.ffmx5, patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "ffmx-06", title: "MOON MAGIC ATN", subtitle: "FF MAX", patchFile: PatchSlots.ffmx6, patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "ffmx-07", title: "MOON MAGICA", subtitle: "FF MAX", patchFile: PatchSlots.ffmx7, patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "ffmx-08", title: "MOON PECHO ATN", subtitle: "FF MAX", patchFile: PatchSlots.ffmx8, patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "ffmx-09", title: "MOON PECHO", subtitle: "FF MAX", patchFile: PatchSlots.ffmx9, patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "ffmx-10", title: "MOON CABEZA", subtitle: "FF MAX", patchFile: PatchSlots.ffmx10, patchPassword: PatchSlots.password, manualControls: true),
-
-        // Texture options moved into FF MAX.
-        PatchOption(id: "ffmx-texture-01", title: "ARM HOLO BORDE AZUL Y ROJO", subtitle: "FF MAX • HOLO", patchFile: "ARM HOLO BORDE AZUL Y ROJO.3105", patchPassword: PatchSlots.password, manualControls: false, isTexture: true),
-        PatchOption(id: "ffmx-texture-02", title: "ARM HOLO BORDE RTX", subtitle: "FF MAX • HOLO", patchFile: "ARM HOLO BORDE RTX.3105", patchPassword: PatchSlots.password, manualControls: false, isTexture: true),
-        PatchOption(id: "ffmx-texture-03", title: "ARM HOLO BORDE VERDE AMARILLO", subtitle: "FF MAX • HOLO", patchFile: "ARM HOLO BORDE VERDE AMARILLO.3105", patchPassword: PatchSlots.password, manualControls: false, isTexture: true),
-        PatchOption(id: "ffmx-texture-04", title: "PJ HOLO MOON VIP", subtitle: "FF MAX • HOLO", patchFile: "PJ HOLO MOON VIP.3105", patchPassword: PatchSlots.password, manualControls: false, isTexture: true),
-        PatchOption(id: "ffmx-texture-05", title: "PJ HOLO ROBOT AMARILLO", subtitle: "FF MAX • HOLO", patchFile: "PJ HOLO ROBOT AMARILLO.3105", patchPassword: PatchSlots.password, manualControls: false, isTexture: true),
-        PatchOption(id: "ffmx-texture-06", title: "PJ HOLO ROBOT CIAN", subtitle: "FF MAX • HOLO", patchFile: "PJ HOLO ROBOT CIAN.3105", patchPassword: PatchSlots.password, manualControls: false, isTexture: true),
-        PatchOption(id: "ffmx-texture-07", title: "PJ HOLO ROBOT ROJO", subtitle: "FF MAX • HOLO", patchFile: "PJ HOLO ROBOT ROJO.3105", patchPassword: PatchSlots.password, manualControls: false, isTexture: true)
+        PatchOption(id: "ffmx-holo-cotton-candy", title: "PJ HOLO MOON COTTON CANDY", subtitle: "FF MAX • PJ HOLO", patchFile: "PJ HOLO MOON COTTON CANDY.3105", patchPassword: PatchSlots.password, manualControls: false, isTexture: true),
+        PatchOption(id: "ffmx-holo-dark-galaxy", title: "PJ HOLO MOON DARK GALAXY", subtitle: "FF MAX • PJ HOLO", patchFile: "PJ HOLO MOON DARK GALAXY.3105", patchPassword: PatchSlots.password, manualControls: false, isTexture: true),
+        PatchOption(id: "ffmx-holo-espejos", title: "PJ HOLO MOON ESPEJOS", subtitle: "FF MAX • PJ HOLO", patchFile: "PJ HOLO MOON ESPEJOS.3105", patchPassword: PatchSlots.password, manualControls: false, isTexture: true)
     ]
 
     private var currentOptions: [PatchOption] {
@@ -798,7 +772,7 @@ private struct ExternalFunctionsView: View {
                 VStack(alignment: .leading, spacing: 4) {
                     Text("FREE FIRE MAX")
                         .font(.system(size: 23, weight: .black, design: .rounded))
-                    Text("17 OPTIONS • 7 HOLO INTEGRATED")
+                    Text("3 PJ HOLO • NEW COLLECTION")
                         .font(.system(size: 9.5, weight: .black, design: .rounded))
                         .tracking(1.1)
                         .foregroundStyle(.white.opacity(0.62))
@@ -1324,14 +1298,10 @@ private struct PreviewView: View {
     let darkMode: Bool
 
     private let items: [PreviewItem] = [
-        PreviewItem(id: "preview-01", title: "ARM HOLO BORDE AZUL Y ROJO", fileName: "ARM HOLO BORDE AZUL Y ROJO.3105", imageName: "preview-01"),
-        PreviewItem(id: "preview-02", title: "ARM HOLO BORDE RTX", fileName: "ARM HOLO BORDE RTX.3105", imageName: "preview-02"),
-        PreviewItem(id: "preview-03", title: "ARM HOLO BORDE VERDE AMARILLO", fileName: "ARM HOLO BORDE VERDE AMARILLO.3105", imageName: "preview-03"),
-        PreviewItem(id: "preview-04", title: "PJ HOLO MOON VIP", fileName: "PJ HOLO MOON VIP.3105", imageName: "preview-04"),
-        PreviewItem(id: "preview-05", title: "PJ HOLO ROBOT AMARILLO", fileName: "PJ HOLO ROBOT AMARILLO.3105", imageName: "preview-05"),
-        PreviewItem(id: "preview-06", title: "PJ HOLO ROBOT CIAN", fileName: "PJ HOLO ROBOT CIAN.3105", imageName: "preview-06"),
-        PreviewItem(id: "preview-07", title: "PJ HOLO ROBOT ROJO", fileName: "PJ HOLO ROBOT ROJO.3105", imageName: "preview-07"),
-        PreviewItem(id: "preview-08", title: "EXTRA PREVIEW", fileName: "", imageName: "preview-08")
+        PreviewItem(id: "preview-cotton-candy", title: "PJ HOLO MOON COTTON CANDY", fileName: "PJ HOLO MOON COTTON CANDY.3105", imageName: "PJ HOLO MOON COTTON CANDY.mp4"),
+        PreviewItem(id: "preview-dark-galaxy", title: "PJ HOLO MOON DARK GALAXY", fileName: "PJ HOLO MOON DARK GALAXY.3105", imageName: "PJ HOLO MOON DARK GALAXY.mp4"),
+        PreviewItem(id: "preview-espejos", title: "PJ HOLO MOON ESPEJOS", fileName: "PJ HOLO MOON ESPEJOS.3105", imageName: "PJ HOLO MOON ESPEJOS.mp4")
+    
     ]
 
     private var background: Color {
@@ -1391,12 +1361,9 @@ private struct PreviewCard: View {
 
     private var mediaURL: URL? {
         guard let root = Bundle.main.resourceURL else { return nil }
-        let directory = root.appendingPathComponent("PreviewImages", isDirectory: true)
-        for ext in ["jpg", "jpeg", "png", "webp", "gif", "mp4", "mov", "m4v"] {
-            let url = directory.appendingPathComponent("\(item.imageName).\(ext)")
-            if FileManager.default.fileExists(atPath: url.path) { return url }
-        }
-        return nil
+        let directory = root.appendingPathComponent("PreviewVideos", isDirectory: true)
+        let url = directory.appendingPathComponent(item.imageName, isDirectory: false)
+        return FileManager.default.fileExists(atPath: url.path) ? url : nil
     }
 
     var body: some View {
@@ -1416,7 +1383,7 @@ private struct PreviewCard: View {
                         .font(.system(size: 14.5, weight: .bold, design: .rounded))
                         .foregroundStyle(darkMode ? .white : .black)
                         .lineLimit(2)
-                    Text("PREVIEW • \(item.imageName).jpg")
+                    Text("VIDEO PREVIEW • \(item.imageName)")
                         .font(.system(size: 9.5, weight: .semibold, design: .rounded))
                         .foregroundStyle(Theme.dim(darkMode, 0.38))
                 }
@@ -1464,11 +1431,11 @@ private struct PreviewCard: View {
                             Image(systemName: "photo.badge.plus")
                                 .font(.system(size: 34, weight: .semibold))
                                 .foregroundStyle(Theme.accent.opacity(0.85))
-                            Text("Sube la imagen en PreviewImages/\(item.imageName).jpg")
+                            Text("Falta el video en PreviewVideos/\(item.imageName)")
                                 .font(.system(size: 12, weight: .semibold))
                                 .multilineTextAlignment(.center)
                                 .foregroundStyle(Theme.dim(darkMode, 0.58))
-                            Text("La carpeta ya está preparada en el repositorio.")
+                            Text("El video se carga directamente desde el bundle de la app.")
                                 .font(.system(size: 10.5, weight: .medium))
                                 .foregroundStyle(Theme.dim(darkMode, 0.35))
                         }
