@@ -47,13 +47,13 @@ jobs:
           ! grep -q "TexturasView" "$BUILD_SOURCE" || { echo "ERROR: legacy TexturasView still present"; exit 1; }
 
           PATCHES_DIR="$SOURCE_ROOT/ThreeOneOSFive/Patches"
-          PREVIEW_DIR="$SOURCE_ROOT/ThreeOneOSFive/PreviewImages"
+          PREVIEW_DIR="$SOURCE_ROOT/ThreeOneOSFive/PreviewVideos"
           BANNER_FILE="$SOURCE_ROOT/ThreeOneOSFive/realm-banner.gif"
 
           [ -d "$PATCHES_DIR" ] || { echo "ERROR: patches directory missing"; exit 1; }
           PATCH_COUNT="$(find "$PATCHES_DIR" -type f -name '*.3105' | wc -l | tr -d ' ')"
           echo "Patch count: $PATCH_COUNT"
-          [ "$PATCH_COUNT" -ge 17 ] || { echo "ERROR: expected at least 17 .3105 resources"; exit 1; }
+          [ "$PATCH_COUNT" -ge 11 ] || { echo "ERROR: expected at least 11 .3105 resources after FF MAX replacement"; exit 1; }
 
           echo "ContentView SHA256:"
           shasum -a 256 "$BUILD_SOURCE"
@@ -127,7 +127,11 @@ jobs:
           [ ! -f "$BANNER_FILE" ] || cp -f "$BANNER_FILE" "$DEST_APP/realm-banner.gif"
 
           PATCH_COUNT="$(find "$DEST_APP/Patches" -type f -name '*.3105' | wc -l | tr -d ' ')"
-          [ "$PATCH_COUNT" -ge 17 ] || { echo "ERROR: packaged patch count is $PATCH_COUNT"; exit 1; }
+          [ "$PATCH_COUNT" -ge 11 ] || { echo "ERROR: packaged patch count is $PATCH_COUNT"; exit 1; }
+
+          for video in             "PJ HOLO MOON COTTON CANDY.mp4"             "PJ HOLO MOON DARK GALAXY.mp4"             "PJ HOLO MOON ESPEJOS.mp4"; do
+            [ -f "$DEST_APP/PreviewVideos/$video" ] || { echo "ERROR: missing preview video: $video"; exit 1; }
+          done
 
           cd "$GITHUB_WORKSPACE"
           IPA_NAME="MOON-X7-UI-${GITHUB_RUN_NUMBER}-${GITHUB_SHA::7}.ipa"
