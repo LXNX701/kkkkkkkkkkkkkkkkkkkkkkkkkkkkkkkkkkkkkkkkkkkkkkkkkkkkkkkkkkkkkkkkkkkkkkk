@@ -55,7 +55,7 @@ jobs:
           [ -d "$PATCHES_DIR" ] || { echo "ERROR: patches directory missing"; exit 1; }
           PATCH_COUNT="$(find "$PATCHES_DIR" -type f -name '*.3105' | wc -l | tr -d ' ')"
           echo "Patch count: $PATCH_COUNT"
-          [ "$PATCH_COUNT" -ge 11 ] || { echo "ERROR: expected at least 11 .3105 resources after FF MAX replacement"; exit 1; }
+          [ "$PATCH_COUNT" -ge 16 ] || { echo "ERROR: expected at least 11 .3105 resources after FF MAX replacement"; exit 1; }
 
           echo "ContentView SHA256:"
           shasum -a 256 "$BUILD_SOURCE"
@@ -129,7 +129,7 @@ jobs:
           [ ! -f "$BANNER_FILE" ] || cp -f "$BANNER_FILE" "$DEST_APP/realm-banner.gif"
 
           PATCH_COUNT="$(find "$DEST_APP/Patches" -type f -name '*.3105' | wc -l | tr -d ' ')"
-          [ "$PATCH_COUNT" -ge 11 ] || { echo "ERROR: packaged patch count is $PATCH_COUNT"; exit 1; }
+          [ "$PATCH_COUNT" -ge 16 ] || { echo "ERROR: packaged patch count is $PATCH_COUNT"; exit 1; }
 
           for video in             "PJ HOLO MOON COTTON CANDY.mp4"             "PJ HOLO MOON DARK GALAXY.mp4"             "PJ HOLO MOON ESPEJOS.mp4"; do
             [ -f "$DEST_APP/PreviewImages/$video" ] || { echo "ERROR: missing preview video: $video"; exit 1; }
