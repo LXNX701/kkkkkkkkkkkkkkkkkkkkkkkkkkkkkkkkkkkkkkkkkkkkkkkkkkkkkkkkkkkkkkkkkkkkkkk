@@ -683,6 +683,24 @@ private struct ExternalFunctionsView: View {
     // --------------------------------------------------------
 
     private let freeFireMaxOptions: [PatchOption] = [
+        // Existing FF MAX options — kept.
+        PatchOption(id: "ffmx-01", title: "MOON CABEZA ATN", subtitle: "FF MAX", patchFile: "FFMX MOON CABEZA ATN.3105", patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "ffmx-02", title: "MOON CUELLO ATN", subtitle: "FF MAX", patchFile: "FFMX MOON CUELLO ATN.3105", patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "ffmx-03", title: "MOON CUELLO", subtitle: "FF MAX", patchFile: "FFMX MOON CUELLO.3105", patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "ffmx-04", title: "MOON DRAG ATN", subtitle: "FF MAX", patchFile: "FFMX MOON DRAG ATN.3105", patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "ffmx-05", title: "MOON DRAG", subtitle: "FF MAX", patchFile: "FFMX MOON DRAG.3105", patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "ffmx-06", title: "MOON MAGIC ATN", subtitle: "FF MAX", patchFile: "FFMX MOON MAGIC ATN.3105", patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "ffmx-07", title: "MOON MAGICA", subtitle: "FF MAX", patchFile: "FFMX MOON MAGICA.3105", patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "ffmx-08", title: "MOON PECHO ATN", subtitle: "FF MAX", patchFile: "FFMX MOON PECHO ATN.3105", patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "ffmx-09", title: "MOON PECHO", subtitle: "FF MAX", patchFile: "FFMX MOON PECHO.3105", patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "ffmx-10", title: "MOON CABEZA", subtitle: "FF MAX", patchFile: "MOON CABEZA.3105", patchPassword: PatchSlots.password, manualControls: true),
+
+        // Existing ARM HOLO options — kept.
+        PatchOption(id: "ffmx-arm-01", title: "ARM HOLO BORDE AZUL Y ROJO", subtitle: "FF MAX • HOLO", patchFile: "ARM HOLO BORDE AZUL Y ROJO.3105", patchPassword: PatchSlots.password, manualControls: false, isTexture: true),
+        PatchOption(id: "ffmx-arm-02", title: "ARM HOLO BORDE RTX", subtitle: "FF MAX • HOLO", patchFile: "ARM HOLO BORDE RTX.3105", patchPassword: PatchSlots.password, manualControls: false, isTexture: true),
+        PatchOption(id: "ffmx-arm-03", title: "ARM HOLO BORDE VERDE AMARILLO", subtitle: "FF MAX • HOLO", patchFile: "ARM HOLO BORDE VERDE AMARILLO.3105", patchPassword: PatchSlots.password, manualControls: false, isTexture: true),
+
+        // PJ HOLO — old PJ entries replaced by the new collection.
         PatchOption(id: "ffmx-holo-cotton-candy", title: "PJ HOLO MOON COTTON CANDY", subtitle: "FF MAX • PJ HOLO", patchFile: "PJ HOLO MOON COTTON CANDY.3105", patchPassword: PatchSlots.password, manualControls: false, isTexture: true),
         PatchOption(id: "ffmx-holo-dark-galaxy", title: "PJ HOLO MOON DARK GALAXY", subtitle: "FF MAX • PJ HOLO", patchFile: "PJ HOLO MOON DARK GALAXY.3105", patchPassword: PatchSlots.password, manualControls: false, isTexture: true),
         PatchOption(id: "ffmx-holo-espejos", title: "PJ HOLO MOON ESPEJOS", subtitle: "FF MAX • PJ HOLO", patchFile: "PJ HOLO MOON ESPEJOS.3105", patchPassword: PatchSlots.password, manualControls: false, isTexture: true)
