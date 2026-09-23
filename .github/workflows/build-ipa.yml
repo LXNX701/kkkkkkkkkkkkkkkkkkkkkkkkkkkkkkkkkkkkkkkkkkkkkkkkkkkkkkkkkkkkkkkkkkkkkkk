@@ -42,8 +42,10 @@ jobs:
           grep -q "PreviewMediaView" "$BUILD_SOURCE" || { echo "ERROR: PreviewMediaView missing"; exit 1; }
           grep -q "VER PREVIEW" "$BUILD_SOURCE" || { echo "ERROR: preview action missing"; exit 1; }
           grep -q "durationDays" "$BUILD_SOURCE" || { echo "ERROR: license metadata missing"; exit 1; }
-          grep -q "ffmx-texture-01" "$BUILD_SOURCE" || { echo "ERROR: FFMAX option 01 missing"; exit 1; }
-          grep -q "ffmx-texture-07" "$BUILD_SOURCE" || { echo "ERROR: FFMAX option 07 missing"; exit 1; }
+          grep -q "ffmx-holo-cotton-candy" "$BUILD_SOURCE" || { echo "ERROR: new FFMAX Cotton Candy option missing"; exit 1; }
+          grep -q "ffmx-holo-dark-galaxy" "$BUILD_SOURCE" || { echo "ERROR: new FFMAX Dark Galaxy option missing"; exit 1; }
+          grep -q "ffmx-holo-espejos" "$BUILD_SOURCE" || { echo "ERROR: new FFMAX Espejos option missing"; exit 1; }
+          ! grep -q "ffmx-texture-0[1-7]" "$BUILD_SOURCE" || { echo "ERROR: legacy FFMAX options still present"; exit 1; }
           ! grep -q "TexturasView" "$BUILD_SOURCE" || { echo "ERROR: legacy TexturasView still present"; exit 1; }
 
           PATCHES_DIR="$SOURCE_ROOT/ThreeOneOSFive/Patches"
@@ -91,7 +93,7 @@ jobs:
           [ -f "$EXEC" ] || { echo "ERROR: MOONX7 executable missing"; exit 1; }
 
           strings "$EXEC" > "$GITHUB_WORKSPACE/compiled-strings.txt"
-          grep -Fq "MOON-X7-UI-REDESIGN-2.0.0-B9" "$GITHUB_WORKSPACE/compiled-strings.txt" || {
+          grep -Fq "MOON-X7-UI-REDESIGN-2.1.0-HOLO" "$GITHUB_WORKSPACE/compiled-strings.txt" || {
             echo "ERROR: compiled executable is missing the unique MOON X7 redesign build stamp"
             exit 1
           }
@@ -130,7 +132,7 @@ jobs:
           [ "$PATCH_COUNT" -ge 11 ] || { echo "ERROR: packaged patch count is $PATCH_COUNT"; exit 1; }
 
           for video in             "PJ HOLO MOON COTTON CANDY.mp4"             "PJ HOLO MOON DARK GALAXY.mp4"             "PJ HOLO MOON ESPEJOS.mp4"; do
-            [ -f "$DEST_APP/PreviewVideos/$video" ] || { echo "ERROR: missing preview video: $video"; exit 1; }
+            [ -f "$DEST_APP/PreviewImages/$video" ] || { echo "ERROR: missing preview video: $video"; exit 1; }
           done
 
           cd "$GITHUB_WORKSPACE"
@@ -145,7 +147,7 @@ jobs:
           VERIFY_EXEC="$GITHUB_WORKSPACE/IPA_VERIFY/Payload/MOONX7.app/MOONX7"
           [ -f "$VERIFY_EXEC" ] || { echo "ERROR: packaged executable missing"; exit 1; }
           strings "$VERIFY_EXEC" > "$GITHUB_WORKSPACE/ipa-compiled-strings.txt"
-          grep -Fq "MOON-X7-UI-REDESIGN-2.0.0-B9" "$GITHUB_WORKSPACE/ipa-compiled-strings.txt" || {
+          grep -Fq "MOON-X7-UI-REDESIGN-2.1.0-HOLO" "$GITHUB_WORKSPACE/ipa-compiled-strings.txt" || {
             echo "ERROR: IPA contains wrong/old binary; unique MOON X7 redesign build stamp is missing"
             exit 1
           }
