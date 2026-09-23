@@ -1361,7 +1361,7 @@ private struct PreviewCard: View {
 
     private var mediaURL: URL? {
         guard let root = Bundle.main.resourceURL else { return nil }
-        let directory = root.appendingPathComponent("PreviewVideos", isDirectory: true)
+        let directory = root.appendingPathComponent("PreviewImages", isDirectory: true)
         let url = directory.appendingPathComponent(item.imageName, isDirectory: false)
         return FileManager.default.fileExists(atPath: url.path) ? url : nil
     }
@@ -1431,7 +1431,7 @@ private struct PreviewCard: View {
                             Image(systemName: "photo.badge.plus")
                                 .font(.system(size: 34, weight: .semibold))
                                 .foregroundStyle(Theme.accent.opacity(0.85))
-                            Text("Falta el video en PreviewVideos/\(item.imageName)")
+                            Text("Falta el video en PreviewImages/\(item.imageName)")
                                 .font(.system(size: 12, weight: .semibold))
                                 .multilineTextAlignment(.center)
                                 .foregroundStyle(Theme.dim(darkMode, 0.58))
