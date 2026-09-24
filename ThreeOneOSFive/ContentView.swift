@@ -2464,7 +2464,7 @@ private struct MoonHomeRedesign: View {
                     .moonGlass(cornerRadius: 22, tint: Theme.accent)
                 }
             }
-            .frame(width: max(1, UIScreen.main.bounds.width - 30), alignment: .leading)
+            .frame(width: Swift.max(1, UIScreen.main.bounds.width - 30), alignment: .leading)
             .padding(.horizontal, 15)
             .padding(.bottom, 100)
         }
