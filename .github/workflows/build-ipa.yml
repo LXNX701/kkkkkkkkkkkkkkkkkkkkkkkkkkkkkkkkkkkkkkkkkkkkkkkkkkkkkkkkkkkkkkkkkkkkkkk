@@ -4,6 +4,8 @@ on:
   workflow_dispatch:
   push:
     branches: [main, master, 'redesign/moonx7-liquid-glass']
+  pull_request:
+    branches: [main]
 
 permissions:
   contents: read
