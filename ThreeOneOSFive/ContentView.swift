@@ -35,7 +35,7 @@ struct ContentView: View {
             } else if auth.isAuthenticated {
                 authenticatedView
             } else {
-                MoonLoginView(auth: auth)
+                MoonLoginRedesign(auth: auth)
             }
         }
         .preferredColorScheme(.dark)
@@ -1876,6 +1876,9 @@ private struct RemoteAnimatedGIFView: UIViewRepresentable {
         view.contentMode = contentMode
         view.clipsToBounds = true
         view.backgroundColor = .clear
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        view.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         load(into: view)
         return view
     }
@@ -2013,27 +2016,108 @@ private struct MoonBootView: View {
 }
 
 private struct MoonAnimatedBackground: View {
-    @State private var drift = false
+    var body: some View {
+        TimelineView(.animation(minimumInterval: 1.0 / 24.0)) { timeline in
+            let t = timeline.date.timeIntervalSinceReferenceDate
+
+            ZStack {
+                Color.black.ignoresSafeArea()
+
+                Circle()
+                    .fill(Theme.accent.opacity(0.18))
+                    .frame(width: 360, height: 360)
+                    .blur(radius: 78)
+                    .offset(
+                        x: CGFloat(sin(t * 0.34) * 155.0),
+                        y: CGFloat(-245.0 + cos(t * 0.22) * 55.0)
+                    )
+
+                Circle()
+                    .fill(Color.orange.opacity(0.075))
+                    .frame(width: 300, height: 300)
+                    .blur(radius: 85)
+                    .offset(
+                        x: CGFloat(cos(t * 0.28) * 165.0),
+                        y: CGFloat(185.0 + sin(t * 0.31) * 80.0)
+                    )
+
+                Circle()
+                    .fill(Theme.violet.opacity(0.13))
+                    .frame(width: 390, height: 390)
+                    .blur(radius: 92)
+                    .offset(
+                        x: CGFloat(sin(t * 0.19 + 2.4) * 150.0),
+                        y: CGFloat(330.0 + cos(t * 0.17) * 70.0)
+                    )
+
+                ForEach(0..<14, id: \.self) { index in
+                    let seed = Double(index)
+                    let x = sin(t * (0.20 + seed * 0.012) + seed * 1.73) * 180.0
+                    let y = cos(t * (0.27 + seed * 0.009) + seed * 2.11) * 390.0
+                    let size = 2.0 + seed.truncatingRemainder(dividingBy: 3.0)
+
+                    Circle()
+                        .fill(index.isMultiple(of: 3) ? Color.orange.opacity(0.55) : Theme.accent.opacity(0.48))
+                        .frame(width: size, height: size)
+                        .blur(radius: 1.0)
+                        .offset(x: CGFloat(x), y: CGFloat(y))
+                }
+
+                ForEach(0..<4, id: \.self) { index in
+                    MoonLightningBolt(phase: t, index: index)
+                }
+
+                LinearGradient(
+                    colors: [.black.opacity(0.08), .clear, Theme.accent.opacity(0.035), .black.opacity(0.16)],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+                .ignoresSafeArea()
+            }
+        }
+        .allowsHitTesting(false)
+    }
+}
+
+private struct MoonLightningBolt: View {
+    let phase: TimeInterval
+    let index: Int
+
+    private var flash: Double {
+        let wave = sin(phase * (0.75 + Double(index) * 0.08) + Double(index) * 1.9)
+        return max(0.0, wave * wave * wave)
+    }
 
     var body: some View {
-        ZStack {
-            Color.black.ignoresSafeArea()
-            Circle()
-                .fill(Theme.accent.opacity(0.18))
-                .frame(width: 330)
-                .blur(radius: 70)
-                .offset(x: drift ? 150 : -100, y: -260)
-            Circle()
-                .fill(Theme.violet.opacity(0.16))
-                .frame(width: 360)
-                .blur(radius: 80)
-                .offset(x: drift ? -130 : 120, y: 350)
-            LinearGradient(colors: [.clear, Color.white.opacity(0.025), .clear], startPoint: .topLeading, endPoint: .bottomTrailing)
-                .ignoresSafeArea()
+        Path { path in
+            path.move(to: CGPoint(x: 50, y: 0))
+            path.addLine(to: CGPoint(x: 28, y: 62))
+            path.addLine(to: CGPoint(x: 45, y: 57))
+            path.addLine(to: CGPoint(x: 18, y: 128))
+            path.addLine(to: CGPoint(x: 68, y: 52))
+            path.addLine(to: CGPoint(x: 51, y: 58))
+            path.closeSubpath()
         }
-        .onAppear {
-            withAnimation(.easeInOut(duration: 7).repeatForever(autoreverses: true)) { drift = true }
-        }
+        .fill(
+            LinearGradient(
+                colors: [
+                    Color.white.opacity(0.88 * flash),
+                    Theme.accent.opacity(0.82 * flash),
+                    Color.orange.opacity(0.18 * flash)
+                ],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+        )
+        .frame(width: 90, height: 145)
+        .rotationEffect(.degrees(-18 + Double(index) * 31.0))
+        .offset(
+            x: CGFloat(-145.0 + Double(index) * 96.0),
+            y: CGFloat(-115.0 + sin(phase * 0.31 + Double(index)) * 135.0)
+        )
+        .opacity(0.18 + flash * 0.82)
+        .blur(radius: flash > 0.65 ? 0.0 : 0.8)
+        .shadow(color: Theme.accent.opacity(0.40 * flash), radius: 16)
     }
 }
 
@@ -2178,8 +2262,8 @@ private struct MoonLoginRedesign: View {
                         .foregroundStyle(.white)
                     }
                     .frame(height: 205)
-                        .frame(maxWidth: .infinity)
-                        .clipShape(RoundedRectangle(cornerRadius: 28, style: .continuous))
+                    .frame(width: max(1, UIScreen.main.bounds.width - 40))
+                    .clipShape(RoundedRectangle(cornerRadius: 28, style: .continuous))
                         .overlay { RoundedRectangle(cornerRadius: 28, style: .continuous).stroke(Theme.accent.opacity(0.48), lineWidth: 1) }
                         .shadow(color: Theme.accent.opacity(0.18), radius: 28, y: 12)
                         .padding(.horizontal, 4)
@@ -2303,7 +2387,7 @@ private struct MoonHomeRedesign: View {
 
                 RemoteAnimatedGIFView(urlString: MoonRemoteMedia.dashboardBanner, contentMode: .scaleAspectFill)
                     .frame(height: 165)
-                    .frame(maxWidth: .infinity)
+                    .frame(width: max(1, UIScreen.main.bounds.width - 30))
                     .clipShape(RoundedRectangle(cornerRadius: 26, style: .continuous))
                     .overlay {
                         LinearGradient(colors: [.clear, .black.opacity(0.78)], startPoint: .center, endPoint: .bottom)
@@ -2380,6 +2464,7 @@ private struct MoonHomeRedesign: View {
                     .moonGlass(cornerRadius: 22, tint: Theme.accent)
                 }
             }
+            .frame(width: max(1, UIScreen.main.bounds.width - 30), alignment: .leading)
             .padding(.horizontal, 15)
             .padding(.bottom, 100)
         }
@@ -2524,6 +2609,7 @@ private struct MoonFunctionsRedesign: View {
                     MoonPatchRedesignCard(option: option, enabled: $enabled)
                 }
             }
+            .frame(width: max(1, UIScreen.main.bounds.width - 30), alignment: .leading)
             .padding(.horizontal,15)
             .padding(.bottom,105)
         }
