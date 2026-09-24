@@ -1947,7 +1947,7 @@ private extension View {
 private struct MoonX7RedesignedShell: View {
     @ObservedObject var auth: MoonAuthManager
     @Binding var darkMode: Bool
-    @State private var tab = 0
+    @State private var tab = 1
     @State private var appeared = false
 
     private let tabs = [
@@ -2293,6 +2293,48 @@ private struct MoonFunctionsRedesign: View {
                         .foregroundStyle(.white.opacity(0.35))
                 }
                 .padding(.top, 48)
+
+                ZStack(alignment: .bottomLeading) {
+                    AnimatedGIFView(filename: "realm-banner.gif")
+                        .frame(height: 128)
+                        .frame(maxWidth: .infinity)
+                        .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
+
+                    LinearGradient(
+                        colors: [.clear, .black.opacity(0.86)],
+                        startPoint: .center,
+                        endPoint: .bottom
+                    )
+                    .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
+
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("MOON X7")
+                            .font(.system(size: 23, weight: .black, design: .rounded))
+                        Text("LIQUID GLASS • CONTROL CENTER")
+                            .font(.system(size: 9, weight: .black, design: .rounded))
+                            .tracking(1.5)
+                            .foregroundStyle(Theme.accent)
+                    }
+                    .padding(15)
+                    .foregroundStyle(.white)
+                }
+                .overlay {
+                    RoundedRectangle(cornerRadius: 24, style: .continuous)
+                        .stroke(
+                            LinearGradient(
+                                colors: [Theme.accent.opacity(0.72), Theme.violet.opacity(0.45), .white.opacity(0.08)],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            ),
+                            lineWidth: 1.2
+                        )
+                }
+                .shadow(color: Theme.accent.opacity(0.18), radius: 24, y: 10)
+
+                HStack(spacing: 9) {
+                    MoonStatCard(icon: "bolt.fill", title: "MODO", value: game == 1 ? "FF MAX" : "FF NORMAL", tint: Theme.accent)
+                    MoonStatCard(icon: "sparkles", title: "HOLO", value: "3 NUEVOS", tint: Theme.violet)
+                }
 
                 HStack(spacing:8) {
                     MoonSegment(title:"FREE FIRE", selected:game == 0) { withAnimation(.spring(response:0.35,dampingFraction:0.82)){game=0} }
