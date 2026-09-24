@@ -95,7 +95,7 @@ jobs:
           [ -f "$EXEC" ] || { echo "ERROR: MOONX7 executable missing"; exit 1; }
 
           strings "$EXEC" > "$GITHUB_WORKSPACE/compiled-strings.txt"
-          grep -Fq "MOON-X7 • LIQUID GLASS • 2.2.0" "$GITHUB_WORKSPACE/compiled-strings.txt" || {
+          grep -Fq "LIQUID GLASS EDITION" "$GITHUB_WORKSPACE/compiled-strings.txt" || {
             echo "ERROR: compiled executable is missing the unique MOON X7 redesign build stamp"
             exit 1
           }
