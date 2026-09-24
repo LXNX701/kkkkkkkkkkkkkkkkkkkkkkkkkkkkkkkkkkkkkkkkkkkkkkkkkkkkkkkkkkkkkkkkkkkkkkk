@@ -37,50 +37,9 @@ struct ContentView: View {
     }
 
     private var authenticatedView: some View {
-        ZStack(alignment: .bottom) {
-            bg.ignoresSafeArea()
-
-            Group {
-                if tab == 0 {
-                    ExternalFunctionsView(darkMode: darkMode)
-                } else if tab == 1 {
-                    PreviewView(darkMode: darkMode)
-                } else {
-                    ConfigDashboardView(auth: auth, darkMode: $darkMode)
-                }
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .safeAreaInset(edge: .bottom, spacing: 0) {
-                HStack(spacing: 8) {
-                    BottomItem(icon: "house.fill", title: "Function", selected: tab == 0, darkMode: darkMode) { tab = 0 }
-                    BottomItem(icon: "play.rectangle.fill", title: "Preview", selected: tab == 1, darkMode: darkMode) { tab = 1 }
-                    BottomItem(icon: "cube.fill", title: "Config", selected: tab == 2, darkMode: darkMode) { tab = 2 }
-                }
-                .padding(.horizontal, 12)
-                .padding(.top, 6)
-                .padding(.bottom, 4)
-                .background(.black.opacity(0.96))
-            }
-
-            if auth.isAuthenticated {
-                VStack {
-                    HStack {
-                        Spacer()
-                        Button("Salir") { auth.signOut() }
-                            .font(.system(size: 11, weight: .semibold))
-                            .foregroundStyle(.white.opacity(0.65))
-                            .padding(.horizontal, 12)
-                            .padding(.vertical, 7)
-                            .background(.white.opacity(0.07), in: Capsule())
-                    }
-                    .padding(.top, 48)
-                    .padding(.horizontal, 18)
-                    Spacer()
-                }
-            }
-        }
-        .environment(\.colorScheme, scheme)
-        .preferredColorScheme(scheme)
+        MoonX7RedesignedShell(auth: auth, darkMode: $darkMode)
+            .environment(\\.colorScheme, scheme)
+            .preferredColorScheme(scheme)
     }
 }
 
