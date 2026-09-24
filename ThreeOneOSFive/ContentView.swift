@@ -2710,16 +2710,26 @@ private struct MoonPreviewRedesign: View {
 
                 ForEach(items, id:\.0) { item in
                     VStack(spacing:0) {
-                        HStack {
-                            Image(systemName:"play.circle.fill").font(.system(size:28)).foregroundStyle(Theme.accent)
-                            VStack(alignment:.leading, spacing:3) {
-                                Text(item.0).font(.system(size:13.5, weight:.black, design:.rounded))
-                                Text(item.1).font(.system(size:8.5, weight:.medium, design:.monospaced)).foregroundStyle(.white.opacity(0.32))
+                        Button {
+                            withAnimation(.spring(response:0.35,dampingFraction:0.82)) {
+                                selected = selected == item.0 ? nil : item.0
                             }
-                            Spacer()
-                            Image(systemName:selected == item.0 ? "chevron.up" : "chevron.down").foregroundStyle(.white.opacity(0.35))
+                        } label: {
+                            HStack {
+                                Image(systemName:"play.circle.fill").font(.system(size:28)).foregroundStyle(Theme.accent)
+                                VStack(alignment:.leading, spacing:3) {
+                                    Text(item.0).font(.system(size:13.5, weight:.black, design:.rounded))
+                                    Text(item.1).font(.system(size:8.5, weight:.medium, design:.monospaced)).foregroundStyle(.white.opacity(0.32))
+                                }
+                                Spacer()
+                                Image(systemName:selected == item.0 ? "chevron.up" : "chevron.down").foregroundStyle(.white.opacity(0.35))
+                            }
+                            .foregroundStyle(.white)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(14)
+                            .contentShape(Rectangle())
                         }
-                        .padding(14)
+                        .buttonStyle(.plain)
 
                         if selected == item.0 {
                             if let root = Bundle.main.resourceURL {
@@ -2738,8 +2748,6 @@ private struct MoonPreviewRedesign: View {
                             }
                         }
                     }
-                    .contentShape(Rectangle())
-                    .onTapGesture { withAnimation(.spring(response:0.35,dampingFraction:0.82)) { selected = selected == item.0 ? nil : item.0 } }
                     .moonGlass(cornerRadius:20, tint:Theme.accent)
                 }
             }
