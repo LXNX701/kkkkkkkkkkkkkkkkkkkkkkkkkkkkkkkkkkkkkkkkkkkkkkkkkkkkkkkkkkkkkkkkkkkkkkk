@@ -1970,6 +1970,21 @@ private extension View {
     }
 }
 
+private extension View {
+    @ViewBuilder
+    func moonGlassButton(prominent: Bool = false) -> some View {
+        if #available(iOS 26.0, *) {
+            if prominent {
+                self.buttonStyle(.glassProminent)
+            } else {
+                self.buttonStyle(.glass)
+            }
+        } else {
+            self.buttonStyle(.borderedProminent)
+        }
+    }
+}
+
 private struct MoonX7RedesignedShell: View {
     @ObservedObject var auth: MoonAuthManager
     @Binding var darkMode: Bool
@@ -2129,7 +2144,7 @@ private struct MoonLoginRedesign: View {
                             .frame(maxWidth: .infinity)
                             .frame(height: 56)
                         }
-                        .buttonStyle(.glassProminent)
+                        .moonGlassButton(prominent: true)
                         .tint(Theme.accent)
                         .disabled(!canSubmit)
 
@@ -2181,7 +2196,7 @@ private struct MoonHomeRedesign: View {
                         .font(.system(size: 9, weight: .black, design: .rounded))
                         .foregroundStyle(.white)
                         .padding(.horizontal, 13).padding(.vertical, 9)
-                        .buttonStyle(.glass)
+                        .moonGlassButton()
                 }
                 .padding(.top, 48)
 
@@ -2474,7 +2489,7 @@ private struct MoonActionButton: View {
                 .foregroundStyle(.white)
                 .frame(maxWidth:.infinity).frame(height:44)
         }
-        .buttonStyle(.glass)
+        .moonGlassButton()
         .tint(tint)
         .disabled(disabled)
     }
@@ -2574,7 +2589,7 @@ private struct MoonConfigRedesign: View {
                     .font(.system(size:12, weight:.black, design:.rounded))
                     .foregroundStyle(.white)
                     .frame(maxWidth:.infinity).frame(height:50)
-                    .buttonStyle(.glassProminent)
+                    .moonGlassButton(prominent: true)
                     .tint(Theme.accent)
             }
             .padding(.horizontal,15).padding(.bottom,105)
