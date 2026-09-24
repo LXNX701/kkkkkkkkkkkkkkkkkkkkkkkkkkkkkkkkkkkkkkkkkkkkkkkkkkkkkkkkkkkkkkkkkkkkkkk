@@ -2379,6 +2379,7 @@ private struct MoonHomeRedesign: View {
                     .padding(13)
                     .moonGlass(cornerRadius: 22, tint: Theme.accent)
                 }
+            }
             .padding(.horizontal, 15)
             .padding(.bottom, 100)
         }
