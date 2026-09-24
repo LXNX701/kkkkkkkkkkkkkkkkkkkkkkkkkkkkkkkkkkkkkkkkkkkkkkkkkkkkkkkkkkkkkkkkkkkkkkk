@@ -9,7 +9,7 @@ import AVKit
 // MARK: - CONTENT VIEW
 // ============================================================
 
-private let moonX7UIBuildStamp = "MOON-X7-UI-REDESIGN-2.1.0-HOLO"
+private let moonX7UIBuildStamp = "MOON-X7 • LIQUID GLASS • 2.2.0 • LIQUID GLASS EDITION"
 
 struct ContentView: View {
     @State private var tab = 0
