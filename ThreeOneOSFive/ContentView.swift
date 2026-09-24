@@ -2262,7 +2262,7 @@ private struct MoonLoginRedesign: View {
                         .foregroundStyle(.white)
                     }
                     .frame(height: 205)
-                    .frame(width: max(1, UIScreen.main.bounds.width - 40))
+                    .frame(width: Swift.max(1, UIScreen.main.bounds.width - 40))
                     .clipShape(RoundedRectangle(cornerRadius: 28, style: .continuous))
                         .overlay { RoundedRectangle(cornerRadius: 28, style: .continuous).stroke(Theme.accent.opacity(0.48), lineWidth: 1) }
                         .shadow(color: Theme.accent.opacity(0.18), radius: 28, y: 12)
@@ -2387,7 +2387,7 @@ private struct MoonHomeRedesign: View {
 
                 RemoteAnimatedGIFView(urlString: MoonRemoteMedia.dashboardBanner, contentMode: .scaleAspectFill)
                     .frame(height: 165)
-                    .frame(width: max(1, UIScreen.main.bounds.width - 30))
+                    .frame(width: Swift.max(1, UIScreen.main.bounds.width - 30))
                     .clipShape(RoundedRectangle(cornerRadius: 26, style: .continuous))
                     .overlay {
                         LinearGradient(colors: [.clear, .black.opacity(0.78)], startPoint: .center, endPoint: .bottom)
@@ -2609,7 +2609,7 @@ private struct MoonFunctionsRedesign: View {
                     MoonPatchRedesignCard(option: option, enabled: $enabled)
                 }
             }
-            .frame(width: max(1, UIScreen.main.bounds.width - 30), alignment: .leading)
+            .frame(width: Swift.max(1, UIScreen.main.bounds.width - 30), alignment: .leading)
             .padding(.horizontal,15)
             .padding(.bottom,105)
         }
