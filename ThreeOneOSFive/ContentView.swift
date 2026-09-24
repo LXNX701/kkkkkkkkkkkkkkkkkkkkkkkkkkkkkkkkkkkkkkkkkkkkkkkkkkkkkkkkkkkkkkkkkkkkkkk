@@ -11,6 +11,11 @@ import AVKit
 
 private let moonX7UIBuildStamp = "MOON-X7 • LIQUID GLASS • 2.2.0 • LIQUID GLASS EDITION"
 
+private enum MoonRemoteMedia {
+    static let dashboardBanner = "https://media3.giphy.com/media/0WrS97JxpzwmTPbviV/giphy.gif?cid=9b38fe91uxzhi4x5aq594g2wnsczkch3iyao9zsd0knbsbr5&ep=v1_channels_id_gifs&rid=giphy.gif&ct=g"
+    static let loginBanner = "https://media0.giphy.com/media/zn5a8GjiDwu0VNrPMU/giphy.gif?cid=9b38fe91f7v98wdew07jfl146qpm6wsl8bpy65wr4q4hjjjl&ep=v1_gifs_search&rid=giphy.gif&ct=g"
+}
+
 struct ContentView: View {
     @State private var tab = 0
     @AppStorage("external.darkMode") private var darkMode = true
@@ -1440,6 +1445,64 @@ private struct PreviewCard: View {
 }
 
 
+
+private struct CleanVideoPlayer: UIViewRepresentable {
+    let url: URL
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator()
+    }
+
+    func makeUIView(context: Context) -> PlayerContainerView {
+        let view = PlayerContainerView()
+        view.backgroundColor = .black
+        view.playerLayer.player = AVPlayer(url: url)
+        view.playerLayer.videoGravity = .resizeAspectFill
+        context.coordinator.player = view.playerLayer.player
+        view.onTap = {
+            guard let player = context.coordinator.player else { return }
+            if player.timeControlStatus == .playing {
+                player.pause()
+            } else {
+                player.play()
+            }
+        }
+        return view
+    }
+
+    func updateUIView(_ uiView: PlayerContainerView, context: Context) {}
+
+    final class Coordinator {
+        var player: AVPlayer?
+    }
+}
+
+private final class PlayerContainerView: UIView {
+    let playerLayer = AVPlayerLayer()
+    var onTap: (() -> Void)?
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        layer.addSublayer(playerLayer)
+        let tap = UITapGestureRecognizer(target: self, action: #selector(tapped))
+        addGestureRecognizer(tap)
+    }
+
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        layer.addSublayer(playerLayer)
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        playerLayer.frame = bounds
+    }
+
+    @objc private func tapped() {
+        onTap?()
+    }
+}
+
 private struct PreviewMediaView: View {
     let url: URL
 
@@ -1448,7 +1511,7 @@ private struct PreviewMediaView: View {
         case "gif":
             AnimatedGIFView(filename: url.lastPathComponent)
         case "mp4", "mov", "m4v":
-            VideoPlayer(player: AVPlayer(url: url))
+            CleanVideoPlayer(url: url)
                 .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
         default:
             if let image = UIImage(contentsOfFile: url.path) {
@@ -1704,6 +1767,7 @@ private struct SocialLinkButton: View {
             .overlay(RoundedRectangle(cornerRadius: 14, style: .continuous).stroke(Theme.accent.opacity(0.18)))
         }
         .buttonStyle(.plain)
+        .contentShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
         .disabled(urlString.isEmpty)
         .opacity(urlString.isEmpty ? 0.45 : 1)
     }
@@ -1803,6 +1867,65 @@ private struct AnimatedGIFView: UIViewRepresentable {
         return max(unclamped ?? clamped ?? defaultDuration, 0.02)
     }
 }
+private struct RemoteAnimatedGIFView: UIViewRepresentable {
+    let urlString: String
+    let contentMode: UIView.ContentMode
+
+    func makeUIView(context: Context) -> UIImageView {
+        let view = UIImageView()
+        view.contentMode = contentMode
+        view.clipsToBounds = true
+        view.backgroundColor = .clear
+        load(into: view)
+        return view
+    }
+
+    func updateUIView(_ uiView: UIImageView, context: Context) {
+        if uiView.image == nil {
+            load(into: uiView)
+        }
+    }
+
+    private func load(into imageView: UIImageView) {
+        guard let url = URL(string: urlString) else { return }
+        URLSession.shared.dataTask(with: url) { data, _, _ in
+            guard let data,
+                  let source = CGImageSourceCreateWithData(data as CFData, nil) else { return }
+
+            let count = CGImageSourceGetCount(source)
+            guard count > 0 else { return }
+
+            var frames: [UIImage] = []
+            var duration: TimeInterval = 0
+
+            for index in 0..<count {
+                guard let cgImage = CGImageSourceCreateImageAtIndex(source, index, nil) else { continue }
+                frames.append(UIImage(cgImage: cgImage))
+                duration += Self.frameDuration(source: source, index: index)
+            }
+
+            guard !frames.isEmpty else { return }
+            let animated = UIImage.animatedImage(with: frames, duration: max(duration, 0.8))
+
+            DispatchQueue.main.async {
+                imageView.image = animated
+            }
+        }.resume()
+    }
+
+    private static func frameDuration(source: CGImageSource, index: Int) -> TimeInterval {
+        let fallback = 0.08
+        guard
+            let properties = CGImageSourceCopyPropertiesAtIndex(source, index, nil) as? [CFString: Any],
+            let gif = properties[kCGImagePropertyGIFDictionary] as? [CFString: Any]
+        else { return fallback }
+
+        let unclamped = gif[kCGImagePropertyGIFUnclampedDelayTime] as? Double
+        let clamped = gif[kCGImagePropertyGIFDelayTime] as? Double
+        return max(unclamped ?? clamped ?? fallback, 0.02)
+    }
+}
+
 
 // ============================================================
 // MARK: - DEVICE INFO
@@ -1947,7 +2070,7 @@ private extension View {
 private struct MoonX7RedesignedShell: View {
     @ObservedObject var auth: MoonAuthManager
     @Binding var darkMode: Bool
-    @State private var tab = 1
+    @State private var tab = 0
     @State private var appeared = false
 
     private let tabs = [
@@ -2034,8 +2157,27 @@ private struct MoonLoginRedesign: View {
                     .scaleEffect(reveal ? 1 : 0.78)
                     .opacity(reveal ? 1 : 0)
 
-                    AnimatedGIFView(filename: "realm-banner.gif")
-                        .frame(height: 132)
+                    ZStack(alignment: .bottomLeading) {
+                        RemoteAnimatedGIFView(urlString: MoonRemoteMedia.loginBanner, contentMode: .scaleAspectFill)
+                            .frame(height: 205)
+                        LinearGradient(
+                            colors: [.clear, .black.opacity(0.92)],
+                            startPoint: .center,
+                            endPoint: .bottom
+                        )
+                        .frame(height: 205)
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("MOON X7")
+                                .font(.system(size: 28, weight: .black, design: .rounded))
+                            Text("PRIVATE CONTROL CENTER")
+                                .font(.system(size: 9, weight: .black, design: .rounded))
+                                .tracking(2.2)
+                                .foregroundStyle(Theme.accent)
+                        }
+                        .padding(17)
+                        .foregroundStyle(.white)
+                    }
+                    .frame(height: 205)
                         .frame(maxWidth: .infinity)
                         .clipShape(RoundedRectangle(cornerRadius: 28, style: .continuous))
                         .overlay { RoundedRectangle(cornerRadius: 28, style: .continuous).stroke(Theme.accent.opacity(0.48), lineWidth: 1) }
@@ -2159,8 +2301,8 @@ private struct MoonHomeRedesign: View {
                 }
                 .padding(.top, 48)
 
-                AnimatedGIFView(filename: "realm-banner.gif")
-                    .frame(height: 155)
+                RemoteAnimatedGIFView(urlString: MoonRemoteMedia.dashboardBanner, contentMode: .scaleAspectFill)
+                    .frame(height: 165)
                     .frame(maxWidth: .infinity)
                     .clipShape(RoundedRectangle(cornerRadius: 26, style: .continuous))
                     .overlay {
@@ -2211,9 +2353,32 @@ private struct MoonHomeRedesign: View {
                         .foregroundStyle(.white)
                     }
                     .buttonStyle(.plain)
+                    .frame(maxWidth: .infinity)
+                    .contentShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
                     .moonGlass(cornerRadius: 20, tint: Theme.accent)
                 }
-            }
+
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("REDES SOCIALES")
+                        .font(.system(size: 10, weight: .black, design: .rounded))
+                        .tracking(1.7)
+                        .foregroundStyle(.white.opacity(0.42))
+
+                    VStack(spacing: 9) {
+                        SocialLinkButton(title: "WhatsApp • Contact Dev", icon: "message.fill", urlString: MoonSocialLinks.whatsapp)
+                            .overlay { RGBGlowBorder(cornerRadius: 14, lineWidth: 0.8) }
+                        SocialLinkButton(title: "YouTube", icon: "play.rectangle.fill", urlString: MoonSocialLinks.youtube)
+                            .overlay { RGBGlowBorder(cornerRadius: 14, lineWidth: 0.8) }
+                        SocialLinkButton(title: "Discord", icon: "bubble.left.and.bubble.right.fill", urlString: MoonSocialLinks.discord)
+                            .overlay { RGBGlowBorder(cornerRadius: 14, lineWidth: 0.8) }
+                        SocialLinkButton(title: "Telegram", icon: "paperplane.fill", urlString: MoonSocialLinks.telegram)
+                            .overlay { RGBGlowBorder(cornerRadius: 14, lineWidth: 0.8) }
+                        SocialLinkButton(title: "Web", icon: "globe", urlString: MoonSocialLinks.web)
+                            .overlay { RGBGlowBorder(cornerRadius: 14, lineWidth: 0.8) }
+                    }
+                    .padding(13)
+                    .moonGlass(cornerRadius: 22, tint: Theme.accent)
+                }
             .padding(.horizontal, 15)
             .padding(.bottom, 100)
         }
@@ -2295,8 +2460,8 @@ private struct MoonFunctionsRedesign: View {
                 .padding(.top, 48)
 
                 ZStack(alignment: .bottomLeading) {
-                    AnimatedGIFView(filename: "realm-banner.gif")
-                        .frame(height: 128)
+                    RemoteAnimatedGIFView(urlString: MoonRemoteMedia.dashboardBanner, contentMode: .scaleAspectFill)
+                        .frame(height: 165)
                         .frame(maxWidth: .infinity)
                         .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
 
@@ -2341,6 +2506,12 @@ private struct MoonFunctionsRedesign: View {
                     MoonSegment(title:"FREE FIRE MAX", selected:game == 1) { withAnimation(.spring(response:0.35,dampingFraction:0.82)){game=1} }
                 }
 
+
+                HStack(spacing: 8) {
+                    MoonSummaryCard(title: "HOLOS", value: "\(options.filter { $0.isTexture }.count)", icon: "sparkles", tint: Theme.violet)
+                    MoonSummaryCard(title: "MOON ATN", value: "\(options.filter { !$0.isTexture && $0.title.localizedCaseInsensitiveContains("ATN") }.count)", icon: "scope", tint: Theme.accent)
+                    MoonSummaryCard(title: "MOON", value: "\(options.filter { !$0.isTexture && !$0.title.localizedCaseInsensitiveContains("ATN") }.count)", icon: "circle.grid.3x3.fill", tint: .white)
+                }
                 if game == 1 {
                     Text("HOLO COLLECTION")
                         .font(.system(size:10, weight:.black, design:.rounded))
@@ -2357,7 +2528,30 @@ private struct MoonFunctionsRedesign: View {
         }
     }
 }
+private struct MoonSummaryCard: View {
+    let title: String
+    let value: String
+    let icon: String
+    let tint: Color
 
+    var body: some View {
+        VStack(alignment: .leading, spacing: 5) {
+            Image(systemName: icon)
+                .font(.system(size: 12, weight: .black))
+                .foregroundStyle(tint)
+            Text(value)
+                .font(.system(size: 18, weight: .black, design: .rounded))
+            Text(title)
+                .font(.system(size: 7.5, weight: .black, design: .rounded))
+                .tracking(0.7)
+                .foregroundStyle(.white.opacity(0.38))
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(11)
+        .foregroundStyle(.white)
+        .moonGlass(cornerRadius: 16, tint: tint)
+    }
+}
 private struct MoonSegment: View {
     let title: String
     let selected: Bool
@@ -2383,7 +2577,7 @@ private struct MoonPatchRedesignCard: View {
     @State private var busy = false
     @State private var expanded = false
     @State private var error: String?
-    @State private var success = false
+    @State private var successMessage: String?
 
     private var active: Bool { enabled.contains(option.id) }
     private var holo: Bool { option.isTexture }
@@ -2450,10 +2644,10 @@ private struct MoonPatchRedesignCard: View {
         .alert("MOON X7", isPresented: Binding(get:{error != nil}, set:{if !$0{error=nil}})) {
             Button("OK") { error=nil }
         } message: { Text(error ?? "") }
-        .alert("Éxito", isPresented:$success) {
-            Button("OK") {}
+        .alert("MOONCONFIG", isPresented: Binding(get: { successMessage != nil }, set: { if !$0 { successMessage = nil } })) {
+            Button("OK") { successMessage = nil }
         } message: {
-            Text("La operación se completó y el estado original/activo fue procesado por el mismo runner.")
+            Text(successMessage ?? "")
         }
     }
 
@@ -2467,7 +2661,7 @@ private struct MoonPatchRedesignCard: View {
                 switch result {
                 case .success:
                     if apply { enabled.insert(option.id) } else { enabled.remove(option.id) }
-                    success = true
+                    successMessage = apply ? "moonconfig apply" : "moonconfig org restore"
                 case .failure(let err):
                     error = PatchSlotRunner.message(for: err)
                 }
@@ -2530,7 +2724,7 @@ private struct MoonPreviewRedesign: View {
                             if let root = Bundle.main.resourceURL {
                                 let url = root.appendingPathComponent("PreviewImages", isDirectory:true).appendingPathComponent(item.1)
                                 if FileManager.default.fileExists(atPath:url.path) {
-                                    VideoPlayer(player: AVPlayer(url:url))
+                                    CleanVideoPlayer(url: url)
                                         .frame(height:230)
                                         .clipShape(RoundedRectangle(cornerRadius:16, style:.continuous))
                                         .padding(.horizontal,12).padding(.bottom,12)
