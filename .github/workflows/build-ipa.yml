@@ -149,8 +149,8 @@ jobs:
           VERIFY_EXEC="$GITHUB_WORKSPACE/IPA_VERIFY/Payload/MOONX7.app/MOONX7"
           [ -f "$VERIFY_EXEC" ] || { echo "ERROR: packaged executable missing"; exit 1; }
           strings "$VERIFY_EXEC" > "$GITHUB_WORKSPACE/ipa-compiled-strings.txt"
-          grep -Fq "MOON-X7-UI-REDESIGN-2.1.0-HOLO" "$GITHUB_WORKSPACE/ipa-compiled-strings.txt" || {
-            echo "ERROR: IPA contains wrong/old binary; unique MOON X7 redesign build stamp is missing"
+          grep -Fq "LIQUID GLASS EDITION" "$GITHUB_WORKSPACE/ipa-compiled-strings.txt" || {
+            echo "ERROR: IPA contains wrong/old binary; Liquid Glass redesign marker is missing"
             exit 1
           }
 
