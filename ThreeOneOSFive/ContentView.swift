@@ -38,7 +38,7 @@ struct ContentView: View {
 
     private var authenticatedView: some View {
         MoonX7RedesignedShell(auth: auth, darkMode: $darkMode)
-            .environment(\\.colorScheme, scheme)
+            .environment(\.colorScheme, scheme)
             .preferredColorScheme(scheme)
     }
 }
