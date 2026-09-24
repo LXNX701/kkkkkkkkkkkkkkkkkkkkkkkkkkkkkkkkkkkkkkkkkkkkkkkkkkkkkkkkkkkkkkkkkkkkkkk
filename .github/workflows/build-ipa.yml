@@ -43,6 +43,8 @@ jobs:
           grep -q "PreviewView" "$BUILD_SOURCE" || { echo "ERROR: PreviewView missing"; exit 1; }
           grep -q "MoonPatchRedesignCard" "$BUILD_SOURCE" || { echo "ERROR: redesigned patch cards missing"; exit 1; }
           grep -q "MoonPreviewRedesign" "$BUILD_SOURCE" || { echo "ERROR: redesigned preview missing"; exit 1; }
+          grep -q "MoonX7RedesignedShell(auth: auth" "$BUILD_SOURCE" || { echo "ERROR: redesigned shell is not the active authenticated UI"; exit 1; }
+          grep -q "case 1: MoonFunctionsRedesign" "$BUILD_SOURCE" || { echo "ERROR: redesigned functions screen is not active"; exit 1; }
           grep -q "durationDays" "$BUILD_SOURCE" || { echo "ERROR: license metadata missing"; exit 1; }
           grep -q "ffmx-holo-cotton-candy" "$BUILD_SOURCE" || { echo "ERROR: new FFMAX Cotton Candy option missing"; exit 1; }
           grep -q "ffmx-holo-dark-galaxy" "$BUILD_SOURCE" || { echo "ERROR: new FFMAX Dark Galaxy option missing"; exit 1; }
