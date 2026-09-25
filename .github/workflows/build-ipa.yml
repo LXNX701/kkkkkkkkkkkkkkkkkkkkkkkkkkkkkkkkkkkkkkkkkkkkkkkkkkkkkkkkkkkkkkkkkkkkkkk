@@ -60,7 +60,7 @@ jobs:
           grep -q "MoonX7RedesignedShell(auth: auth" "$BUILD_SOURCE" || { echo "ERROR: redesigned shell is not the active authenticated UI"; exit 1; }
           grep -q "case 1: MoonFunctionsRedesign" "$BUILD_SOURCE" || { echo "ERROR: redesigned functions screen is not active"; exit 1; }
           grep -q "durationDays" "$BUILD_SOURCE" || { echo "ERROR: license metadata missing"; exit 1; }
-          grep -q "YT LIMITED EDITION" "$BUILD_SOURCE" || { echo "ERROR: YT trial build marker missing"; exit 1; }
+          grep -q "LIMITED FUNCTIONS" "$BUILD_SOURCE" || { echo "ERROR: YT trial build marker missing"; exit 1; }
           grep -q 'yt-ffn-drag-atn' "$BUILD_SOURCE" || { echo "ERROR: YT FF Normal Drag ATN missing"; exit 1; }
           grep -q 'yt-ffn-drag"' "$BUILD_SOURCE" || { echo "ERROR: YT FF Normal Drag missing"; exit 1; }
           grep -q 'yt-ffn-arm-holo' "$BUILD_SOURCE" || { echo "ERROR: YT FF Normal Holo ARM missing"; exit 1; }
