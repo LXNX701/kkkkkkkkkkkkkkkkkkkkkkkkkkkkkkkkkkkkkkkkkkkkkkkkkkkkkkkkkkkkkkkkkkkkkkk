@@ -1734,7 +1734,7 @@ private struct MoonLoginLinkButton: View {
     let icon: String
     let tint: Color
     let urlString: String
-    @Environment(\\.openURL) private var openURL
+    @Environment(\.openURL) private var openURL
 
     var body: some View {
         Button {
