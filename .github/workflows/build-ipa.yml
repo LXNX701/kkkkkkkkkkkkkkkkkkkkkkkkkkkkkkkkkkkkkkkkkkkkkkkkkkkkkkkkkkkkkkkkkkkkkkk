@@ -12,10 +12,25 @@ permissions:
 
 jobs:
   build:
-    runs-on: macos-26
+    runs-on: macos-15
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
+
+      - name: Runner diagnostics
+        shell: bash
+        run: |
+          set -euxo pipefail
+          echo "GITHUB_WORKSPACE=$GITHUB_WORKSPACE"
+          sw_vers
+          uname -a
+          uname -m
+          xcode-select -p
+          xcodebuild -version
+          git --version
+          df -h
+          pwd
+          ls -la
 
       - name: Locate exact project
         shell: bash
