@@ -4,6 +4,8 @@ on:
   workflow_dispatch:
   push:
     branches: [main, master, feature/moonx7-live-presence]
+  pull_request:
+    branches: [main]
 
 permissions:
   contents: read
