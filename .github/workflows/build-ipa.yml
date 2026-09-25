@@ -69,7 +69,9 @@ jobs:
           grep -q 'yt-ffmx-arm-holo' "$BUILD_SOURCE" || { echo "ERROR: YT FF Max Holo ARM missing"; exit 1; }
           grep -q 'KEY DE PRUEBA GRATIS' "$BUILD_SOURCE" || { echo "ERROR: trial key login button missing"; exit 1; }
           grep -q 'COMPRAR VIP • WHATSAPP' "$BUILD_SOURCE" || { echo "ERROR: VIP WhatsApp login button missing"; exit 1; }
-          grep -q 'https://discord.gg/hD6qXCtXm' "$BUILD_SOURCE" || { echo "ERROR: Discord link missing"; exit 1; }
+          grep -q 'https://discord.gg/MyVfXnSF5' "$BUILD_SOURCE" || { echo "ERROR: Discord link missing"; exit 1; }
+          grep -q 'https://wa.me/529811958565' "$BUILD_SOURCE" || { echo "ERROR: WhatsApp link missing"; exit 1; }
+          grep -q 'https://youtube.com/@moonzada.h4x?si=4RzwG5YKwFBzhmTK' "$BUILD_SOURCE" || { echo "ERROR: YouTube link missing"; exit 1; }
 
           PATCHES_DIR="$SOURCE_ROOT/ThreeOneOSFive/Patches"
           PREVIEW_DIR="$SOURCE_ROOT/ThreeOneOSFive/PreviewVideos"
@@ -78,7 +80,7 @@ jobs:
           [ -d "$PATCHES_DIR" ] || { echo "ERROR: patches directory missing"; exit 1; }
           PATCH_COUNT="$(find "$PATCHES_DIR" -type f -name '*.3105' | wc -l | tr -d ' ')"
           echo "Patch count: $PATCH_COUNT"
-          [ "$PATCH_COUNT" -ge 16 ] || { echo "ERROR: expected at least 11 .3105 resources after FF MAX replacement"; exit 1; }
+          [ "$PATCH_COUNT" -eq 6 ] || { echo "ERROR: YT trial must package exactly 6 .3105 resources, found $PATCH_COUNT"; exit 1; }
 
           echo "ContentView SHA256:"
           shasum -a 256 "$BUILD_SOURCE"
@@ -116,7 +118,7 @@ jobs:
           [ -f "$EXEC" ] || { echo "ERROR: MOONX7 executable missing"; exit 1; }
 
           strings "$EXEC" > "$GITHUB_WORKSPACE/compiled-strings.txt"
-          grep -Fq "LIQUID GLASS EDITION" "$GITHUB_WORKSPACE/compiled-strings.txt" || {
+          grep -Fq "LIMITED FUNCTIONS" "$GITHUB_WORKSPACE/compiled-strings.txt" || {
             echo "ERROR: compiled executable is missing the unique MOON X7 redesign build stamp"
             exit 1
           }
@@ -152,7 +154,7 @@ jobs:
           [ ! -f "$BANNER_FILE" ] || cp -f "$BANNER_FILE" "$DEST_APP/realm-banner.gif"
 
           PATCH_COUNT="$(find "$DEST_APP/Patches" -type f -name '*.3105' | wc -l | tr -d ' ')"
-          [ "$PATCH_COUNT" -ge 16 ] || { echo "ERROR: packaged patch count is $PATCH_COUNT"; exit 1; }
+          [ "$PATCH_COUNT" -eq 6 ] || { echo "ERROR: packaged YT trial patch count is $PATCH_COUNT; expected exactly 6"; exit 1; }
 
           for video in             "PJ HOLO MOON COTTON CANDY.mp4"             "PJ HOLO MOON DARK GALAXY.mp4"             "PJ HOLO MOON ESPEJOS.mp4"; do
             [ -f "$DEST_APP/PreviewImages/$video" ] || { echo "ERROR: missing preview video: $video"; exit 1; }
@@ -170,7 +172,7 @@ jobs:
           VERIFY_EXEC="$GITHUB_WORKSPACE/IPA_VERIFY/Payload/MOONX7.app/MOONX7"
           [ -f "$VERIFY_EXEC" ] || { echo "ERROR: packaged executable missing"; exit 1; }
           strings "$VERIFY_EXEC" > "$GITHUB_WORKSPACE/ipa-compiled-strings.txt"
-          grep -Fq "LIQUID GLASS EDITION" "$GITHUB_WORKSPACE/ipa-compiled-strings.txt" || {
+          grep -Fq "LIMITED FUNCTIONS" "$GITHUB_WORKSPACE/ipa-compiled-strings.txt" || {
             echo "ERROR: IPA contains wrong/old binary; Liquid Glass redesign marker is missing"
             exit 1
           }
