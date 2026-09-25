@@ -2156,6 +2156,8 @@ private struct MoonX7RedesignedShell: View {
     @Binding var darkMode: Bool
     @State private var tab = 0
     @State private var appeared = false
+    @State private var showDeveloperSupport = true
+    @State private var supportReady = false
 
     private let tabs = [
         ("house.fill", "Inicio"),
@@ -2178,6 +2180,19 @@ private struct MoonX7RedesignedShell: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .transition(.opacity.combined(with: .scale(scale: 0.985)))
+
+            if showDeveloperSupport {
+                MoonDeveloperSupportOverlay(
+                    supportReady: $supportReady,
+                    dismiss: {
+                        withAnimation(.spring(response: 0.42, dampingFraction: 0.86)) {
+                            showDeveloperSupport = false
+                        }
+                    }
+                )
+                .transition(.opacity.combined(with: .scale(scale: 0.94)))
+                .zIndex(20)
+            }
 
             HStack(spacing: 7) {
                 ForEach(Array(tabs.enumerated()), id: \.offset) { index, item in
@@ -2211,6 +2226,131 @@ private struct MoonX7RedesignedShell: View {
         }
         .onAppear {
             withAnimation(.spring(response: 0.65, dampingFraction: 0.82)) { appeared = true }
+            supportReady = false
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.95) {
+                withAnimation(.spring(response: 0.52, dampingFraction: 0.82)) {
+                    supportReady = true
+                }
+            }
+        }
+    }
+}
+
+private struct MoonDeveloperSupportOverlay: View {
+    @Binding var supportReady: Bool
+    let dismiss: () -> Void
+    @Environment(\.openURL) private var openURL
+    @State private var pulse = false
+
+    private let discordURL = URL(string: MoonSocialLinks.discord)!
+
+    var body: some View {
+        ZStack {
+            Color.black.opacity(0.72)
+                .ignoresSafeArea()
+                .onTapGesture { dismiss() }
+
+            VStack(spacing: 0) {
+                ZStack {
+                    Circle()
+                        .fill(Theme.accent.opacity(0.20))
+                        .frame(width: 118, height: 118)
+                        .blur(radius: 20)
+                        .scaleEffect(pulse ? 1.16 : 0.86)
+
+                    Circle()
+                        .stroke(
+                            AngularGradient(
+                                colors: [Theme.accent, Theme.violet, .white, Theme.accent],
+                                center: .center
+                            ),
+                            lineWidth: 2
+                        )
+                        .frame(width: 78, height: 78)
+                        .rotationEffect(.degrees(pulse ? 360 : 0))
+
+                    Image(systemName: supportReady ? "person.2.fill" : "ellipsis")
+                        .font(.system(size: 27, weight: .black))
+                        .foregroundStyle(.white)
+                }
+                .padding(.top, 22)
+                .padding(.bottom, 14)
+
+                Text("MOON X7")
+                    .font(.system(size: 11, weight: .black, design: .rounded))
+                    .tracking(2.2)
+                    .foregroundStyle(Theme.accent)
+
+                Text(supportReady ? "NO OLVIDES APOYAR AL DEVELOPER" : "CARGANDO PANEL...")
+                    .font(.system(size: 20, weight: .black, design: .rounded))
+                    .multilineTextAlignment(.center)
+                    .foregroundStyle(.white)
+                    .padding(.top, 7)
+
+                Text(supportReady
+                     ? "Únete al Discord para recibir avisos, novedades y soporte de MOON X7."
+                     : "Preparando tu sesión segura...")
+                    .font(.system(size: 12, weight: .medium, design: .rounded))
+                    .multilineTextAlignment(.center)
+                    .foregroundStyle(.white.opacity(0.52))
+                    .padding(.horizontal, 24)
+                    .padding(.top, 9)
+
+                if supportReady {
+                    Button {
+                        openURL(discordURL)
+                    } label: {
+                        HStack(spacing: 9) {
+                            Image(systemName: "bubble.left.and.bubble.right.fill")
+                            Text("UNIRME AL DISCORD")
+                        }
+                        .font(.system(size: 12, weight: .black, design: .rounded))
+                        .foregroundStyle(.white)
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 50)
+                    }
+                    .moonGlassButton(prominent: true)
+                    .tint(Theme.violet)
+                    .padding(.horizontal, 18)
+                    .padding(.top, 18)
+                    .transition(.move(edge: .bottom).combined(with: .opacity))
+
+                    Button("CONTINUAR") {
+                        dismiss()
+                    }
+                    .font(.system(size: 10, weight: .black, design: .rounded))
+                    .foregroundStyle(.white.opacity(0.45))
+                    .padding(.top, 12)
+                    .padding(.bottom, 20)
+                    .buttonStyle(.plain)
+                } else {
+                    ProgressView()
+                        .tint(Theme.accent)
+                        .scaleEffect(1.15)
+                        .padding(.top, 20)
+                        .padding(.bottom, 24)
+                }
+            }
+            .frame(maxWidth: 360)
+            .background(.black.opacity(0.72), in: RoundedRectangle(cornerRadius: 30, style: .continuous))
+            .overlay {
+                RoundedRectangle(cornerRadius: 30, style: .continuous)
+                    .stroke(
+                        LinearGradient(
+                            colors: [Theme.accent.opacity(0.70), Theme.violet.opacity(0.48), .white.opacity(0.10)],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        ),
+                        lineWidth: 1
+                    )
+            }
+            .shadow(color: Theme.accent.opacity(0.25), radius: 35, y: 18)
+            .padding(.horizontal, 22)
+        }
+        .onAppear {
+            withAnimation(.easeInOut(duration: 1.25).repeatForever(autoreverses: true)) {
+                pulse = true
+            }
         }
     }
 }
@@ -2504,7 +2644,8 @@ private struct MoonFunctionsRedesign: View {
         PatchOption(id:"r-ffn5", title:"MOON DRAG", subtitle:"FF NORMAL", patchFile:PatchSlots.ffn5, patchPassword:PatchSlots.password, manualControls:true),
         PatchOption(id:"r-ffn6", title:"MOON CUELLO", subtitle:"FF NORMAL", patchFile:PatchSlots.ffn6, patchPassword:PatchSlots.password, manualControls:true),
         PatchOption(id:"r-ffn7", title:"MOON PECHO", subtitle:"FF NORMAL", patchFile:PatchSlots.ffn7, patchPassword:PatchSlots.password, manualControls:true),
-        PatchOption(id:"r-ffn8", title:"MOON PECHO ATN", subtitle:"FF NORMAL", patchFile:PatchSlots.ffn8, patchPassword:PatchSlots.password, manualControls:true)
+        PatchOption(id:"r-ffn8", title:"MOON PECHO ATN", subtitle:"FF NORMAL", patchFile:PatchSlots.ffn8, patchPassword:PatchSlots.password, manualControls:true),
+        PatchOption(id:"r-arm-max-rainbow", title:"ARM HOLO MOON • RAINBOW", subtitle:"FF MAX • HOLO ARM", patchFile:"ARM HOLO MOON RAINBOW.3105", patchPassword:PatchSlots.password, manualControls:true, isTexture:true)
     ]
 
     private let max: [PatchOption] = [
@@ -2518,9 +2659,7 @@ private struct MoonFunctionsRedesign: View {
         PatchOption(id:"r-m8", title:"MOON PECHO ATN", subtitle:"FF MAX", patchFile:"FFMX MOON PECHO ATN.3105", patchPassword:PatchSlots.password, manualControls:true),
         PatchOption(id:"r-m9", title:"MOON PECHO", subtitle:"FF MAX", patchFile:"FFMX MOON PECHO.3105", patchPassword:PatchSlots.password, manualControls:true),
         PatchOption(id:"r-m10", title:"MOON CABEZA", subtitle:"FF MAX", patchFile:"MOON CABEZA.3105", patchPassword:PatchSlots.password, manualControls:true),
-        PatchOption(id:"r-arm1", title:"ARM HOLO • AZUL + ROJO", subtitle:"FF MAX • HOLO", patchFile:"ARM HOLO BORDE AZUL Y ROJO.3105", patchPassword:PatchSlots.password, manualControls:true, isTexture:true),
-        PatchOption(id:"r-arm2", title:"ARM HOLO • RTX", subtitle:"FF MAX • HOLO", patchFile:"ARM HOLO BORDE RTX.3105", patchPassword:PatchSlots.password, manualControls:true, isTexture:true),
-        PatchOption(id:"r-arm3", title:"ARM HOLO • VERDE + AMARILLO", subtitle:"FF MAX • HOLO", patchFile:"ARM HOLO BORDE VERDE AMARILLO.3105", patchPassword:PatchSlots.password, manualControls:true, isTexture:true),
+        PatchOption(id:"r-arm-normal-rainbow", title:"ARM MOON SPIN • RAINBOW", subtitle:"FF NORMAL • HOLO ARM", patchFile:"ARM MOON SPIN RAINBOW.3105", patchPassword:PatchSlots.password, manualControls:true, isTexture:true),
         PatchOption(id:"r-pj1", title:"PJ HOLO • COTTON CANDY", subtitle:"FF MAX • PJ HOLO", patchFile:"PJ HOLO MOON COTTON CANDY.3105", patchPassword:PatchSlots.password, manualControls:true, isTexture:true),
         PatchOption(id:"r-pj2", title:"PJ HOLO • DARK GALAXY", subtitle:"FF MAX • PJ HOLO", patchFile:"PJ HOLO MOON DARK GALAXY.3105", patchPassword:PatchSlots.password, manualControls:true, isTexture:true),
         PatchOption(id:"r-pj3", title:"PJ HOLO • ESPEJOS", subtitle:"FF MAX • PJ HOLO", patchFile:"PJ HOLO MOON ESPEJOS.3105", patchPassword:PatchSlots.password, manualControls:true, isTexture:true)
@@ -2584,7 +2723,7 @@ private struct MoonFunctionsRedesign: View {
 
                 HStack(spacing: 9) {
                     MoonStatCard(icon: "bolt.fill", title: "MODO", value: game == 1 ? "FF MAX" : "FF NORMAL", tint: Theme.accent)
-                    MoonStatCard(icon: "sparkles", title: "HOLO", value: "3 NUEVOS", tint: Theme.violet)
+                    MoonStatCard(icon: "sparkles", title: "HOLO", value: "\(options.filter { $0.isTexture }.count) ARM/PJ", tint: Theme.violet)
                 }
 
                 HStack(spacing:8) {
@@ -2779,6 +2918,8 @@ private struct MoonActionButton: View {
 
 private struct MoonPreviewRedesign: View {
     private let items = [
+        ("ARM HOLO MOON • RAINBOW", "ARM HOLO MOON RAINBOW.mp4"),
+        ("ARM MOON SPIN • RAINBOW", "ARM MOON SPIN RAINBOW.mp4"),
         ("PJ HOLO MOON COTTON CANDY", "PJ HOLO MOON COTTON CANDY.mp4"),
         ("PJ HOLO MOON DARK GALAXY", "PJ HOLO MOON DARK GALAXY.mp4"),
         ("PJ HOLO MOON ESPEJOS", "PJ HOLO MOON ESPEJOS.mp4")
