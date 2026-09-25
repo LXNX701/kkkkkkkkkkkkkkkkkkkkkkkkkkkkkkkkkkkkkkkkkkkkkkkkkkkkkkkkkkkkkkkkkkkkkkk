@@ -67,8 +67,8 @@ jobs:
           grep -q 'yt-ffmx-drag-atn' "$BUILD_SOURCE" || { echo "ERROR: YT FF Max Drag ATN missing"; exit 1; }
           grep -q 'yt-ffmx-drag"' "$BUILD_SOURCE" || { echo "ERROR: YT FF Max Drag missing"; exit 1; }
           grep -q 'yt-ffmx-arm-holo' "$BUILD_SOURCE" || { echo "ERROR: YT FF Max Holo ARM missing"; exit 1; }
-          grep -q 'KEY DE PRUEBA GRATIS' "$BUILD_SOURCE" || { echo "ERROR: trial key login button missing"; exit 1; }
-          grep -q 'COMPRAR VIP • WHATSAPP' "$BUILD_SOURCE" || { echo "ERROR: VIP WhatsApp login button missing"; exit 1; }
+          grep -q 'UNIRSE A DC PARA KEY GRATIS' "$BUILD_SOURCE" || { echo "ERROR: Discord trial button missing"; exit 1; }
+          grep -q 'CONTACTAR DEVELOPER • COMPRAR VIP' "$BUILD_SOURCE" || { echo "ERROR: VIP WhatsApp button missing"; exit 1; }
           grep -q 'https://discord.gg/MyVfXnSF5' "$BUILD_SOURCE" || { echo "ERROR: Discord link missing"; exit 1; }
           grep -q 'https://wa.me/529811958565' "$BUILD_SOURCE" || { echo "ERROR: WhatsApp link missing"; exit 1; }
           grep -q 'https://youtube.com/@moonzada.h4x?si=4RzwG5YKwFBzhmTK' "$BUILD_SOURCE" || { echo "ERROR: YouTube link missing"; exit 1; }
