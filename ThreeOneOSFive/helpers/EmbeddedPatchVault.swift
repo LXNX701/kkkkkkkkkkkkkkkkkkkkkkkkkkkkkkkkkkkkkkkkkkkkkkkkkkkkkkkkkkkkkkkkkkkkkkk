@@ -14,6 +14,9 @@ enum EmbeddedPatchVault {
     private static let entrySize = 48
 
     static func data(named fileName: String) throws -> Data {
+        guard AuthProtection.shared.hasFeature(fileName: fileName) else {
+            throw EmbeddedPatchVaultError.authenticationFailed
+        }
         let expectedName = (fileName as NSString).lastPathComponent
         let nameDigest = Data(SHA256.hash(data: Data(expectedName.utf8)))
         let vault = try vaultData()
