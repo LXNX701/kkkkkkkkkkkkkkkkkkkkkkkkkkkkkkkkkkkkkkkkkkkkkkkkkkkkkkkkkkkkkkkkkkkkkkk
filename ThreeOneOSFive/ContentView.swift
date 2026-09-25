@@ -596,7 +596,7 @@ private enum PatchSlots {
 
     // FF MAX now resolves the three new PJ HOLO packages directly from Patches/FF Max.
 
-    static let password = "0"
+    static let password = "moonx7"
 }
 
 
