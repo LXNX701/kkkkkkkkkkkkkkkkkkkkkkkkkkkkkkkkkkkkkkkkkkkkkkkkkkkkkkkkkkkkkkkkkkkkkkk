@@ -9,7 +9,7 @@ import AVKit
 // MARK: - CONTENT VIEW
 // ============================================================
 
-private let moonX7UIBuildStamp = "MOON-X7 • LIQUID GLASS • 2.2.0 • LIQUID GLASS EDITION"
+private let moonX7UIBuildStamp = "MOON-X7 • YT TRIAL • 2.2.0 • YT LIMITED EDITION"
 
 private enum MoonRemoteMedia {
     static let dashboardBanner = "https://media3.giphy.com/media/0WrS97JxpzwmTPbviV/giphy.gif?cid=9b38fe91uxzhi4x5aq594g2wnsczkch3iyao9zsd0knbsbr5&ep=v1_channels_id_gifs&rid=giphy.gif&ct=g"
@@ -438,6 +438,23 @@ private struct MoonLoginView: View {
                                 .foregroundStyle(.white.opacity(0.52))
                         }
 
+                        VStack(spacing: 10) {
+                            MoonLoginLinkButton(
+                                title: "KEY DE PRUEBA GRATIS",
+                                subtitle: "Entra al Discord para solicitar tu acceso de prueba.",
+                                icon: "gift.fill",
+                                tint: Theme.violet,
+                                urlString: MoonSocialLinks.discord
+                            )
+                            MoonLoginLinkButton(
+                                title: "COMPRAR VIP • WHATSAPP",
+                                subtitle: "Contacta por WhatsApp para la versión completa.",
+                                icon: "message.fill",
+                                tint: .green,
+                                urlString: MoonSocialLinks.whatsapp
+                            )
+                        }
+
                         VStack(alignment: .leading, spacing: 8) {
                             Text("LICENSE KEY")
                                 .font(.system(size: 10, weight: .bold))
@@ -633,14 +650,9 @@ private struct ExternalFunctionsView: View {
     // --------------------------------------------------------
 
     private let freeFireOptions: [PatchOption] = [
-        PatchOption(id: "ffn-01", title: "MOON CABEZA ATN", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn1, patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "ffn-02", title: "MOON CUELLO ATN", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn2, patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "ffn-03", title: "MOON DRAG ANT", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn3, patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "ffn-04", title: "MOON CABEZA", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn4, patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "ffn-05", title: "MOON DRAG", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn5, patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "ffn-06", title: "MOON CUELLO", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn6, patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "ffn-07", title: "MOON PECHO", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn7, patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "ffn-08", title: "MOON PECHO ATN", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn8, patchPassword: PatchSlots.password, manualControls: true)
+        PatchOption(id: "yt-ffn-drag-atn", title: "MOON DRAG ATN", subtitle: "FF NORMAL • PRUEBA", patchFile: PatchSlots.ffn3, patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "yt-ffn-drag", title: "MOON DRAG", subtitle: "FF NORMAL • PRUEBA", patchFile: PatchSlots.ffn5, patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "yt-ffn-arm-holo", title: "ARM HOLO MOON • RAINBOW", subtitle: "FF NORMAL • HOLO ARM", patchFile: "ARM HOLO MOON RAINBOW.3105", patchPassword: PatchSlots.armHoloPassword, manualControls: true, isTexture: true)
     ]
 
     // --------------------------------------------------------
@@ -648,22 +660,9 @@ private struct ExternalFunctionsView: View {
     // --------------------------------------------------------
 
     private let freeFireMaxOptions: [PatchOption] = [
-        // Existing FF MAX options — kept.
-        PatchOption(id: "ffmx-01", title: "MOON CABEZA ATN", subtitle: "FF MAX", patchFile: "FFMX MOON CABEZA ATN.3105", patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "ffmx-02", title: "MOON CUELLO ATN", subtitle: "FF MAX", patchFile: "FFMX MOON CUELLO ATN.3105", patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "ffmx-03", title: "MOON CUELLO", subtitle: "FF MAX", patchFile: "FFMX MOON CUELLO.3105", patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "ffmx-04", title: "MOON DRAG ATN", subtitle: "FF MAX", patchFile: "FFMX MOON DRAG ATN.3105", patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "ffmx-05", title: "MOON DRAG", subtitle: "FF MAX", patchFile: "FFMX MOON DRAG.3105", patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "ffmx-06", title: "MOON MAGIC ATN", subtitle: "FF MAX", patchFile: "FFMX MOON MAGIC ATN.3105", patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "ffmx-07", title: "MOON MAGICA", subtitle: "FF MAX", patchFile: "FFMX MOON MAGICA.3105", patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "ffmx-08", title: "MOON PECHO ATN", subtitle: "FF MAX", patchFile: "FFMX MOON PECHO ATN.3105", patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "ffmx-09", title: "MOON PECHO", subtitle: "FF MAX", patchFile: "FFMX MOON PECHO.3105", patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "ffmx-10", title: "MOON CABEZA", subtitle: "FF MAX", patchFile: "MOON CABEZA.3105", patchPassword: PatchSlots.password, manualControls: true),
-
-        // PJ HOLO — old PJ entries replaced by the new collection.
-        PatchOption(id: "ffmx-holo-cotton-candy", title: "PJ HOLO MOON COTTON CANDY", subtitle: "FF MAX • PJ HOLO", patchFile: "PJ HOLO MOON COTTON CANDY.3105", patchPassword: PatchSlots.password, manualControls: true, isTexture: true),
-        PatchOption(id: "ffmx-holo-dark-galaxy", title: "PJ HOLO MOON DARK GALAXY", subtitle: "FF MAX • PJ HOLO", patchFile: "PJ HOLO MOON DARK GALAXY.3105", patchPassword: PatchSlots.password, manualControls: true, isTexture: true),
-        PatchOption(id: "ffmx-holo-espejos", title: "PJ HOLO MOON ESPEJOS", subtitle: "FF MAX • PJ HOLO", patchFile: "PJ HOLO MOON ESPEJOS.3105", patchPassword: PatchSlots.password, manualControls: true, isTexture: true)
+        PatchOption(id: "yt-ffmx-drag-atn", title: "MOON DRAG ATN", subtitle: "FF MAX • PRUEBA", patchFile: "FFMX MOON DRAG ATN.3105", patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "yt-ffmx-drag", title: "MOON DRAG", subtitle: "FF MAX • PRUEBA", patchFile: "FFMX MOON DRAG.3105", patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "yt-ffmx-arm-holo", title: "ARM MOON SPIN • RAINBOW", subtitle: "FF MAX • HOLO ARM", patchFile: "ARM MOON SPIN RAINBOW.3105", patchPassword: PatchSlots.armHoloPassword, manualControls: true, isTexture: true)
     ]
 
     private var currentOptions: [PatchOption] {
@@ -1729,6 +1728,53 @@ private enum MoonSocialLinks {
     static let web = ""
 }
 
+private struct MoonLoginLinkButton: View {
+    let title: String
+    let subtitle: String
+    let icon: String
+    let tint: Color
+    let urlString: String
+    @Environment(\\.openURL) private var openURL
+
+    var body: some View {
+        Button {
+            guard let url = URL(string: urlString), !urlString.isEmpty else { return }
+            openURL(url)
+        } label: {
+            HStack(spacing: 12) {
+                Image(systemName: icon)
+                    .font(.system(size: 16, weight: .black))
+                    .foregroundStyle(tint)
+                    .frame(width: 30, height: 30)
+                    .background(tint.opacity(0.12), in: Circle())
+
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(title)
+                        .font(.system(size: 12, weight: .black, design: .rounded))
+                        .foregroundStyle(.white)
+                    Text(subtitle)
+                        .font(.system(size: 9.5, weight: .medium, design: .rounded))
+                        .foregroundStyle(.white.opacity(0.48))
+                        .lineLimit(2)
+                }
+
+                Spacer()
+                Image(systemName: "arrow.up.right")
+                    .font(.system(size: 11, weight: .black))
+                    .foregroundStyle(tint)
+            }
+            .padding(.horizontal, 13)
+            .frame(maxWidth: .infinity, minHeight: 58)
+            .background(.white.opacity(0.045), in: RoundedRectangle(cornerRadius: 17, style: .continuous))
+            .overlay {
+                RoundedRectangle(cornerRadius: 17, style: .continuous)
+                    .stroke(tint.opacity(0.30), lineWidth: 1)
+            }
+        }
+        .buttonStyle(.plain)
+    }
+}
+
 private struct SocialLinkButton: View {
     let title: String
     let icon: String
@@ -2158,7 +2204,6 @@ private struct MoonX7RedesignedShell: View {
     private let tabs = [
         ("house.fill", "Inicio"),
         ("bolt.horizontal.fill", "Funciones"),
-        ("play.rectangle.fill", "Preview"),
         ("gearshape.fill", "Config")
     ]
 
@@ -2170,7 +2215,6 @@ private struct MoonX7RedesignedShell: View {
                 switch tab {
                 case 0: MoonHomeRedesign(auth: auth, tab: $tab)
                 case 1: MoonFunctionsRedesign(darkMode: darkMode)
-                case 2: MoonPreviewRedesign()
                 default: MoonConfigRedesign(auth: auth)
                 }
             }
