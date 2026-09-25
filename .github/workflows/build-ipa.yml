@@ -1,9 +1,9 @@
-name: Build MOON X7 IPA
+name: Build MOON X7 YT Trial IPA
 
 on:
   workflow_dispatch:
   push:
-    branches: [main, master, 'redesign/moonx7-liquid-glass']
+    branches: [main, master, 'redesign/moonx7-liquid-glass', 'version-yt-prueba']
   pull_request:
     branches: [main]
 
@@ -55,17 +55,21 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          grep -q "PreviewView" "$BUILD_SOURCE" || { echo "ERROR: PreviewView missing"; exit 1; }
           grep -q "MoonPatchRedesignCard" "$BUILD_SOURCE" || { echo "ERROR: redesigned patch cards missing"; exit 1; }
           grep -q "MoonPreviewRedesign" "$BUILD_SOURCE" || { echo "ERROR: redesigned preview missing"; exit 1; }
           grep -q "MoonX7RedesignedShell(auth: auth" "$BUILD_SOURCE" || { echo "ERROR: redesigned shell is not the active authenticated UI"; exit 1; }
           grep -q "case 1: MoonFunctionsRedesign" "$BUILD_SOURCE" || { echo "ERROR: redesigned functions screen is not active"; exit 1; }
           grep -q "durationDays" "$BUILD_SOURCE" || { echo "ERROR: license metadata missing"; exit 1; }
-          grep -q "ffmx-holo-cotton-candy" "$BUILD_SOURCE" || { echo "ERROR: new FFMAX Cotton Candy option missing"; exit 1; }
-          grep -q "ffmx-holo-dark-galaxy" "$BUILD_SOURCE" || { echo "ERROR: new FFMAX Dark Galaxy option missing"; exit 1; }
-          grep -q "ffmx-holo-espejos" "$BUILD_SOURCE" || { echo "ERROR: new FFMAX Espejos option missing"; exit 1; }
-          ! grep -q "ffmx-texture-0[1-7]" "$BUILD_SOURCE" || { echo "ERROR: legacy FFMAX options still present"; exit 1; }
-          ! grep -q "TexturasView" "$BUILD_SOURCE" || { echo "ERROR: legacy TexturasView still present"; exit 1; }
+          grep -q "YT LIMITED EDITION" "$BUILD_SOURCE" || { echo "ERROR: YT trial build marker missing"; exit 1; }
+          grep -q 'yt-ffn-drag-atn' "$BUILD_SOURCE" || { echo "ERROR: YT FF Normal Drag ATN missing"; exit 1; }
+          grep -q 'yt-ffn-drag"' "$BUILD_SOURCE" || { echo "ERROR: YT FF Normal Drag missing"; exit 1; }
+          grep -q 'yt-ffn-arm-holo' "$BUILD_SOURCE" || { echo "ERROR: YT FF Normal Holo ARM missing"; exit 1; }
+          grep -q 'yt-ffmx-drag-atn' "$BUILD_SOURCE" || { echo "ERROR: YT FF Max Drag ATN missing"; exit 1; }
+          grep -q 'yt-ffmx-drag"' "$BUILD_SOURCE" || { echo "ERROR: YT FF Max Drag missing"; exit 1; }
+          grep -q 'yt-ffmx-arm-holo' "$BUILD_SOURCE" || { echo "ERROR: YT FF Max Holo ARM missing"; exit 1; }
+          grep -q 'KEY DE PRUEBA GRATIS' "$BUILD_SOURCE" || { echo "ERROR: trial key login button missing"; exit 1; }
+          grep -q 'COMPRAR VIP • WHATSAPP' "$BUILD_SOURCE" || { echo "ERROR: VIP WhatsApp login button missing"; exit 1; }
+          grep -q 'https://discord.gg/hD6qXCtXm' "$BUILD_SOURCE" || { echo "ERROR: Discord link missing"; exit 1; }
 
           PATCHES_DIR="$SOURCE_ROOT/ThreeOneOSFive/Patches"
           PREVIEW_DIR="$SOURCE_ROOT/ThreeOneOSFive/PreviewVideos"
@@ -155,7 +159,7 @@ jobs:
           done
 
           cd "$GITHUB_WORKSPACE"
-          IPA_NAME="MOON-X7-UI-${GITHUB_RUN_NUMBER}-${GITHUB_SHA::7}.ipa"
+          IPA_NAME="MOON-X7-YT-${GITHUB_RUN_NUMBER}-${GITHUB_SHA::7}.ipa"
           rm -f "$IPA_NAME"
           ditto -c -k --sequesterRsrc --keepParent Payload "$IPA_NAME"
           [ -f "$IPA_NAME" ] || { echo "ERROR: IPA not created"; exit 1; }
@@ -177,8 +181,8 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: MOON-X7-UI-${{ github.run_number }}-${{ github.sha }}
-          path: MOON-X7-UI-*.ipa
+          name: MOON-X7-YT-${{ github.run_number }}-${{ github.sha }}
+          path: MOON-X7-YT-*.ipa
           if-no-files-found: error
 
       - name: Upload build log
