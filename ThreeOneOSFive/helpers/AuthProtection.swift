@@ -126,6 +126,7 @@ final class AuthProtection: ObservableObject {
     @Published private(set) var lastValidation: Date?
 
     private var pollTimer: Timer?
+    private var presenceTimer: Timer?
     private var refreshInProgress = false
 
     private init() {}
@@ -217,6 +218,9 @@ final class AuthProtection: ObservableObject {
     @MainActor
     func logout() {
         KeychainReader.delete(service: KeychainReader.service, account: KeychainReader.keyAccount)
+        if let key = licenseKey, let deviceToken = KeychainReader.read(service: KeychainReader.service, account: KeychainReader.deviceTokenAccount) {
+            Task { try? await AuthAPI.endPresence(key: key, deviceToken: deviceToken) }
+        }
         AuthRuntimeGate.shared.close()
         licenseKey = nil
         expiresAt = nil
@@ -308,6 +312,7 @@ final class AuthProtection: ObservableObject {
             lastValidation = Date()
             AuthRuntimeGate.shared.open(key: key, deviceToken: deviceToken, expiresAt: expiration)
             state = .authorized
+            Task { try? await AuthAPI.reportPresence(key: key, deviceToken: deviceToken, deviceModel: UIDevice.current.model, appVersion: Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String) }
             return true
         } catch {
             deny("Falha ao validar a key na API. Conexão online obrigatória.")
@@ -520,6 +525,20 @@ private enum AuthAPI {
         }
 
         return try JSONDecoder().decode(T.self, from: data)
+    }
+
+    static func reportPresence(key: String, deviceToken: String, deviceModel: String?, appVersion: String?) async throws {
+        _ = try await rpc("report_app_presence", body: [
+            "p_license_key": key,
+            "p_udid": deviceToken,
+            "p_device_model": deviceModel as Any,
+            "p_app_version": appVersion as Any,
+            "p_game": "MOONX7"
+        ], response: RPCResponse.self)
+    }
+
+    static func endPresence(key: String, deviceToken: String) async throws {
+        _ = try await rpc("end_app_presence", body: ["p_license_key": key, "p_udid": deviceToken], response: RPCResponse.self)
     }
 
     static func parseDate(_ value: String) -> Date? {
