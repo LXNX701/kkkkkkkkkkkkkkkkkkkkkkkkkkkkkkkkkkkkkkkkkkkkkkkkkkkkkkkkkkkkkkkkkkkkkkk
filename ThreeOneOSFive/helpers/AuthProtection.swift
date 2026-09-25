@@ -124,6 +124,7 @@ final class AuthProtection: ObservableObject {
     @Published private(set) var licenseKey: String?
     @Published private(set) var expiresAt: Date?
     @Published private(set) var lastValidation: Date?
+    @Published private(set) var allowedFeatures: Set<String> = []
 
     private var pollTimer: Timer?
     private var presenceTimer: Timer?
@@ -134,6 +135,28 @@ final class AuthProtection: ObservableObject {
     var isAuthorized: Bool {
         if case .authorized = state { return true }
         return false
+    }
+
+    func hasFeature(fileName: String) -> Bool {
+        guard isAuthorized else { return false }
+        if allowedFeatures.isEmpty { return true } // legacy keys keep existing behavior
+        let name = fileName.lowercased()
+        let map: [(String,String)] = [
+            ("arm holo borde azul y rojo", "ffmax-arm-blue-red"), ("arm holo borde rtx", "ffmax-arm-rtx"),
+            ("arm holo borde verde amarillo", "ffmax-arm-green-yellow"), ("ffmx moon cabeza atn", "ffmax-cabeza-atn"),
+            ("ffmx moon cuello atn", "ffmax-cuello-atn"), ("ffmx moon cuello", "ffmax-cuello"),
+            ("ffmx moon drag atn", "ffmax-drag-atn"), ("ffmx moon drag", "ffmax-drag"),
+            ("ffmx moon magic atn", "ffmax-magic-atn"), ("ffmx moon magica", "ffmax-magica"),
+            ("ffmx moon pecho atn", "ffmax-pecho-atn"), ("ffmx moon pecho", "ffmax-pecho"),
+            ("moon cabeza.3105", "ffmax-cabeza"), ("pj holo moon cotton candy", "ffmax-pj-cotton"),
+            ("pj holo moon dark galaxy", "ffmax-pj-galaxy"), ("pj holo moon espejos", "ffmax-pj-espejos"),
+            ("moon cabeza atn--", "ff-normal-cabeza-atn"), ("moon cabeza--", "ff-normal-cabeza"),
+            ("moon cuello atn --", "ff-normal-cuello-atn"), ("moon cuello--", "ff-normal-cuello"),
+            ("moon drag ant", "ff-normal-drag-atn"), ("moon drag --", "ff-normal-drag"),
+            ("moon pecho atn", "ff-normal-pecho-atn"), ("moon pecho", "ff-normal-pecho")
+        ]
+        if let match = map.first(where: { name.contains($0.0) }) { return allowedFeatures.contains(match.1) }
+        return true
     }
 
     var displayedKey: String {
@@ -225,6 +248,7 @@ final class AuthProtection: ObservableObject {
         licenseKey = nil
         expiresAt = nil
         lastValidation = nil
+        allowedFeatures = []
         state = .waitingForAuth
     }
 
@@ -312,7 +336,11 @@ final class AuthProtection: ObservableObject {
             lastValidation = Date()
             AuthRuntimeGate.shared.open(key: key, deviceToken: deviceToken, expiresAt: expiration)
             state = .authorized
-            Task { try? await AuthAPI.reportPresence(key: key, deviceToken: deviceToken, deviceModel: UIDevice.current.model, appVersion: Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String) }
+            Task { @MainActor in
+                if let response = try? await AuthAPI.reportPresence(key: key, deviceToken: deviceToken, deviceModel: UIDevice.current.model, appVersion: Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String) {
+                    self.allowedFeatures = Set(response.features ?? [])
+                }
+            }
             return true
         } catch {
             deny("Falha ao validar a key na API. Conexão online obrigatória.")
@@ -439,6 +467,7 @@ private enum AuthAPI {
 
     struct RPCResponse: Decodable {
         let success: Bool
+        let features: [String]?
         let status: String?
         let plan: String?
         let durationDays: Int?
@@ -527,8 +556,8 @@ private enum AuthAPI {
         return try JSONDecoder().decode(T.self, from: data)
     }
 
-    static func reportPresence(key: String, deviceToken: String, deviceModel: String?, appVersion: String?) async throws {
-        _ = try await rpc("report_app_presence", body: [
+    static func reportPresence(key: String, deviceToken: String, deviceModel: String?, appVersion: String?) async throws -> RPCResponse {
+        return try await rpc("report_app_presence", body: [
             "p_license_key": key,
             "p_udid": deviceToken,
             "p_device_model": deviceModel as Any,
