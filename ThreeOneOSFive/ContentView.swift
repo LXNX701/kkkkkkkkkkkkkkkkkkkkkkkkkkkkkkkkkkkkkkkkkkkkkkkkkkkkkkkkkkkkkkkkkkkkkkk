@@ -659,11 +659,6 @@ private struct ExternalFunctionsView: View {
         PatchOption(id: "ffmx-09", title: "MOON PECHO", subtitle: "FF MAX", patchFile: "FFMX MOON PECHO.3105", patchPassword: PatchSlots.password, manualControls: true),
         PatchOption(id: "ffmx-10", title: "MOON CABEZA", subtitle: "FF MAX", patchFile: "MOON CABEZA.3105", patchPassword: PatchSlots.password, manualControls: true),
 
-        // Existing ARM HOLO options — kept.
-        PatchOption(id: "ffmx-arm-01", title: "ARM HOLO BORDE AZUL Y ROJO", subtitle: "FF MAX • HOLO", patchFile: "ARM HOLO BORDE AZUL Y ROJO.3105", patchPassword: PatchSlots.password, manualControls: true, isTexture: true),
-        PatchOption(id: "ffmx-arm-02", title: "ARM HOLO BORDE RTX", subtitle: "FF MAX • HOLO", patchFile: "ARM HOLO BORDE RTX.3105", patchPassword: PatchSlots.password, manualControls: true, isTexture: true),
-        PatchOption(id: "ffmx-arm-03", title: "ARM HOLO BORDE VERDE AMARILLO", subtitle: "FF MAX • HOLO", patchFile: "ARM HOLO BORDE VERDE AMARILLO.3105", patchPassword: PatchSlots.password, manualControls: true, isTexture: true),
-
         // PJ HOLO — old PJ entries replaced by the new collection.
         PatchOption(id: "ffmx-holo-cotton-candy", title: "PJ HOLO MOON COTTON CANDY", subtitle: "FF MAX • PJ HOLO", patchFile: "PJ HOLO MOON COTTON CANDY.3105", patchPassword: PatchSlots.password, manualControls: true, isTexture: true),
         PatchOption(id: "ffmx-holo-dark-galaxy", title: "PJ HOLO MOON DARK GALAXY", subtitle: "FF MAX • PJ HOLO", patchFile: "PJ HOLO MOON DARK GALAXY.3105", patchPassword: PatchSlots.password, manualControls: true, isTexture: true),
