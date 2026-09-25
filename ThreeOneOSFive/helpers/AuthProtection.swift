@@ -127,7 +127,6 @@ final class AuthProtection: ObservableObject {
     @Published private(set) var allowedFeatures: Set<String> = []
 
     private var pollTimer: Timer?
-    private var presenceTimer: Timer?
     private var refreshInProgress = false
 
     private init() {}
@@ -291,7 +290,7 @@ final class AuthProtection: ObservableObject {
         if !forceRemote,
            isAuthorized,
            let lastValidation,
-           Date().timeIntervalSince(lastValidation) < 25 {
+           Date().timeIntervalSince(lastValidation) < 10 {
             return true
         }
 
@@ -477,7 +476,7 @@ private enum AuthAPI {
         let deviceBound: Bool?
 
         enum CodingKeys: String, CodingKey {
-            case success, status, plan, message
+            case success, features, status, plan, message
             case durationDays = "duration_days"
             case activatedAt = "activated_at"
             case expiresAt = "expires_at"
