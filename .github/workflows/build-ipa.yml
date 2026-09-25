@@ -3,7 +3,7 @@ name: Build MOON X7 IPA
 on:
   workflow_dispatch:
   push:
-    branches: [main, master]
+    branches: [main, master, feature/moonx7-live-presence]
 
 permissions:
   contents: read
