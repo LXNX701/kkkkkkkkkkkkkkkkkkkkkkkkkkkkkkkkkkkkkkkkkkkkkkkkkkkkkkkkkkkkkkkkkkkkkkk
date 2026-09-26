@@ -2636,7 +2636,6 @@ private struct MoonFunctionsRedesign: View {
         PatchOption(id:"r-ffn8", title:"MOON PECHO ATN", subtitle:"FF NORMAL", patchFile:PatchSlots.ffn8, patchPassword:PatchSlots.password, manualControls:true),
         PatchOption(id:"r-arm-max-rainbow", title:"ARM HOLO MOON • RAINBOW", subtitle:"FF NORMAL • HOLO ARM", patchFile:"ARM HOLO MOON RAINBOW.3105", patchPassword:PatchSlots.armHoloPassword, manualControls:true, isTexture:true)
     ]
-    ]
 
     private let max: [PatchOption] = [
         PatchOption(id:"r-m1", title:"AIM MOON CABEZA", subtitle:"FF MAX • AIM MOON", patchFile:"AIM MOON CABEZA.3105", patchPassword:PatchSlots.password, manualControls:true),
@@ -2651,7 +2650,6 @@ private struct MoonFunctionsRedesign: View {
         PatchOption(id:"r-pj1", title:"PJ HOLO • COTTON CANDY", subtitle:"FF MAX • PJ HOLO", patchFile:"PJ HOLO MOON COTTON CANDY.3105", patchPassword:PatchSlots.password, manualControls:true, isTexture:true),
         PatchOption(id:"r-pj2", title:"PJ HOLO • DARK GALAXY", subtitle:"FF MAX • PJ HOLO", patchFile:"PJ HOLO MOON DARK GALAXY.3105", patchPassword:PatchSlots.password, manualControls:true, isTexture:true),
         PatchOption(id:"r-pj3", title:"PJ HOLO • ESPEJOS", subtitle:"FF MAX • PJ HOLO", patchFile:"PJ HOLO MOON ESPEJOS.3105", patchPassword:PatchSlots.password, manualControls:true, isTexture:true)
-    ]
     ]
 
     private var options: [PatchOption] { game == 0 ? normal : max }
