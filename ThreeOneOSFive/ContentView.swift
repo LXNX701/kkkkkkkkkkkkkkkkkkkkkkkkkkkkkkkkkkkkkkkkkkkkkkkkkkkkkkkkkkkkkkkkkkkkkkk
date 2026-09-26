@@ -2731,15 +2731,25 @@ private struct MoonFunctionsRedesign: View {
         switch filter {
         case .all:
             return allOptions
-        case .dragATN:
-            return allOptions.filter { $0.title.localizedCaseInsensitiveContains("DRAG ATN") }
-        case .drag:
-            return allOptions.filter {
-                $0.title.localizedCaseInsensitiveContains("DRAG") &&
-                !$0.title.localizedCaseInsensitiveContains("ATN")
-            }
-        case .holo:
+        case .holos:
             return allOptions.filter { $0.isTexture }
+        case .aim:
+            return allOptions.filter {
+                !$0.isTexture &&
+                $0.title.localizedCaseInsensitiveContains("AIM")
+            }
+        case .moons:
+            return allOptions.filter {
+                !$0.isTexture &&
+                !$0.title.localizedCaseInsensitiveContains("AIM") &&
+                !$0.title.localizedCaseInsensitiveContains("ATN") &&
+                $0.title.localizedCaseInsensitiveContains("MOON")
+            }
+        case .atn:
+            return allOptions.filter {
+                !$0.isTexture &&
+                $0.title.localizedCaseInsensitiveContains("ATN")
+            }
         }
     }
 
@@ -2815,9 +2825,10 @@ private struct MoonFunctionsRedesign: View {
 
                 HStack(spacing:7) {
                     filterCard(.all, title:"VER TODOS", value:allOptions.count, icon:"square.grid.2x2.fill", tint:.white)
-                    filterCard(.dragATN, title:"DRAG ATN", value:allOptions.filter { $0.title.localizedCaseInsensitiveContains("DRAG ATN") }.count, icon:"scope", tint:Theme.accent)
-                    filterCard(.drag, title:"MOON DRAG", value:allOptions.filter { $0.title.localizedCaseInsensitiveContains("DRAG") && !$0.title.localizedCaseInsensitiveContains("ATN") }.count, icon:"circle.grid.3x3.fill", tint:.white)
-                    filterCard(.holo, title:"HOLOS", value:allOptions.filter { $0.isTexture }.count, icon:"sparkles", tint:Theme.violet)
+                    filterCard(.holos, title:"HOLOS", value:allOptions.filter { $0.isTexture }.count, icon:"sparkles", tint:Theme.violet)
+                    filterCard(.aim, title:"AIM", value:allOptions.filter { !$0.isTexture && $0.title.localizedCaseInsensitiveContains("AIM") }.count, icon:"scope", tint:Theme.accent)
+                    filterCard(.moons, title:"MOONS", value:allOptions.filter { !$0.isTexture && !$0.title.localizedCaseInsensitiveContains("AIM") && !$0.title.localizedCaseInsensitiveContains("ATN") && $0.title.localizedCaseInsensitiveContains("MOON") }.count, icon:"circle.grid.3x3.fill", tint:.white)
+                    filterCard(.atn, title:"ATN", value:allOptions.filter { !$0.isTexture && $0.title.localizedCaseInsensitiveContains("ATN") }.count, icon:"target", tint:Theme.accent)
                 }
 
                 HStack {
@@ -2873,14 +2884,15 @@ private struct MoonFunctionsRedesign: View {
 }
 
 private enum MoonOptionFilter {
-    case all, dragATN, drag, holo
+    case all, holos, aim, moons, atn
 
     var label: String {
         switch self {
         case .all: return "VER TODOS"
-        case .dragATN: return "MOON DRAG ATN"
-        case .drag: return "MOON DRAG"
-        case .holo: return "HOLOS"
+        case .holos: return "HOLOS"
+        case .aim: return "AIM"
+        case .moons: return "MOONS"
+        case .atn: return "ATN"
         }
     }
 }
