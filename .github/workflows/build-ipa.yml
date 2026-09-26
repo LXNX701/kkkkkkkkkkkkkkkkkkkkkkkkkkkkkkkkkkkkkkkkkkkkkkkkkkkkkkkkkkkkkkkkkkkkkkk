@@ -65,7 +65,7 @@ jobs:
           grep -q 'r-pj2' "$BUILD_SOURCE" || { echo "ERROR: new FFMAX Dark Galaxy option missing"; exit 1; }
           grep -q 'r-pj3' "$BUILD_SOURCE" || { echo "ERROR: new FFMAX Espejos option missing"; exit 1; }
           grep -q 'AIM MOON CABEZA.3105' "$BUILD_SOURCE" || { echo "ERROR: AIM MOON options missing"; exit 1; }
-          grep -q 'MOON CABEZA.3105' "$BUILD_SOURCE" || { echo "ERROR: new FF NORMAL options missing"; exit 1; }
+          grep -q 'AIM MOON CABEZA.3105' "$BUILD_SOURCE" || { echo "ERROR: shared AIM FF NORMAL options missing"; exit 1; }
           ! grep -q "ffmx-texture-0[1-7]" "$BUILD_SOURCE" || { echo "ERROR: legacy FFMAX options still present"; exit 1; }
           ! grep -q "TexturasView" "$BUILD_SOURCE" || { echo "ERROR: legacy TexturasView still present"; exit 1; }
 
@@ -85,15 +85,15 @@ jobs:
           test -f "$PATCHES_DIR/FF Max/AIM MOON DRAG ATN.3105" || { echo "ERROR: required patch missing: FF Max/AIM MOON DRAG ATN.3105"; exit 1; }
           test -f "$PATCHES_DIR/FF Max/AIM MOON PECHO.3105" || { echo "ERROR: required patch missing: FF Max/AIM MOON PECHO.3105"; exit 1; }
           test -f "$PATCHES_DIR/FF Max/AIM MOON PECHO ATN.3105" || { echo "ERROR: required patch missing: FF Max/AIM MOON PECHO ATN.3105"; exit 1; }
-          test -f "$PATCHES_DIR/FF Normal/MOON CABEZA.3105" || { echo "ERROR: required patch missing: FF Normal/MOON CABEZA.3105"; exit 1; }
-          test -f "$PATCHES_DIR/FF Normal/MOON CABEZA ATN.3105" || { echo "ERROR: required patch missing: FF Normal/MOON CABEZA ATN.3105"; exit 1; }
-          test -f "$PATCHES_DIR/FF Normal/MOON CUELLO.3105" || { echo "ERROR: required patch missing: FF Normal/MOON CUELLO.3105"; exit 1; }
-          test -f "$PATCHES_DIR/FF Normal/MOON CUELLO ATN.3105" || { echo "ERROR: required patch missing: FF Normal/MOON CUELLO ATN.3105"; exit 1; }
-          test -f "$PATCHES_DIR/FF Normal/MOON DRAG.3105" || { echo "ERROR: required patch missing: FF Normal/MOON DRAG.3105"; exit 1; }
-          test -f "$PATCHES_DIR/FF Normal/MOON DRAG ATN.3105" || { echo "ERROR: required patch missing: FF Normal/MOON DRAG ATN.3105"; exit 1; }
-          test -f "$PATCHES_DIR/FF Normal/MOON PECHO.3105" || { echo "ERROR: required patch missing: FF Normal/MOON PECHO.3105"; exit 1; }
-          test -f "$PATCHES_DIR/FF Normal/MOON PECHO ATN.3105" || { echo "ERROR: required patch missing: FF Normal/MOON PECHO ATN.3105"; exit 1; }
-          test -f "$PATCHES_DIR/FF Normal/120-144 FPS FF.3105" || { echo "ERROR: required patch missing: FF Normal/120-144 FPS FF.3105"; exit 1; }
+          test -f "$PATCHES_DIR/FF Normal/AIM MOON CABEZA.3105" || { echo "ERROR: required patch missing: FF Normal/AIM MOON CABEZA.3105"; exit 1; }
+          test -f "$PATCHES_DIR/FF Normal/AIM MOON CABEZA ATN.3105" || { echo "ERROR: required patch missing: FF Normal/AIM MOON CABEZA ATN.3105"; exit 1; }
+          test -f "$PATCHES_DIR/FF Normal/AIM MOON CUELLO.3105" || { echo "ERROR: required patch missing: FF Normal/AIM MOON CUELLO.3105"; exit 1; }
+          test -f "$PATCHES_DIR/FF Normal/AIM MOON CUELLO ATN.3105" || { echo "ERROR: required patch missing: FF Normal/AIM MOON CUELLO ATN.3105"; exit 1; }
+          test -f "$PATCHES_DIR/FF Normal/AIM MOON DRAG.3105" || { echo "ERROR: required patch missing: FF Normal/AIM MOON DRAG.3105"; exit 1; }
+          test -f "$PATCHES_DIR/FF Normal/AIM MOON DRAG ATN.3105" || { echo "ERROR: required patch missing: FF Normal/AIM MOON DRAG ATN.3105"; exit 1; }
+          test -f "$PATCHES_DIR/FF Normal/AIM MOON PECHO.3105" || { echo "ERROR: required patch missing: FF Normal/AIM MOON PECHO.3105"; exit 1; }
+          test -f "$PATCHES_DIR/FF Normal/AIM MOON PECHO ATN.3105" || { echo "ERROR: required patch missing: FF Normal/AIM MOON PECHO ATN.3105"; exit 1; }
+          test -f "$PATCHES_DIR/FF Normal/AIM 120-144 FPS FF.3105" || { echo "ERROR: required patch missing: FF Normal/AIM 120-144 FPS FF.3105"; exit 1; }
           test -f "$PATCHES_DIR/FF Max/120-144 FPS FFMAX.3105" || { echo "ERROR: required patch missing: FF Max/120-144 FPS FFMAX.3105"; exit 1; }
           echo "ContentView SHA256:"
           shasum -a 256 "$BUILD_SOURCE"
