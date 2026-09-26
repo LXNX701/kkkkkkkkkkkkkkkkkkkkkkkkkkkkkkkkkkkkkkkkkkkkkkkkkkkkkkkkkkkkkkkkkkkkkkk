@@ -596,8 +596,6 @@ private enum PatchSlots {
     static let password = "0"
     static let armHoloPassword = "moonx7"
 }
-}
-
 
 // ============================================================
 // MARK: - SHARED THEME
@@ -641,7 +639,6 @@ private struct ExternalFunctionsView: View {
         PatchOption(id: "ffn-08", title: "MOON PECHO ATN", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn8, patchPassword: PatchSlots.password, manualControls: true),
         PatchOption(id: "ffn-arm-holo", title: "ARM HOLO MOON • RAINBOW", subtitle: "FF NORMAL • HOLO ARM", patchFile: "ARM HOLO MOON RAINBOW.3105", patchPassword: PatchSlots.armHoloPassword, manualControls: true, isTexture: true)
     ]
-    ]
 
     // --------------------------------------------------------
     // FREE FIRE MAX
@@ -660,7 +657,6 @@ private struct ExternalFunctionsView: View {
         PatchOption(id: "r-pj1", title: "PJ HOLO • COTTON CANDY", subtitle: "FF MAX • PJ HOLO", patchFile: "PJ HOLO MOON COTTON CANDY.3105", patchPassword: PatchSlots.password, manualControls: true, isTexture: true),
         PatchOption(id: "r-pj2", title: "PJ HOLO • DARK GALAXY", subtitle: "FF MAX • PJ HOLO", patchFile: "PJ HOLO MOON DARK GALAXY.3105", patchPassword: PatchSlots.password, manualControls: true, isTexture: true),
         PatchOption(id: "r-pj3", title: "PJ HOLO • ESPEJOS", subtitle: "FF MAX • PJ HOLO", patchFile: "PJ HOLO MOON ESPEJOS.3105", patchPassword: PatchSlots.password, manualControls: true, isTexture: true)
-    ]
     ]
 
     private var currentOptions: [PatchOption] {
@@ -2841,10 +2837,10 @@ private struct MoonPatchRedesignCard: View {
 
             if expanded {
                 HStack(spacing:9) {
-                    MoonActionButton(title:"INJETAR", icon:"bolt.fill", tint:Theme.accent, disabled:busy) {
+                    MoonActionButton(title: holo ? "INJETAR" : "INJETAR 40%", icon:"bolt.fill", tint:Theme.accent, disabled:busy) {
                         run(apply:true)
                     }
-                    MoonActionButton(title:"QUITAR", icon:"arrow.uturn.backward", tint:Theme.violet, disabled:busy) {
+                    MoonActionButton(title: holo ? "QUITAR" : "QUITAR LOBBY", icon:"arrow.uturn.backward", tint:Theme.violet, disabled:busy) {
                         run(apply:false)
                     }
                 }
