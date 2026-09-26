@@ -64,6 +64,8 @@ jobs:
           grep -q "ffmx-holo-cotton-candy" "$BUILD_SOURCE" || { echo "ERROR: new FFMAX Cotton Candy option missing"; exit 1; }
           grep -q "ffmx-holo-dark-galaxy" "$BUILD_SOURCE" || { echo "ERROR: new FFMAX Dark Galaxy option missing"; exit 1; }
           grep -q "ffmx-holo-espejos" "$BUILD_SOURCE" || { echo "ERROR: new FFMAX Espejos option missing"; exit 1; }
+          grep -q 'AIM MOON CABEZA.3105' "$BUILD_SOURCE" || { echo "ERROR: AIM MOON options missing"; exit 1; }
+          grep -q 'MOON CABEZA.3105' "$BUILD_SOURCE" || { echo "ERROR: new FF NORMAL options missing"; exit 1; } || { echo "ERROR: new FFMAX Espejos option missing"; exit 1; }
           ! grep -q "ffmx-texture-0[1-7]" "$BUILD_SOURCE" || { echo "ERROR: legacy FFMAX options still present"; exit 1; }
           ! grep -q "TexturasView" "$BUILD_SOURCE" || { echo "ERROR: legacy TexturasView still present"; exit 1; }
 
@@ -74,7 +76,24 @@ jobs:
           [ -d "$PATCHES_DIR" ] || { echo "ERROR: patches directory missing"; exit 1; }
           PATCH_COUNT="$(find "$PATCHES_DIR" -type f -name '*.3105' | wc -l | tr -d ' ')"
           echo "Patch count: $PATCH_COUNT"
-          [ "$PATCH_COUNT" -ge 16 ] || { echo "ERROR: expected at least 11 .3105 resources after FF MAX replacement"; exit 1; }
+          [ "$PATCH_COUNT" -eq 21 ] || { echo "ERROR: expected exactly 21 .3105 resources, found $PATCH_COUNT"; exit 1; }
+          test -f "$PATCHES_DIR/FF Max/AIM MOON CABEZA.3105" 2>/dev/null || test -f "$PATCHES_DIR/FF Normal/AIM MOON CABEZA.3105" 2>/dev/null || { echo "ERROR: required patch missing: AIM MOON CABEZA.3105"; exit 1; }
+          test -f "$PATCHES_DIR/FF Max/AIM MOON CABEZA ATN.3105" 2>/dev/null || test -f "$PATCHES_DIR/FF Normal/AIM MOON CABEZA ATN.3105" 2>/dev/null || { echo "ERROR: required patch missing: AIM MOON CABEZA ATN.3105"; exit 1; }
+          test -f "$PATCHES_DIR/FF Max/AIM MOON CUELLO.3105" 2>/dev/null || test -f "$PATCHES_DIR/FF Normal/AIM MOON CUELLO.3105" 2>/dev/null || { echo "ERROR: required patch missing: AIM MOON CUELLO.3105"; exit 1; }
+          test -f "$PATCHES_DIR/FF Max/AIM MOON CUELLO ATN.3105" 2>/dev/null || test -f "$PATCHES_DIR/FF Normal/AIM MOON CUELLO ATN.3105" 2>/dev/null || { echo "ERROR: required patch missing: AIM MOON CUELLO ATN.3105"; exit 1; }
+          test -f "$PATCHES_DIR/FF Max/AIM MOON DRAG.3105" 2>/dev/null || test -f "$PATCHES_DIR/FF Normal/AIM MOON DRAG.3105" 2>/dev/null || { echo "ERROR: required patch missing: AIM MOON DRAG.3105"; exit 1; }
+          test -f "$PATCHES_DIR/FF Max/AIM MOON DRAG ATN.3105" 2>/dev/null || test -f "$PATCHES_DIR/FF Normal/AIM MOON DRAG ATN.3105" 2>/dev/null || { echo "ERROR: required patch missing: AIM MOON DRAG ATN.3105"; exit 1; }
+          test -f "$PATCHES_DIR/FF Max/AIM MOON PECHO.3105" 2>/dev/null || test -f "$PATCHES_DIR/FF Normal/AIM MOON PECHO.3105" 2>/dev/null || { echo "ERROR: required patch missing: AIM MOON PECHO.3105"; exit 1; }
+          test -f "$PATCHES_DIR/FF Max/AIM MOON PECHO ATN.3105" 2>/dev/null || test -f "$PATCHES_DIR/FF Normal/AIM MOON PECHO ATN.3105" 2>/dev/null || { echo "ERROR: required patch missing: AIM MOON PECHO ATN.3105"; exit 1; }
+          test -f "$PATCHES_DIR/FF Max/MOON CABEZA.3105" 2>/dev/null || test -f "$PATCHES_DIR/FF Normal/MOON CABEZA.3105" 2>/dev/null || { echo "ERROR: required patch missing: MOON CABEZA.3105"; exit 1; }
+          test -f "$PATCHES_DIR/FF Max/MOON CABEZA ATN.3105" 2>/dev/null || test -f "$PATCHES_DIR/FF Normal/MOON CABEZA ATN.3105" 2>/dev/null || { echo "ERROR: required patch missing: MOON CABEZA ATN.3105"; exit 1; }
+          test -f "$PATCHES_DIR/FF Max/MOON CUELLO.3105" 2>/dev/null || test -f "$PATCHES_DIR/FF Normal/MOON CUELLO.3105" 2>/dev/null || { echo "ERROR: required patch missing: MOON CUELLO.3105"; exit 1; }
+          test -f "$PATCHES_DIR/FF Max/MOON CUELLO ATN.3105" 2>/dev/null || test -f "$PATCHES_DIR/FF Normal/MOON CUELLO ATN.3105" 2>/dev/null || { echo "ERROR: required patch missing: MOON CUELLO ATN.3105"; exit 1; }
+          test -f "$PATCHES_DIR/FF Max/MOON DRAG.3105" 2>/dev/null || test -f "$PATCHES_DIR/FF Normal/MOON DRAG.3105" 2>/dev/null || { echo "ERROR: required patch missing: MOON DRAG.3105"; exit 1; }
+          test -f "$PATCHES_DIR/FF Max/MOON DRAG ATN.3105" 2>/dev/null || test -f "$PATCHES_DIR/FF Normal/MOON DRAG ATN.3105" 2>/dev/null || { echo "ERROR: required patch missing: MOON DRAG ATN.3105"; exit 1; }
+          test -f "$PATCHES_DIR/FF Max/MOON PECHO.3105" 2>/dev/null || test -f "$PATCHES_DIR/FF Normal/MOON PECHO.3105" 2>/dev/null || { echo "ERROR: required patch missing: MOON PECHO.3105"; exit 1; }
+          test -f "$PATCHES_DIR/FF Max/MOON PECHO ATN.3105" 2>/dev/null || test -f "$PATCHES_DIR/FF Normal/MOON PECHO ATN.3105" 2>/dev/null || { echo "ERROR: required patch missing: MOON PECHO ATN.3105"; exit 1; }
+! find "$PATCHES_DIR" -type f -name '*.3105' | grep -E 'FFMX MOON (MAGIC|MAGICA)|MOON (CABEZA|CUELLO|DRAG|PECHO).*--' && true
 
           echo "ContentView SHA256:"
           shasum -a 256 "$BUILD_SOURCE"
@@ -148,7 +167,7 @@ jobs:
           [ ! -f "$BANNER_FILE" ] || cp -f "$BANNER_FILE" "$DEST_APP/realm-banner.gif"
 
           PATCH_COUNT="$(find "$DEST_APP/Patches" -type f -name '*.3105' | wc -l | tr -d ' ')"
-          [ "$PATCH_COUNT" -ge 16 ] || { echo "ERROR: packaged patch count is $PATCH_COUNT"; exit 1; }
+          [ "$PATCH_COUNT" -eq 21 ] || { echo "ERROR: packaged patch count is $PATCH_COUNT; expected exactly 21"; exit 1; }
 
           for video in             "PJ HOLO MOON COTTON CANDY.mp4"             "PJ HOLO MOON DARK GALAXY.mp4"             "PJ HOLO MOON ESPEJOS.mp4"; do
             [ -f "$DEST_APP/PreviewImages/$video" ] || { echo "ERROR: missing preview video: $video"; exit 1; }
