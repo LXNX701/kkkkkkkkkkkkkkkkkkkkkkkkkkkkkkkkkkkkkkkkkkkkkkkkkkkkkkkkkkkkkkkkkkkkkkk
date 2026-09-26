@@ -652,14 +652,14 @@ private struct ExternalFunctionsView: View {
     // --------------------------------------------------------
 
     private let freeFireMaxOptions: [PatchOption] = [
-        PatchOption(id: "ffmx-01", title: "AIM MOON CABEZA", subtitle: "FF MAX • AIM MOON", patchFile: "AIM AIM MOON CABEZA.3105", patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "ffmx-02", title: "AIM MOON CABEZA ATN", subtitle: "FF MAX • AIM MOON", patchFile: "AIM AIM MOON CABEZA ATN.3105", patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "ffmx-03", title: "AIM MOON CUELLO", subtitle: "FF MAX • AIM MOON", patchFile: "AIM AIM MOON CUELLO.3105", patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "ffmx-04", title: "AIM MOON CUELLO ATN", subtitle: "FF MAX • AIM MOON", patchFile: "AIM AIM MOON CUELLO ATN.3105", patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "ffmx-05", title: "AIM MOON DRAG", subtitle: "FF MAX • AIM MOON", patchFile: "AIM AIM MOON DRAG.3105", patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "ffmx-06", title: "AIM MOON DRAG ATN", subtitle: "FF MAX • AIM MOON", patchFile: "AIM AIM MOON DRAG ATN.3105", patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "ffmx-07", title: "AIM MOON PECHO", subtitle: "FF MAX • AIM MOON", patchFile: "AIM AIM MOON PECHO.3105", patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "ffmx-08", title: "AIM MOON PECHO ATN", subtitle: "FF MAX • AIM MOON", patchFile: "AIM AIM MOON PECHO ATN.3105", patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "ffmx-01", title: "AIM MOON CABEZA", subtitle: "FF MAX • AIM MOON", patchFile: "AIM MOON CABEZA.3105", patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "ffmx-02", title: "AIM MOON CABEZA ATN", subtitle: "FF MAX • AIM MOON", patchFile: "AIM MOON CABEZA ATN.3105", patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "ffmx-03", title: "AIM MOON CUELLO", subtitle: "FF MAX • AIM MOON", patchFile: "AIM MOON CUELLO.3105", patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "ffmx-04", title: "AIM MOON CUELLO ATN", subtitle: "FF MAX • AIM MOON", patchFile: "AIM MOON CUELLO ATN.3105", patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "ffmx-05", title: "AIM MOON DRAG", subtitle: "FF MAX • AIM MOON", patchFile: "AIM MOON DRAG.3105", patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "ffmx-06", title: "AIM MOON DRAG ATN", subtitle: "FF MAX • AIM MOON", patchFile: "AIM MOON DRAG ATN.3105", patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "ffmx-07", title: "AIM MOON PECHO", subtitle: "FF MAX • AIM MOON", patchFile: "AIM MOON PECHO.3105", patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "ffmx-08", title: "AIM MOON PECHO ATN", subtitle: "FF MAX • AIM MOON", patchFile: "AIM MOON PECHO ATN.3105", patchPassword: PatchSlots.password, manualControls: true),
         PatchOption(id: "ffmx-120fps", title: "120–144 FPS", subtitle: "FF MAX • FPS", patchFile: PatchSlots.ffmxFPS, patchPassword: PatchSlots.password, manualControls: true),
         PatchOption(id: "r-arm-normal-rainbow", title: "ARM MOON SPIN • RAINBOW", subtitle: "FF MAX • HOLO ARM", patchFile: "ARM MOON SPIN RAINBOW.3105", patchPassword: PatchSlots.armHoloPassword, manualControls: true, isTexture: true),
         PatchOption(id: "r-pj1", title: "PJ HOLO • COTTON CANDY", subtitle: "FF MAX • PJ HOLO", patchFile: "PJ HOLO MOON COTTON CANDY.3105", patchPassword: PatchSlots.pjHoloPassword, manualControls: true, isTexture: true),
@@ -2764,14 +2764,14 @@ private struct MoonFunctionsRedesign: View {
     ]
 
     private let max: [PatchOption] = [
-        PatchOption(id:"r-m1", title:"AIM MOON CABEZA", subtitle:"FF MAX • AIM MOON", patchFile:"AIM AIM MOON CABEZA.3105", patchPassword:PatchSlots.password, manualControls:true),
-        PatchOption(id:"r-m2", title:"AIM MOON CABEZA ATN", subtitle:"FF MAX • AIM MOON", patchFile:"AIM AIM MOON CABEZA ATN.3105", patchPassword:PatchSlots.password, manualControls:true),
-        PatchOption(id:"r-m3", title:"AIM MOON CUELLO", subtitle:"FF MAX • AIM MOON", patchFile:"AIM AIM MOON CUELLO.3105", patchPassword:PatchSlots.password, manualControls:true),
-        PatchOption(id:"r-m4", title:"AIM MOON CUELLO ATN", subtitle:"FF MAX • AIM MOON", patchFile:"AIM AIM MOON CUELLO ATN.3105", patchPassword:PatchSlots.password, manualControls:true),
-        PatchOption(id:"r-m5", title:"AIM MOON DRAG", subtitle:"FF MAX • AIM MOON", patchFile:"AIM AIM MOON DRAG.3105", patchPassword:PatchSlots.password, manualControls:true),
-        PatchOption(id:"r-m6", title:"AIM MOON DRAG ATN", subtitle:"FF MAX • AIM MOON", patchFile:"AIM AIM MOON DRAG ATN.3105", patchPassword:PatchSlots.password, manualControls:true),
-        PatchOption(id:"r-m7", title:"AIM MOON PECHO", subtitle:"FF MAX • AIM MOON", patchFile:"AIM AIM MOON PECHO.3105", patchPassword:PatchSlots.password, manualControls:true),
-        PatchOption(id:"r-m8", title:"AIM MOON PECHO ATN", subtitle:"FF MAX • AIM MOON", patchFile:"AIM AIM MOON PECHO ATN.3105", patchPassword:PatchSlots.password, manualControls:true),
+        PatchOption(id:"r-m1", title:"AIM MOON CABEZA", subtitle:"FF MAX • AIM MOON", patchFile:"AIM MOON CABEZA.3105", patchPassword:PatchSlots.password, manualControls:true),
+        PatchOption(id:"r-m2", title:"AIM MOON CABEZA ATN", subtitle:"FF MAX • AIM MOON", patchFile:"AIM MOON CABEZA ATN.3105", patchPassword:PatchSlots.password, manualControls:true),
+        PatchOption(id:"r-m3", title:"AIM MOON CUELLO", subtitle:"FF MAX • AIM MOON", patchFile:"AIM MOON CUELLO.3105", patchPassword:PatchSlots.password, manualControls:true),
+        PatchOption(id:"r-m4", title:"AIM MOON CUELLO ATN", subtitle:"FF MAX • AIM MOON", patchFile:"AIM MOON CUELLO ATN.3105", patchPassword:PatchSlots.password, manualControls:true),
+        PatchOption(id:"r-m5", title:"AIM MOON DRAG", subtitle:"FF MAX • AIM MOON", patchFile:"AIM MOON DRAG.3105", patchPassword:PatchSlots.password, manualControls:true),
+        PatchOption(id:"r-m6", title:"AIM MOON DRAG ATN", subtitle:"FF MAX • AIM MOON", patchFile:"AIM MOON DRAG ATN.3105", patchPassword:PatchSlots.password, manualControls:true),
+        PatchOption(id:"r-m7", title:"AIM MOON PECHO", subtitle:"FF MAX • AIM MOON", patchFile:"AIM MOON PECHO.3105", patchPassword:PatchSlots.password, manualControls:true),
+        PatchOption(id:"r-m8", title:"AIM MOON PECHO ATN", subtitle:"FF MAX • AIM MOON", patchFile:"AIM MOON PECHO ATN.3105", patchPassword:PatchSlots.password, manualControls:true),
         PatchOption(id:"r-m-fps", title:"120–144 FPS", subtitle:"FF MAX • FPS", patchFile:PatchSlots.ffmxFPS, patchPassword:PatchSlots.password, manualControls:true),
         PatchOption(id:"r-arm-normal-rainbow", title:"ARM MOON SPIN • RAINBOW", subtitle:"FF MAX • HOLO ARM", patchFile:"ARM MOON SPIN RAINBOW.3105", patchPassword:PatchSlots.armHoloPassword, manualControls:true, isTexture:true),
         PatchOption(id:"r-pj1", title:"PJ HOLO • COTTON CANDY", subtitle:"FF MAX • PJ HOLO", patchFile:"PJ HOLO MOON COTTON CANDY.3105", patchPassword:PatchSlots.pjHoloPassword, manualControls:true, isTexture:true),
@@ -3903,14 +3903,14 @@ private struct MoonX7V2GamesView: View {
     ]
 
     private let max: [PatchOption] = [
-        PatchOption(id: "r-m1", title: "AIM MOON CABEZA", subtitle: "FF MAX • AIM MOON", patchFile: "AIM AIM MOON CABEZA.3105", patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "r-m2", title: "AIM MOON CABEZA ATN", subtitle: "FF MAX • AIM MOON", patchFile: "AIM AIM MOON CABEZA ATN.3105", patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "r-m3", title: "AIM MOON CUELLO", subtitle: "FF MAX • AIM MOON", patchFile: "AIM AIM MOON CUELLO.3105", patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "r-m4", title: "AIM MOON CUELLO ATN", subtitle: "FF MAX • AIM MOON", patchFile: "AIM AIM MOON CUELLO ATN.3105", patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "r-m5", title: "AIM MOON DRAG", subtitle: "FF MAX • AIM MOON", patchFile: "AIM AIM MOON DRAG.3105", patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "r-m6", title: "AIM MOON DRAG ATN", subtitle: "FF MAX • AIM MOON", patchFile: "AIM AIM MOON DRAG ATN.3105", patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "r-m7", title: "AIM MOON PECHO", subtitle: "FF MAX • AIM MOON", patchFile: "AIM AIM MOON PECHO.3105", patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "r-m8", title: "AIM MOON PECHO ATN", subtitle: "FF MAX • AIM MOON", patchFile: "AIM AIM MOON PECHO ATN.3105", patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "r-m1", title: "AIM MOON CABEZA", subtitle: "FF MAX • AIM MOON", patchFile: "AIM MOON CABEZA.3105", patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "r-m2", title: "AIM MOON CABEZA ATN", subtitle: "FF MAX • AIM MOON", patchFile: "AIM MOON CABEZA ATN.3105", patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "r-m3", title: "AIM MOON CUELLO", subtitle: "FF MAX • AIM MOON", patchFile: "AIM MOON CUELLO.3105", patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "r-m4", title: "AIM MOON CUELLO ATN", subtitle: "FF MAX • AIM MOON", patchFile: "AIM MOON CUELLO ATN.3105", patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "r-m5", title: "AIM MOON DRAG", subtitle: "FF MAX • AIM MOON", patchFile: "AIM MOON DRAG.3105", patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "r-m6", title: "AIM MOON DRAG ATN", subtitle: "FF MAX • AIM MOON", patchFile: "AIM MOON DRAG ATN.3105", patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "r-m7", title: "AIM MOON PECHO", subtitle: "FF MAX • AIM MOON", patchFile: "AIM MOON PECHO.3105", patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "r-m8", title: "AIM MOON PECHO ATN", subtitle: "FF MAX • AIM MOON", patchFile: "AIM MOON PECHO ATN.3105", patchPassword: PatchSlots.password, manualControls: true),
         PatchOption(id: "r-m-fps", title: "120–144 FPS", subtitle: "FF MAX • FPS", patchFile: PatchSlots.ffmxFPS, patchPassword: PatchSlots.password, manualControls: true),
         PatchOption(id: "r-arm-normal-rainbow", title: "ARM MOON SPIN • RAINBOW", subtitle: "FF MAX • HOLO ARM", patchFile: "ARM MOON SPIN RAINBOW.3105", patchPassword: PatchSlots.armHoloPassword, manualControls: true, isTexture: true),
         PatchOption(id: "r-pj1", title: "PJ HOLO • COTTON CANDY", subtitle: "FF MAX • PJ HOLO", patchFile: "PJ HOLO MOON COTTON CANDY.3105", patchPassword: PatchSlots.pjHoloPassword, manualControls: true, isTexture: true),
@@ -3929,7 +3929,7 @@ private struct MoonX7V2GamesView: View {
             base = allOptions.filter { $0.isTexture }
         case .aim:
             base = allOptions.filter { !$0.isTexture && $0.title.localizedCaseInsensitiveContains("AIM") }
-                case .atn:
+        case .atn:
             base = allOptions.filter { !$0.isTexture && $0.title.localizedCaseInsensitiveContains("ATN") }
         }
         guard !search.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return base }
