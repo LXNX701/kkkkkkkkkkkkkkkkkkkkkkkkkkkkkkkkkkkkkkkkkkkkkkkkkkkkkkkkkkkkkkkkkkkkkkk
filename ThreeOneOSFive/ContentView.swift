@@ -583,21 +583,19 @@ private struct PatchOption: Identifiable {
 // ============================================================
 
 private enum PatchSlots {
-
-    // FREE FIRE NORMAL - 8 available options.
-    static let ffn1 = "MOON CABEZA ATN--.3105"
-    static let ffn2 = "MOON CUELLO ATN --.3105"
-    static let ffn3 = "MOON DRAG ANT ---.3105"
-    static let ffn4 = "MOON CABEZA--.3105"
-    static let ffn5 = "MOON DRAG --.3105"
-    static let ffn6 = "MOON CUELLO--.3105"
-    static let ffn7 = "MOON PECHO ---∩╕Å-.3105"
-    static let ffn8 = "MOON PECHO ATN ---.3105"
-
-    // FF MAX now resolves the three new PJ HOLO packages directly from Patches/FF Max.
+    // FREE FIRE NORMAL
+    static let ffn1 = "MOON CABEZA.3105"
+    static let ffn2 = "MOON CABEZA ATN.3105"
+    static let ffn3 = "MOON CUELLO.3105"
+    static let ffn4 = "MOON CUELLO ATN.3105"
+    static let ffn5 = "MOON DRAG.3105"
+    static let ffn6 = "MOON DRAG ATN.3105"
+    static let ffn7 = "MOON PECHO.3105"
+    static let ffn8 = "MOON PECHO ATN.3105"
 
     static let password = "0"
     static let armHoloPassword = "moonx7"
+}
 }
 
 
@@ -640,7 +638,9 @@ private struct ExternalFunctionsView: View {
         PatchOption(id: "ffn-05", title: "MOON DRAG", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn5, patchPassword: PatchSlots.password, manualControls: true),
         PatchOption(id: "ffn-06", title: "MOON DRAG ATN", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn6, patchPassword: PatchSlots.password, manualControls: true),
         PatchOption(id: "ffn-07", title: "MOON PECHO", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn7, patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "ffn-08", title: "MOON PECHO ATN", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn8, patchPassword: PatchSlots.password, manualControls: true)
+        PatchOption(id: "ffn-08", title: "MOON PECHO ATN", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn8, patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "ffn-arm-holo", title: "ARM HOLO MOON • RAINBOW", subtitle: "FF NORMAL • HOLO ARM", patchFile: "ARM HOLO MOON RAINBOW.3105", patchPassword: PatchSlots.armHoloPassword, manualControls: true, isTexture: true)
+    ]
     ]
 
     // --------------------------------------------------------
@@ -648,7 +648,6 @@ private struct ExternalFunctionsView: View {
     // --------------------------------------------------------
 
     private let freeFireMaxOptions: [PatchOption] = [
-        // Existing FF MAX options — kept.
         PatchOption(id: "ffmx-01", title: "AIM MOON CABEZA", subtitle: "FF MAX • AIM MOON", patchFile: "AIM MOON CABEZA.3105", patchPassword: PatchSlots.password, manualControls: true),
         PatchOption(id: "ffmx-02", title: "AIM MOON CABEZA ATN", subtitle: "FF MAX • AIM MOON", patchFile: "AIM MOON CABEZA ATN.3105", patchPassword: PatchSlots.password, manualControls: true),
         PatchOption(id: "ffmx-03", title: "AIM MOON CUELLO", subtitle: "FF MAX • AIM MOON", patchFile: "AIM MOON CUELLO.3105", patchPassword: PatchSlots.password, manualControls: true),
@@ -657,11 +656,11 @@ private struct ExternalFunctionsView: View {
         PatchOption(id: "ffmx-06", title: "AIM MOON DRAG ATN", subtitle: "FF MAX • AIM MOON", patchFile: "AIM MOON DRAG ATN.3105", patchPassword: PatchSlots.password, manualControls: true),
         PatchOption(id: "ffmx-07", title: "AIM MOON PECHO", subtitle: "FF MAX • AIM MOON", patchFile: "AIM MOON PECHO.3105", patchPassword: PatchSlots.password, manualControls: true),
         PatchOption(id: "ffmx-08", title: "AIM MOON PECHO ATN", subtitle: "FF MAX • AIM MOON", patchFile: "AIM MOON PECHO ATN.3105", patchPassword: PatchSlots.password, manualControls: true),
-
-        // PJ HOLO — old PJ entries replaced by the new collection.
-        PatchOption(id: "ffmx-holo-cotton-candy", title: "PJ HOLO MOON COTTON CANDY", subtitle: "FF MAX • PJ HOLO", patchFile: "PJ HOLO MOON COTTON CANDY.3105", patchPassword: PatchSlots.password, manualControls: true, isTexture: true),
-        PatchOption(id: "ffmx-holo-dark-galaxy", title: "PJ HOLO MOON DARK GALAXY", subtitle: "FF MAX • PJ HOLO", patchFile: "PJ HOLO MOON DARK GALAXY.3105", patchPassword: PatchSlots.password, manualControls: true, isTexture: true),
-        PatchOption(id: "ffmx-holo-espejos", title: "PJ HOLO MOON ESPEJOS", subtitle: "FF MAX • PJ HOLO", patchFile: "PJ HOLO MOON ESPEJOS.3105", patchPassword: PatchSlots.password, manualControls: true, isTexture: true)
+        PatchOption(id: "r-arm-normal-rainbow", title: "ARM MOON SPIN • RAINBOW", subtitle: "FF MAX • HOLO ARM", patchFile: "ARM MOON SPIN RAINBOW.3105", patchPassword: PatchSlots.armHoloPassword, manualControls: true, isTexture: true),
+        PatchOption(id: "r-pj1", title: "PJ HOLO • COTTON CANDY", subtitle: "FF MAX • PJ HOLO", patchFile: "PJ HOLO MOON COTTON CANDY.3105", patchPassword: PatchSlots.password, manualControls: true, isTexture: true),
+        PatchOption(id: "r-pj2", title: "PJ HOLO • DARK GALAXY", subtitle: "FF MAX • PJ HOLO", patchFile: "PJ HOLO MOON DARK GALAXY.3105", patchPassword: PatchSlots.password, manualControls: true, isTexture: true),
+        PatchOption(id: "r-pj3", title: "PJ HOLO • ESPEJOS", subtitle: "FF MAX • PJ HOLO", patchFile: "PJ HOLO MOON ESPEJOS.3105", patchPassword: PatchSlots.password, manualControls: true, isTexture: true)
+    ]
     ]
 
     private var currentOptions: [PatchOption] {
@@ -2631,32 +2630,32 @@ private struct MoonFunctionsRedesign: View {
     @State private var enabled = Set<String>()
 
     private let normal: [PatchOption] = [
-        PatchOption(id:"r-ffn1", title:"MOON CABEZA ATN", subtitle:"FF NORMAL", patchFile:PatchSlots.ffn1, patchPassword:PatchSlots.password, manualControls:true),
-        PatchOption(id:"r-ffn2", title:"MOON CUELLO ATN", subtitle:"FF NORMAL", patchFile:PatchSlots.ffn2, patchPassword:PatchSlots.password, manualControls:true),
-        PatchOption(id:"r-ffn3", title:"MOON DRAG ANT", subtitle:"FF NORMAL", patchFile:PatchSlots.ffn3, patchPassword:PatchSlots.password, manualControls:true),
-        PatchOption(id:"r-ffn4", title:"MOON CABEZA", subtitle:"FF NORMAL", patchFile:PatchSlots.ffn4, patchPassword:PatchSlots.password, manualControls:true),
+        PatchOption(id:"r-ffn1", title:"MOON CABEZA", subtitle:"FF NORMAL", patchFile:PatchSlots.ffn1, patchPassword:PatchSlots.password, manualControls:true),
+        PatchOption(id:"r-ffn2", title:"MOON CABEZA ATN", subtitle:"FF NORMAL", patchFile:PatchSlots.ffn2, patchPassword:PatchSlots.password, manualControls:true),
+        PatchOption(id:"r-ffn3", title:"MOON CUELLO", subtitle:"FF NORMAL", patchFile:PatchSlots.ffn3, patchPassword:PatchSlots.password, manualControls:true),
+        PatchOption(id:"r-ffn4", title:"MOON CUELLO ATN", subtitle:"FF NORMAL", patchFile:PatchSlots.ffn4, patchPassword:PatchSlots.password, manualControls:true),
         PatchOption(id:"r-ffn5", title:"MOON DRAG", subtitle:"FF NORMAL", patchFile:PatchSlots.ffn5, patchPassword:PatchSlots.password, manualControls:true),
-        PatchOption(id:"r-ffn6", title:"MOON CUELLO", subtitle:"FF NORMAL", patchFile:PatchSlots.ffn6, patchPassword:PatchSlots.password, manualControls:true),
+        PatchOption(id:"r-ffn6", title:"MOON DRAG ATN", subtitle:"FF NORMAL", patchFile:PatchSlots.ffn6, patchPassword:PatchSlots.password, manualControls:true),
         PatchOption(id:"r-ffn7", title:"MOON PECHO", subtitle:"FF NORMAL", patchFile:PatchSlots.ffn7, patchPassword:PatchSlots.password, manualControls:true),
         PatchOption(id:"r-ffn8", title:"MOON PECHO ATN", subtitle:"FF NORMAL", patchFile:PatchSlots.ffn8, patchPassword:PatchSlots.password, manualControls:true),
         PatchOption(id:"r-arm-max-rainbow", title:"ARM HOLO MOON • RAINBOW", subtitle:"FF NORMAL • HOLO ARM", patchFile:"ARM HOLO MOON RAINBOW.3105", patchPassword:PatchSlots.armHoloPassword, manualControls:true, isTexture:true)
     ]
+    ]
 
     private let max: [PatchOption] = [
-        PatchOption(id:"r-m1", title:"MOON CABEZA ATN", subtitle:"FF MAX", patchFile:"FFMX MOON CABEZA ATN.3105", patchPassword:PatchSlots.password, manualControls:true),
-        PatchOption(id:"r-m2", title:"MOON CUELLO ATN", subtitle:"FF MAX", patchFile:"FFMX MOON CUELLO ATN.3105", patchPassword:PatchSlots.password, manualControls:true),
-        PatchOption(id:"r-m3", title:"MOON CUELLO", subtitle:"FF MAX", patchFile:"FFMX MOON CUELLO.3105", patchPassword:PatchSlots.password, manualControls:true),
-        PatchOption(id:"r-m4", title:"MOON DRAG ATN", subtitle:"FF MAX", patchFile:"FFMX MOON DRAG ATN.3105", patchPassword:PatchSlots.password, manualControls:true),
-        PatchOption(id:"r-m5", title:"MOON DRAG", subtitle:"FF MAX", patchFile:"FFMX MOON DRAG.3105", patchPassword:PatchSlots.password, manualControls:true),
-        PatchOption(id:"r-m6", title:"MOON MAGIC ATN", subtitle:"FF MAX", patchFile:"FFMX MOON MAGIC ATN.3105", patchPassword:PatchSlots.password, manualControls:true),
-        PatchOption(id:"r-m7", title:"MOON MAGICA", subtitle:"FF MAX", patchFile:"FFMX MOON MAGICA.3105", patchPassword:PatchSlots.password, manualControls:true),
-        PatchOption(id:"r-m8", title:"MOON PECHO ATN", subtitle:"FF MAX", patchFile:"FFMX MOON PECHO ATN.3105", patchPassword:PatchSlots.password, manualControls:true),
-        PatchOption(id:"r-m9", title:"MOON PECHO", subtitle:"FF MAX", patchFile:"FFMX MOON PECHO.3105", patchPassword:PatchSlots.password, manualControls:true),
-        PatchOption(id:"r-m10", title:"MOON CABEZA", subtitle:"FF MAX", patchFile:"MOON CABEZA.3105", patchPassword:PatchSlots.password, manualControls:true),
+        PatchOption(id:"r-m1", title:"AIM MOON CABEZA", subtitle:"FF MAX • AIM MOON", patchFile:"AIM MOON CABEZA.3105", patchPassword:PatchSlots.password, manualControls:true),
+        PatchOption(id:"r-m2", title:"AIM MOON CABEZA ATN", subtitle:"FF MAX • AIM MOON", patchFile:"AIM MOON CABEZA ATN.3105", patchPassword:PatchSlots.password, manualControls:true),
+        PatchOption(id:"r-m3", title:"AIM MOON CUELLO", subtitle:"FF MAX • AIM MOON", patchFile:"AIM MOON CUELLO.3105", patchPassword:PatchSlots.password, manualControls:true),
+        PatchOption(id:"r-m4", title:"AIM MOON CUELLO ATN", subtitle:"FF MAX • AIM MOON", patchFile:"AIM MOON CUELLO ATN.3105", patchPassword:PatchSlots.password, manualControls:true),
+        PatchOption(id:"r-m5", title:"AIM MOON DRAG", subtitle:"FF MAX • AIM MOON", patchFile:"AIM MOON DRAG.3105", patchPassword:PatchSlots.password, manualControls:true),
+        PatchOption(id:"r-m6", title:"AIM MOON DRAG ATN", subtitle:"FF MAX • AIM MOON", patchFile:"AIM MOON DRAG ATN.3105", patchPassword:PatchSlots.password, manualControls:true),
+        PatchOption(id:"r-m7", title:"AIM MOON PECHO", subtitle:"FF MAX • AIM MOON", patchFile:"AIM MOON PECHO.3105", patchPassword:PatchSlots.password, manualControls:true),
+        PatchOption(id:"r-m8", title:"AIM MOON PECHO ATN", subtitle:"FF MAX • AIM MOON", patchFile:"AIM MOON PECHO ATN.3105", patchPassword:PatchSlots.password, manualControls:true),
         PatchOption(id:"r-arm-normal-rainbow", title:"ARM MOON SPIN • RAINBOW", subtitle:"FF MAX • HOLO ARM", patchFile:"ARM MOON SPIN RAINBOW.3105", patchPassword:PatchSlots.armHoloPassword, manualControls:true, isTexture:true),
         PatchOption(id:"r-pj1", title:"PJ HOLO • COTTON CANDY", subtitle:"FF MAX • PJ HOLO", patchFile:"PJ HOLO MOON COTTON CANDY.3105", patchPassword:PatchSlots.password, manualControls:true, isTexture:true),
         PatchOption(id:"r-pj2", title:"PJ HOLO • DARK GALAXY", subtitle:"FF MAX • PJ HOLO", patchFile:"PJ HOLO MOON DARK GALAXY.3105", patchPassword:PatchSlots.password, manualControls:true, isTexture:true),
         PatchOption(id:"r-pj3", title:"PJ HOLO • ESPEJOS", subtitle:"FF MAX • PJ HOLO", patchFile:"PJ HOLO MOON ESPEJOS.3105", patchPassword:PatchSlots.password, manualControls:true, isTexture:true)
+    ]
     ]
 
     private var options: [PatchOption] { game == 0 ? normal : max }
