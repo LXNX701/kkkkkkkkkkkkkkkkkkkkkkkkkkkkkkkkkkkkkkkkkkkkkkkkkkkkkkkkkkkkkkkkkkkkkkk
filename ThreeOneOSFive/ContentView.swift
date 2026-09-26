@@ -9,7 +9,7 @@ import AVKit
 // MARK: - CONTENT VIEW
 // ============================================================
 
-private let moonX7UIBuildStamp = "MOON-X7 • LIQUID GLASS • 2.2.0 • LIQUID GLASS EDITION"
+private let moonX7UIBuildStamp = "MOON-X7 • REDESIGN • 2.2.0 • METALLIC EDITION"
 
 private enum MoonRemoteMedia {
     static let dashboardBanner = "https://media3.giphy.com/media/0WrS97JxpzwmTPbviV/giphy.gif?cid=9b38fe91uxzhi4x5aq594g2wnsczkch3iyao9zsd0knbsbr5&ep=v1_channels_id_gifs&rid=giphy.gif&ct=g"
@@ -3342,26 +3342,11 @@ private struct MoonX7V2Logo: View {
         VStack(spacing: 7) {
             // The app keeps its existing asset fallback so the redesign never depends
             // on a remote image or a new runtime download.
-            if let icon = UIImage(named: "AppIcon60x60")
-                ?? UIImage(named: "Canva-AppIcon-1024")
-                ?? UIImage(named: "AppIcon") {
-                Image(uiImage: icon)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: width, height: width * 0.58)
-                    .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
-            } else {
-                Text("MOONX7")
-                    .font(.system(size: width * 0.16, weight: .black, design: .rounded))
-                    .tracking(3.5)
-                    .foregroundStyle(
-                        LinearGradient(
-                            colors: [MoonX7V2Palette.silver, .white, MoonX7V2Palette.red],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        )
-                    )
-            }
+            Image("MOONX7Mark")
+                .resizable()
+                .scaledToFit()
+                .frame(width: width, height: width * 0.58)
+                .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
         }
         .shadow(color: MoonX7V2Palette.purple.opacity(0.28), radius: 20, y: 7)
         .accessibilityLabel("MOONX7")
