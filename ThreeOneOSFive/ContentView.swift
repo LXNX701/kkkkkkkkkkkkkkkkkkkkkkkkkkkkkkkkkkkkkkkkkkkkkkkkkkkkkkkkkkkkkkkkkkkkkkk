@@ -3078,7 +3078,7 @@ private struct MoonPatchRedesignCard: View {
         guard !busy else { return }
         busy = true
         DispatchQueue.global(qos:.userInitiated).async {
-            let result = PatchSlotRunner.setEnabled(apply, fileName: option.patchFile, configuredPassword: option.patchPassword)
+            let result = PatchSlotRunner.setEnabled(apply, slotID: option.id, fileName: option.patchFile, configuredPassword: option.patchPassword)
             DispatchQueue.main.async {
                 busy = false
                 switch result {
