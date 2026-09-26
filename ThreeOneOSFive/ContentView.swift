@@ -584,15 +584,15 @@ private struct PatchOption: Identifiable {
 
 private enum PatchSlots {
     // FREE FIRE NORMAL
-    static let ffn1 = "MOON CABEZA.3105"
-    static let ffn2 = "MOON CABEZA ATN.3105"
-    static let ffn3 = "MOON CUELLO.3105"
-    static let ffn4 = "MOON CUELLO ATN.3105"
-    static let ffn5 = "MOON DRAG.3105"
-    static let ffn6 = "MOON DRAG ATN.3105"
-    static let ffn7 = "MOON PECHO.3105"
-    static let ffn8 = "MOON PECHO ATN.3105"
-    static let ffnFPS = "120-144 FPS FF.3105"
+    static let ffn1 = "AIM MOON CABEZA.3105"
+    static let ffn2 = "AIM MOON CABEZA ATN.3105"
+    static let ffn3 = "AIM MOON CUELLO.3105"
+    static let ffn4 = "AIM MOON CUELLO ATN.3105"
+    static let ffn5 = "AIM MOON DRAG.3105"
+    static let ffn6 = "AIM MOON DRAG ATN.3105"
+    static let ffn7 = "AIM MOON PECHO.3105"
+    static let ffn8 = "AIM MOON PECHO ATN.3105"
+    static let ffnFPS = "AIM 120-144 FPS FF.3105"
 
     // FREE FIRE MAX
     static let ffmxFPS = "120-144 FPS FFMAX.3105"
@@ -635,15 +635,15 @@ private struct ExternalFunctionsView: View {
     // --------------------------------------------------------
 
     private let freeFireOptions: [PatchOption] = [
-        PatchOption(id: "ffn-01", title: "MOON CABEZA", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn1, patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "ffn-02", title: "MOON CABEZA ATN", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn2, patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "ffn-03", title: "MOON CUELLO", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn3, patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "ffn-04", title: "MOON CUELLO ATN", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn4, patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "ffn-05", title: "MOON DRAG", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn5, patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "ffn-06", title: "MOON DRAG ATN", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn6, patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "ffn-07", title: "MOON PECHO", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn7, patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "ffn-08", title: "MOON PECHO ATN", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn8, patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "ffn-120fps", title: "120–144 FPS", subtitle: "FF NORMAL • FPS", patchFile: PatchSlots.ffnFPS, patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "ffn-01", title: "AIM MOON CABEZA", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn1, patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "ffn-02", title: "AIM MOON CABEZA ATN", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn2, patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "ffn-03", title: "AIM MOON CUELLO", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn3, patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "ffn-04", title: "AIM MOON CUELLO ATN", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn4, patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "ffn-05", title: "AIM MOON DRAG", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn5, patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "ffn-06", title: "AIM MOON DRAG ATN", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn6, patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "ffn-07", title: "AIM MOON PECHO", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn7, patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "ffn-08", title: "AIM MOON PECHO ATN", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn8, patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "ffn-120fps", title: "AIM 120–144 FPS", subtitle: "FF NORMAL • AIM • FPS", patchFile: PatchSlots.ffnFPS, patchPassword: PatchSlots.password, manualControls: true),
         PatchOption(id: "ffn-arm-holo", title: "ARM HOLO MOON • RAINBOW", subtitle: "FF NORMAL • HOLO ARM", patchFile: "ARM HOLO MOON RAINBOW.3105", patchPassword: PatchSlots.armHoloPassword, manualControls: true, isTexture: true)
     ]
 
@@ -652,14 +652,14 @@ private struct ExternalFunctionsView: View {
     // --------------------------------------------------------
 
     private let freeFireMaxOptions: [PatchOption] = [
-        PatchOption(id: "ffmx-01", title: "AIM MOON CABEZA", subtitle: "FF MAX • AIM MOON", patchFile: "AIM MOON CABEZA.3105", patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "ffmx-02", title: "AIM MOON CABEZA ATN", subtitle: "FF MAX • AIM MOON", patchFile: "AIM MOON CABEZA ATN.3105", patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "ffmx-03", title: "AIM MOON CUELLO", subtitle: "FF MAX • AIM MOON", patchFile: "AIM MOON CUELLO.3105", patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "ffmx-04", title: "AIM MOON CUELLO ATN", subtitle: "FF MAX • AIM MOON", patchFile: "AIM MOON CUELLO ATN.3105", patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "ffmx-05", title: "AIM MOON DRAG", subtitle: "FF MAX • AIM MOON", patchFile: "AIM MOON DRAG.3105", patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "ffmx-06", title: "AIM MOON DRAG ATN", subtitle: "FF MAX • AIM MOON", patchFile: "AIM MOON DRAG ATN.3105", patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "ffmx-07", title: "AIM MOON PECHO", subtitle: "FF MAX • AIM MOON", patchFile: "AIM MOON PECHO.3105", patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "ffmx-08", title: "AIM MOON PECHO ATN", subtitle: "FF MAX • AIM MOON", patchFile: "AIM MOON PECHO ATN.3105", patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "ffmx-01", title: "AIM MOON CABEZA", subtitle: "FF MAX • AIM MOON", patchFile: "AIM AIM MOON CABEZA.3105", patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "ffmx-02", title: "AIM MOON CABEZA ATN", subtitle: "FF MAX • AIM MOON", patchFile: "AIM AIM MOON CABEZA ATN.3105", patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "ffmx-03", title: "AIM MOON CUELLO", subtitle: "FF MAX • AIM MOON", patchFile: "AIM AIM MOON CUELLO.3105", patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "ffmx-04", title: "AIM MOON CUELLO ATN", subtitle: "FF MAX • AIM MOON", patchFile: "AIM AIM MOON CUELLO ATN.3105", patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "ffmx-05", title: "AIM MOON DRAG", subtitle: "FF MAX • AIM MOON", patchFile: "AIM AIM MOON DRAG.3105", patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "ffmx-06", title: "AIM MOON DRAG ATN", subtitle: "FF MAX • AIM MOON", patchFile: "AIM AIM MOON DRAG ATN.3105", patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "ffmx-07", title: "AIM MOON PECHO", subtitle: "FF MAX • AIM MOON", patchFile: "AIM AIM MOON PECHO.3105", patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "ffmx-08", title: "AIM MOON PECHO ATN", subtitle: "FF MAX • AIM MOON", patchFile: "AIM AIM MOON PECHO ATN.3105", patchPassword: PatchSlots.password, manualControls: true),
         PatchOption(id: "ffmx-120fps", title: "120–144 FPS", subtitle: "FF MAX • FPS", patchFile: PatchSlots.ffmxFPS, patchPassword: PatchSlots.password, manualControls: true),
         PatchOption(id: "r-arm-normal-rainbow", title: "ARM MOON SPIN • RAINBOW", subtitle: "FF MAX • HOLO ARM", patchFile: "ARM MOON SPIN RAINBOW.3105", patchPassword: PatchSlots.armHoloPassword, manualControls: true, isTexture: true),
         PatchOption(id: "r-pj1", title: "PJ HOLO • COTTON CANDY", subtitle: "FF MAX • PJ HOLO", patchFile: "PJ HOLO MOON COTTON CANDY.3105", patchPassword: PatchSlots.pjHoloPassword, manualControls: true, isTexture: true),
@@ -2764,14 +2764,14 @@ private struct MoonFunctionsRedesign: View {
     ]
 
     private let max: [PatchOption] = [
-        PatchOption(id:"r-m1", title:"AIM MOON CABEZA", subtitle:"FF MAX • AIM MOON", patchFile:"AIM MOON CABEZA.3105", patchPassword:PatchSlots.password, manualControls:true),
-        PatchOption(id:"r-m2", title:"AIM MOON CABEZA ATN", subtitle:"FF MAX • AIM MOON", patchFile:"AIM MOON CABEZA ATN.3105", patchPassword:PatchSlots.password, manualControls:true),
-        PatchOption(id:"r-m3", title:"AIM MOON CUELLO", subtitle:"FF MAX • AIM MOON", patchFile:"AIM MOON CUELLO.3105", patchPassword:PatchSlots.password, manualControls:true),
-        PatchOption(id:"r-m4", title:"AIM MOON CUELLO ATN", subtitle:"FF MAX • AIM MOON", patchFile:"AIM MOON CUELLO ATN.3105", patchPassword:PatchSlots.password, manualControls:true),
-        PatchOption(id:"r-m5", title:"AIM MOON DRAG", subtitle:"FF MAX • AIM MOON", patchFile:"AIM MOON DRAG.3105", patchPassword:PatchSlots.password, manualControls:true),
-        PatchOption(id:"r-m6", title:"AIM MOON DRAG ATN", subtitle:"FF MAX • AIM MOON", patchFile:"AIM MOON DRAG ATN.3105", patchPassword:PatchSlots.password, manualControls:true),
-        PatchOption(id:"r-m7", title:"AIM MOON PECHO", subtitle:"FF MAX • AIM MOON", patchFile:"AIM MOON PECHO.3105", patchPassword:PatchSlots.password, manualControls:true),
-        PatchOption(id:"r-m8", title:"AIM MOON PECHO ATN", subtitle:"FF MAX • AIM MOON", patchFile:"AIM MOON PECHO ATN.3105", patchPassword:PatchSlots.password, manualControls:true),
+        PatchOption(id:"r-m1", title:"AIM MOON CABEZA", subtitle:"FF MAX • AIM MOON", patchFile:"AIM AIM MOON CABEZA.3105", patchPassword:PatchSlots.password, manualControls:true),
+        PatchOption(id:"r-m2", title:"AIM MOON CABEZA ATN", subtitle:"FF MAX • AIM MOON", patchFile:"AIM AIM MOON CABEZA ATN.3105", patchPassword:PatchSlots.password, manualControls:true),
+        PatchOption(id:"r-m3", title:"AIM MOON CUELLO", subtitle:"FF MAX • AIM MOON", patchFile:"AIM AIM MOON CUELLO.3105", patchPassword:PatchSlots.password, manualControls:true),
+        PatchOption(id:"r-m4", title:"AIM MOON CUELLO ATN", subtitle:"FF MAX • AIM MOON", patchFile:"AIM AIM MOON CUELLO ATN.3105", patchPassword:PatchSlots.password, manualControls:true),
+        PatchOption(id:"r-m5", title:"AIM MOON DRAG", subtitle:"FF MAX • AIM MOON", patchFile:"AIM AIM MOON DRAG.3105", patchPassword:PatchSlots.password, manualControls:true),
+        PatchOption(id:"r-m6", title:"AIM MOON DRAG ATN", subtitle:"FF MAX • AIM MOON", patchFile:"AIM AIM MOON DRAG ATN.3105", patchPassword:PatchSlots.password, manualControls:true),
+        PatchOption(id:"r-m7", title:"AIM MOON PECHO", subtitle:"FF MAX • AIM MOON", patchFile:"AIM AIM MOON PECHO.3105", patchPassword:PatchSlots.password, manualControls:true),
+        PatchOption(id:"r-m8", title:"AIM MOON PECHO ATN", subtitle:"FF MAX • AIM MOON", patchFile:"AIM AIM MOON PECHO ATN.3105", patchPassword:PatchSlots.password, manualControls:true),
         PatchOption(id:"r-m-fps", title:"120–144 FPS", subtitle:"FF MAX • FPS", patchFile:PatchSlots.ffmxFPS, patchPassword:PatchSlots.password, manualControls:true),
         PatchOption(id:"r-arm-normal-rainbow", title:"ARM MOON SPIN • RAINBOW", subtitle:"FF MAX • HOLO ARM", patchFile:"ARM MOON SPIN RAINBOW.3105", patchPassword:PatchSlots.armHoloPassword, manualControls:true, isTexture:true),
         PatchOption(id:"r-pj1", title:"PJ HOLO • COTTON CANDY", subtitle:"FF MAX • PJ HOLO", patchFile:"PJ HOLO MOON COTTON CANDY.3105", patchPassword:PatchSlots.pjHoloPassword, manualControls:true, isTexture:true),
@@ -2881,8 +2881,7 @@ private struct MoonFunctionsRedesign: View {
                     filterCard(.all, title:"VER TODOS", value:allOptions.count, icon:"square.grid.2x2.fill", tint:.white)
                     filterCard(.holos, title:"HOLOS", value:allOptions.filter { $0.isTexture }.count, icon:"sparkles", tint:Theme.violet)
                     filterCard(.aim, title:"AIM", value:allOptions.filter { !$0.isTexture && $0.title.localizedCaseInsensitiveContains("AIM") }.count, icon:"scope", tint:Theme.accent)
-                    filterCard(.moons, title:"MOONS", value:allOptions.filter { !$0.isTexture && !$0.title.localizedCaseInsensitiveContains("AIM") && !$0.title.localizedCaseInsensitiveContains("ATN") && $0.title.localizedCaseInsensitiveContains("MOON") }.count, icon:"circle.grid.3x3.fill", tint:.white)
-                    filterCard(.atn, title:"ATN", value:allOptions.filter { !$0.isTexture && $0.title.localizedCaseInsensitiveContains("ATN") }.count, icon:"target", tint:Theme.accent)
+                                        filterCard(.atn, title:"ATN", value:allOptions.filter { !$0.isTexture && $0.title.localizedCaseInsensitiveContains("ATN") }.count, icon:"target", tint:Theme.accent)
                 }
 
                 HStack {
@@ -2938,14 +2937,13 @@ private struct MoonFunctionsRedesign: View {
 }
 
 private enum MoonOptionFilter {
-    case all, holos, aim, moons, atn
+    case all, holos, aim, atn
 
     var label: String {
         switch self {
         case .all: return "VER TODOS"
         case .holos: return "HOLOS"
         case .aim: return "AIM"
-        case .moons: return "MOONS"
         case .atn: return "ATN"
         }
     }
@@ -3465,6 +3463,34 @@ private struct MoonX7V2LoginView: View {
                         .scaleEffect(appeared ? 1 : 0.90)
                         .opacity(appeared ? 1 : 0)
 
+                    ZStack(alignment: .bottomLeading) {
+                        AnimatedGIFView(filename: "realm-banner.gif")
+                            .frame(height: 185)
+                            .clipped()
+                        LinearGradient(
+                            colors: [.clear, .black.opacity(0.92)],
+                            startPoint: .center,
+                            endPoint: .bottom
+                        )
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("MOON X7")
+                                .font(.system(size: 25, weight: .black, design: .rounded))
+                            Text("X • PRIVATE • SECURE")
+                                .font(.system(size: 8.5, weight: .black, design: .rounded))
+                                .tracking(1.7)
+                                .foregroundStyle(MoonX7V2Palette.redBright)
+                        }
+                        .padding(15)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 22, style: .continuous)
+                            .stroke(MoonX7V2Palette.red.opacity(0.34), lineWidth: 1)
+                    }
+                    .shadow(color: MoonX7V2Palette.purple.opacity(0.16), radius: 24, y: 9)
+                    .transition(.opacity.combined(with: .scale(scale: 0.97)))
+
                     VStack(spacing: 6) {
                         Text("PRIVATE CONTROL CENTER")
                             .font(.system(size: 10, weight: .black, design: .rounded))
@@ -3559,6 +3585,8 @@ private struct MoonX7V2LoginView: View {
                         .padding(18)
                     }
 
+                    MoonX7V2SocialLinksCard()
+
                     Text("LICENSE • DEVICE • SUPABASE")
                         .font(.system(size: 8.5, weight: .bold, design: .monospaced))
                         .tracking(1.3)
@@ -3617,6 +3645,26 @@ private struct MoonX7V2HomeView: View {
                     .buttonStyle(.plain)
                 }
                 .padding(.top, 26)
+
+                ZStack(alignment: .bottomLeading) {
+                    AnimatedGIFView(filename: "realm-banner.gif")
+                        .frame(height: 155)
+                        .clipped()
+                    LinearGradient(colors: [.clear, .black.opacity(0.86)], startPoint: .center, endPoint: .bottom)
+                    VStack(alignment: .leading, spacing: 3) {
+                        Text("MOON X7")
+                            .font(.system(size: 24, weight: .black, design: .rounded))
+                        Text("LIVE CONTROL")
+                            .font(.system(size: 8.5, weight: .black, design: .rounded))
+                            .tracking(1.8)
+                            .foregroundStyle(MoonX7V2Palette.redBright)
+                    }
+                    .padding(15)
+                }
+                .frame(maxWidth: .infinity)
+                .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
+                .overlay { RoundedRectangle(cornerRadius: 22, style: .continuous).stroke(MoonX7V2Palette.purple.opacity(0.30), lineWidth: 1) }
+                .shadow(color: MoonX7V2Palette.purple.opacity(0.13), radius: 22, y: 8)
 
                 VStack(alignment: .leading, spacing: 5) {
                     Text("WELCOME BACK")
@@ -3766,6 +3814,9 @@ private struct MoonX7V2HomeView: View {
                     .buttonStyle(.plain)
                 }
 
+                MoonX7V2DiscordSupportCard()
+                MoonX7V2SocialLinksCard()
+
                 Text("MOONX7 • SECURE SESSION")
                     .font(.system(size: 8, weight: .bold, design: .monospaced))
                     .tracking(1.1)
@@ -3839,27 +3890,27 @@ private struct MoonX7V2GamesView: View {
     @State private var search = ""
 
     private let normal: [PatchOption] = [
-        PatchOption(id: "r-ffn1", title: "MOON CABEZA", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn1, patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "r-ffn2", title: "MOON CABEZA ATN", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn2, patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "r-ffn3", title: "MOON CUELLO", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn3, patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "r-ffn4", title: "MOON CUELLO ATN", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn4, patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "r-ffn5", title: "MOON DRAG", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn5, patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "r-ffn6", title: "MOON DRAG ATN", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn6, patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "r-ffn7", title: "MOON PECHO", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn7, patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "r-ffn8", title: "MOON PECHO ATN", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn8, patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "r-ffn-fps", title: "120–144 FPS", subtitle: "FF NORMAL • FPS", patchFile: PatchSlots.ffnFPS, patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "r-ffn1", title: "AIM MOON CABEZA", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn1, patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "r-ffn2", title: "AIM MOON CABEZA ATN", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn2, patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "r-ffn3", title: "AIM MOON CUELLO", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn3, patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "r-ffn4", title: "AIM MOON CUELLO ATN", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn4, patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "r-ffn5", title: "AIM MOON DRAG", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn5, patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "r-ffn6", title: "AIM MOON DRAG ATN", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn6, patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "r-ffn7", title: "AIM MOON PECHO", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn7, patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "r-ffn8", title: "AIM MOON PECHO ATN", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn8, patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "r-ffn-fps", title: "AIM 120–144 FPS", subtitle: "FF NORMAL • AIM • FPS", patchFile: PatchSlots.ffnFPS, patchPassword: PatchSlots.password, manualControls: true),
         PatchOption(id: "r-arm-max-rainbow", title: "ARM HOLO MOON • RAINBOW", subtitle: "FF NORMAL • HOLO ARM", patchFile: "ARM HOLO MOON RAINBOW.3105", patchPassword: PatchSlots.armHoloPassword, manualControls: true, isTexture: true)
     ]
 
     private let max: [PatchOption] = [
-        PatchOption(id: "r-m1", title: "AIM MOON CABEZA", subtitle: "FF MAX • AIM MOON", patchFile: "AIM MOON CABEZA.3105", patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "r-m2", title: "AIM MOON CABEZA ATN", subtitle: "FF MAX • AIM MOON", patchFile: "AIM MOON CABEZA ATN.3105", patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "r-m3", title: "AIM MOON CUELLO", subtitle: "FF MAX • AIM MOON", patchFile: "AIM MOON CUELLO.3105", patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "r-m4", title: "AIM MOON CUELLO ATN", subtitle: "FF MAX • AIM MOON", patchFile: "AIM MOON CUELLO ATN.3105", patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "r-m5", title: "AIM MOON DRAG", subtitle: "FF MAX • AIM MOON", patchFile: "AIM MOON DRAG.3105", patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "r-m6", title: "AIM MOON DRAG ATN", subtitle: "FF MAX • AIM MOON", patchFile: "AIM MOON DRAG ATN.3105", patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "r-m7", title: "AIM MOON PECHO", subtitle: "FF MAX • AIM MOON", patchFile: "AIM MOON PECHO.3105", patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "r-m8", title: "AIM MOON PECHO ATN", subtitle: "FF MAX • AIM MOON", patchFile: "AIM MOON PECHO ATN.3105", patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "r-m1", title: "AIM MOON CABEZA", subtitle: "FF MAX • AIM MOON", patchFile: "AIM AIM MOON CABEZA.3105", patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "r-m2", title: "AIM MOON CABEZA ATN", subtitle: "FF MAX • AIM MOON", patchFile: "AIM AIM MOON CABEZA ATN.3105", patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "r-m3", title: "AIM MOON CUELLO", subtitle: "FF MAX • AIM MOON", patchFile: "AIM AIM MOON CUELLO.3105", patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "r-m4", title: "AIM MOON CUELLO ATN", subtitle: "FF MAX • AIM MOON", patchFile: "AIM AIM MOON CUELLO ATN.3105", patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "r-m5", title: "AIM MOON DRAG", subtitle: "FF MAX • AIM MOON", patchFile: "AIM AIM MOON DRAG.3105", patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "r-m6", title: "AIM MOON DRAG ATN", subtitle: "FF MAX • AIM MOON", patchFile: "AIM AIM MOON DRAG ATN.3105", patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "r-m7", title: "AIM MOON PECHO", subtitle: "FF MAX • AIM MOON", patchFile: "AIM AIM MOON PECHO.3105", patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "r-m8", title: "AIM MOON PECHO ATN", subtitle: "FF MAX • AIM MOON", patchFile: "AIM AIM MOON PECHO ATN.3105", patchPassword: PatchSlots.password, manualControls: true),
         PatchOption(id: "r-m-fps", title: "120–144 FPS", subtitle: "FF MAX • FPS", patchFile: PatchSlots.ffmxFPS, patchPassword: PatchSlots.password, manualControls: true),
         PatchOption(id: "r-arm-normal-rainbow", title: "ARM MOON SPIN • RAINBOW", subtitle: "FF MAX • HOLO ARM", patchFile: "ARM MOON SPIN RAINBOW.3105", patchPassword: PatchSlots.armHoloPassword, manualControls: true, isTexture: true),
         PatchOption(id: "r-pj1", title: "PJ HOLO • COTTON CANDY", subtitle: "FF MAX • PJ HOLO", patchFile: "PJ HOLO MOON COTTON CANDY.3105", patchPassword: PatchSlots.pjHoloPassword, manualControls: true, isTexture: true),
@@ -3878,14 +3929,7 @@ private struct MoonX7V2GamesView: View {
             base = allOptions.filter { $0.isTexture }
         case .aim:
             base = allOptions.filter { !$0.isTexture && $0.title.localizedCaseInsensitiveContains("AIM") }
-        case .moons:
-            base = allOptions.filter {
-                !$0.isTexture &&
-                !$0.title.localizedCaseInsensitiveContains("AIM") &&
-                !$0.title.localizedCaseInsensitiveContains("ATN") &&
-                $0.title.localizedCaseInsensitiveContains("MOON")
-            }
-        case .atn:
+                case .atn:
             base = allOptions.filter { !$0.isTexture && $0.title.localizedCaseInsensitiveContains("ATN") }
         }
         guard !search.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return base }
@@ -3934,7 +3978,6 @@ private struct MoonX7V2GamesView: View {
                     MoonX7V2FilterButton(title: "VER TODOS", selected: filter == .all) { filter = .all }
                     MoonX7V2FilterButton(title: "HOLOS", selected: filter == .holos) { filter = .holos }
                     MoonX7V2FilterButton(title: "AIM", selected: filter == .aim) { filter = .aim }
-                    MoonX7V2FilterButton(title: "MOONS", selected: filter == .moons) { filter = .moons }
                     MoonX7V2FilterButton(title: "ATN", selected: filter == .atn) { filter = .atn }
                 }
 
@@ -4025,7 +4068,7 @@ private struct MoonX7V2GameModeButton: View {
                         .stroke(selected ? MoonX7V2Palette.red.opacity(0.55) : .white.opacity(0.07), lineWidth: 1)
                 }
         }
-        .buttonStyle(.plain)
+        .buttonStyle(MoonX7V2PressStyle())
     }
 }
 
@@ -4053,7 +4096,7 @@ private struct MoonX7V2FilterButton: View {
                         .stroke(selected ? MoonX7V2Palette.purpleBright.opacity(0.48) : .white.opacity(0.06), lineWidth: 1)
                 }
         }
-        .buttonStyle(.plain)
+        .buttonStyle(MoonX7V2PressStyle())
     }
 }
 
@@ -4368,6 +4411,160 @@ private struct MoonX7V2ConfigRow: View {
                 .font(.system(size: 10.5, weight: .bold, design: mono ? .monospaced : .rounded))
                 .foregroundStyle(.white.opacity(0.86))
                 .multilineTextAlignment(.trailing)
+        }
+    }
+}
+
+
+private struct MoonX7V2PressStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .scaleEffect(configuration.isPressed ? 0.965 : 1)
+            .opacity(configuration.isPressed ? 0.90 : 1)
+            .animation(.spring(response: 0.18, dampingFraction: 0.78), value: configuration.isPressed)
+    }
+}
+
+private struct MoonX7V2SocialLinksCard: View {
+    var body: some View {
+        MoonX7V2GlassCard(tint: MoonX7V2Palette.purple) {
+            VStack(alignment: .leading, spacing: 11) {
+                HStack {
+                    Text("REDES SOCIALES")
+                        .font(.system(size: 9, weight: .black, design: .rounded))
+                        .tracking(1.7)
+                        .foregroundStyle(.white.opacity(0.42))
+                    Spacer()
+                    Image(systemName: "link")
+                        .foregroundStyle(MoonX7V2Palette.redBright)
+                }
+
+                VStack(spacing: 8) {
+                    MoonX7V2SocialRow(title: "WHATSAPP • CONTACT DEV", icon: "message.fill", tint: MoonX7V2Palette.redBright, url: MoonSocialLinks.whatsapp)
+                    MoonX7V2SocialRow(title: "YOUTUBE", icon: "play.rectangle.fill", tint: .white, url: MoonSocialLinks.youtube)
+                    MoonX7V2SocialRow(title: "DISCORD", icon: "bubble.left.and.bubble.right.fill", tint: MoonX7V2Palette.purpleBright, url: MoonSocialLinks.discord)
+                    MoonX7V2SocialRow(title: "TELEGRAM", icon: "paperplane.fill", tint: MoonX7V2Palette.silver, url: MoonSocialLinks.telegram)
+                    MoonX7V2SocialRow(title: "WEB", icon: "globe", tint: MoonX7V2Palette.redBright, url: MoonSocialLinks.web)
+                }
+            }
+            .padding(15)
+        }
+    }
+}
+
+private struct MoonX7V2SocialRow: View {
+    let title: String
+    let icon: String
+    let tint: Color
+    let url: String
+    @Environment(\.openURL) private var openURL
+
+    var body: some View {
+        Button {
+            guard let target = URL(string: url) else { return }
+            openURL(target)
+        } label: {
+            HStack(spacing: 11) {
+                Image(systemName: icon)
+                    .font(.system(size: 13, weight: .bold))
+                    .foregroundStyle(tint)
+                    .frame(width: 30, height: 30)
+                    .background(tint.opacity(0.10), in: RoundedRectangle(cornerRadius: 9, style: .continuous))
+
+                Text(title)
+                    .font(.system(size: 9.5, weight: .black, design: .rounded))
+                    .tracking(0.7)
+                    .foregroundStyle(.white)
+
+                Spacer()
+
+                Image(systemName: "arrow.up.right")
+                    .font(.system(size: 9, weight: .black))
+                    .foregroundStyle(.white.opacity(0.28))
+            }
+            .padding(.horizontal, 10)
+            .frame(height: 42)
+            .background(.white.opacity(0.025), in: RoundedRectangle(cornerRadius: 13, style: .continuous))
+            .overlay {
+                RoundedRectangle(cornerRadius: 13, style: .continuous)
+                    .stroke(tint.opacity(0.22), lineWidth: 1)
+            }
+        }
+        .buttonStyle(MoonX7V2PressStyle())
+    }
+}
+
+private struct MoonX7V2DiscordSupportCard: View {
+    @State private var ready = false
+    @State private var spin = false
+    @Environment(\.openURL) private var openURL
+
+    var body: some View {
+        MoonX7V2GlassCard(tint: MoonX7V2Palette.purple) {
+            HStack(spacing: 13) {
+                ZStack {
+                    Circle()
+                        .stroke(
+                            AngularGradient(
+                                colors: [MoonX7V2Palette.purpleBright, MoonX7V2Palette.redBright, .white, MoonX7V2Palette.purpleBright],
+                                center: .center
+                            ),
+                            lineWidth: 2
+                        )
+                        .frame(width: 48, height: 48)
+                        .rotationEffect(.degrees(spin ? 360 : 0))
+                        .animation(.linear(duration: 2.2).repeatForever(autoreverses: false), value: spin)
+
+                    Circle()
+                        .fill(MoonX7V2Palette.purple.opacity(0.22))
+                        .frame(width: 34, height: 34)
+
+                    Image(systemName: ready ? "bubble.left.and.bubble.right.fill" : "ellipsis")
+                        .font(.system(size: 14, weight: .black))
+                        .foregroundStyle(.white)
+                }
+
+                VStack(alignment: .leading, spacing: 3) {
+                    Text(ready ? "DISCORD ONLINE" : "CARGANDO DISCORD")
+                        .font(.system(size: 10, weight: .black, design: .rounded))
+                        .tracking(1.2)
+                        .foregroundStyle(ready ? MoonX7V2Palette.silver : MoonX7V2Palette.purpleBright)
+                    Text(ready ? "Soporte, avisos y novedades de MOON X7." : "Preparando conexión segura...")
+                        .font(.system(size: 8.5, weight: .medium, design: .rounded))
+                        .foregroundStyle(.white.opacity(0.38))
+                }
+
+                Spacer()
+
+                if ready {
+                    Button {
+                        if let url = URL(string: MoonSocialLinks.discord) { openURL(url) }
+                    } label: {
+                        Image(systemName: "arrow.up.right")
+                            .font(.system(size: 12, weight: .black))
+                            .foregroundStyle(.white)
+                            .frame(width: 36, height: 36)
+                    }
+                    .background(MoonX7V2Palette.purple.opacity(0.28), in: Circle())
+                    .overlay { Circle().stroke(MoonX7V2Palette.purpleBright.opacity(0.42), lineWidth: 1) }
+                    .buttonStyle(MoonX7V2PressStyle())
+                    .transition(.scale.combined(with: .opacity))
+                } else {
+                    ProgressView()
+                        .tint(MoonX7V2Palette.purpleBright)
+                        .transition(.opacity)
+                }
+            }
+            .padding(14)
+        }
+        .onAppear {
+            spin = true
+            ready = false
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.15) {
+                withAnimation(.spring(response: 0.45, dampingFraction: 0.80)) {
+                    ready = true
+                }
+            }
         }
     }
 }
