@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700">
+<defs>
+  <linearGradient id="silver" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#ffffff"/><stop offset=".48" stop-color="#cfd2da"/><stop offset="1" stop-color="#ffffff"/>
+  </linearGradient>
+  <linearGradient id="red" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#ff2438"/><stop offset=".55" stop-color="#a60018"/><stop offset="1" stop-color="#4a0010"/>
+  </linearGradient>
+  <radialGradient id="glow"><stop offset="0" stop-color="#7d19ff" stop-opacity=".48"/><stop offset="1" stop-color="#7d19ff" stop-opacity="0"/></radialGradient>
+  <filter id="blur"><feGaussianBlur stdDeviation="28"/></filter>
+  <filter id="shadow"><feDropShadow dx="0" dy="12" stdDeviation="14" flood-color="#6d16ff" flood-opacity=".28"/></filter>
+</defs>
+<rect width="1200" height="700" rx="90" fill="#030004"/>
+<ellipse cx="600" cy="365" rx="390" ry="260" fill="url(#glow)" filter="url(#blur)"/>
+<g filter="url(#shadow)">
+  <text x="600" y="260" text-anchor="middle" fill="url(#silver)" font-size="155" font-family="Impact, Haettenschweiler, sans-serif" letter-spacing="18">MOON</text>
+  <path d="M430 250 L555 350 L430 450 L505 450 L600 382 L695 450 L770 450 L645 350 L770 250 L695 250 L600 318 L505 250 Z" fill="url(#red)" stroke="#ff4760" stroke-width="5"/>
+  <text x="600" y="565" text-anchor="middle" fill="url(#red)" font-size="150" font-family="Impact, Haettenschweiler, sans-serif" letter-spacing="12">X7</text>
+</g>
+</svg>
