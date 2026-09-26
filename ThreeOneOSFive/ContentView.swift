@@ -35,14 +35,14 @@ struct ContentView: View {
             } else if auth.isAuthenticated {
                 authenticatedView
             } else {
-                MoonLoginRedesign(auth: auth)
+                MoonX7V2LoginView(auth: auth)
             }
         }
         .preferredColorScheme(.dark)
     }
 
     private var authenticatedView: some View {
-        MoonX7RedesignedShell(auth: auth, darkMode: $darkMode)
+        MoonX7V2Shell(auth: auth, darkMode: $darkMode)
             .environment(\.colorScheme, scheme)
             .preferredColorScheme(scheme)
     }
@@ -3229,6 +3229,1160 @@ private struct MoonConfigRedesign: View {
             Text(title).font(.system(size:8.5, weight:.black, design:.rounded)).tracking(1).foregroundStyle(.white.opacity(0.34))
             Spacer(minLength:12)
             Text(value).font(.system(size:11, weight:.bold, design:.monospaced)).foregroundStyle(color).multilineTextAlignment(.trailing)
+        }
+    }
+}
+
+
+// ============================================================
+// MARK: - MOONX7 REDESIGN V2
+// ============================================================
+
+private enum MoonX7V2Palette {
+    static let red = Color(red: 0.82, green: 0.035, blue: 0.10)
+    static let redBright = Color(red: 1.0, green: 0.10, blue: 0.18)
+    static let purple = Color(red: 0.42, green: 0.08, blue: 0.72)
+    static let purpleBright = Color(red: 0.64, green: 0.18, blue: 0.95)
+    static let silver = Color(red: 0.91, green: 0.92, blue: 0.96)
+    static let charcoal = Color(red: 0.055, green: 0.055, blue: 0.065)
+}
+
+private struct MoonX7V2Shell: View {
+    @ObservedObject var auth: MoonAuthManager
+    @Binding var darkMode: Bool
+    @State private var tab = 0
+
+    private let tabs: [(String, String)] = [
+        ("house.fill", "HOME"),
+        ("gamecontroller.fill", "GAMES"),
+        ("play.rectangle.fill", "PREVIEW"),
+        ("gearshape.fill", "CONFIG")
+    ]
+
+    var body: some View {
+        ZStack(alignment: .bottom) {
+            MoonX7V2Background()
+
+            Group {
+                switch tab {
+                case 0:
+                    MoonX7V2HomeView(auth: auth, tab: $tab)
+                case 1:
+                    MoonX7V2GamesView()
+                case 2:
+                    MoonPreviewRedesign()
+                default:
+                    MoonX7V2ConfigView(auth: auth)
+                }
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .safeAreaInset(edge: .bottom, spacing: 0) {
+                Color.clear.frame(height: 74)
+            }
+
+            MoonX7V2TabBar(selection: $tab, tabs: tabs)
+                .padding(.horizontal, 14)
+                .padding(.bottom, 6)
+        }
+        .preferredColorScheme(.dark)
+    }
+}
+
+private struct MoonX7V2Background: View {
+    @State private var drift = false
+
+    var body: some View {
+        ZStack {
+            Color.black.ignoresSafeArea()
+
+            RadialGradient(
+                colors: [
+                    MoonX7V2Palette.purple.opacity(0.16),
+                    .clear
+                ],
+                center: drift ? .topTrailing : .topLeading,
+                startRadius: 10,
+                endRadius: 430
+            )
+            .ignoresSafeArea()
+
+            RadialGradient(
+                colors: [
+                    MoonX7V2Palette.red.opacity(0.11),
+                    .clear
+                ],
+                center: drift ? .bottomLeading : .bottomTrailing,
+                startRadius: 20,
+                endRadius: 380
+            )
+            .ignoresSafeArea()
+
+            LinearGradient(
+                colors: [
+                    Color.white.opacity(0.018),
+                    .clear,
+                    MoonX7V2Palette.purple.opacity(0.025)
+                ],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            .ignoresSafeArea()
+        }
+        .onAppear {
+            withAnimation(.easeInOut(duration: 8).repeatForever(autoreverses: true)) {
+                drift.toggle()
+            }
+        }
+    }
+}
+
+private struct MoonX7V2Logo: View {
+    var width: CGFloat = 190
+    var body: some View {
+        VStack(spacing: 7) {
+            // The app keeps its existing asset fallback so the redesign never depends
+            // on a remote image or a new runtime download.
+            if let icon = UIImage(named: "AppIcon60x60")
+                ?? UIImage(named: "Canva-AppIcon-1024")
+                ?? UIImage(named: "AppIcon") {
+                Image(uiImage: icon)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: width, height: width * 0.58)
+                    .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+            } else {
+                Text("MOONX7")
+                    .font(.system(size: width * 0.16, weight: .black, design: .rounded))
+                    .tracking(3.5)
+                    .foregroundStyle(
+                        LinearGradient(
+                            colors: [MoonX7V2Palette.silver, .white, MoonX7V2Palette.red],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
+            }
+        }
+        .shadow(color: MoonX7V2Palette.purple.opacity(0.28), radius: 20, y: 7)
+        .accessibilityLabel("MOONX7")
+    }
+}
+
+private struct MoonX7V2GlassCard<Content: View>: View {
+    let tint: Color
+    let content: Content
+
+    init(tint: Color = MoonX7V2Palette.purple, @ViewBuilder content: () -> Content) {
+        self.tint = tint
+        self.content = content()
+    }
+
+    var body: some View {
+        content
+            .background(
+                RoundedRectangle(cornerRadius: 24, style: .continuous)
+                    .fill(Color.white.opacity(0.045))
+            )
+            .overlay {
+                RoundedRectangle(cornerRadius: 24, style: .continuous)
+                    .stroke(
+                        LinearGradient(
+                            colors: [
+                                tint.opacity(0.52),
+                                .white.opacity(0.08),
+                                MoonX7V2Palette.red.opacity(0.18)
+                            ],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        ),
+                        lineWidth: 1
+                    )
+            }
+            .shadow(color: tint.opacity(0.08), radius: 22, y: 10)
+    }
+}
+
+private struct MoonX7V2TabBar: View {
+    @Binding var selection: Int
+    let tabs: [(String, String)]
+
+    var body: some View {
+        HStack(spacing: 5) {
+            ForEach(Array(tabs.enumerated()), id: \.offset) { index, tab in
+                Button {
+                    withAnimation(.spring(response: 0.30, dampingFraction: 0.84)) {
+                        selection = index
+                    }
+                } label: {
+                    VStack(spacing: 4) {
+                        Image(systemName: tab.0)
+                            .font(.system(size: 15, weight: .bold))
+                        Text(tab.1)
+                            .font(.system(size: 8, weight: .black, design: .rounded))
+                            .tracking(0.5)
+                    }
+                    .foregroundStyle(selection == index ? .white : .white.opacity(0.38))
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 54)
+                    .background {
+                        if selection == index {
+                            Capsule(style: .continuous)
+                                .fill(
+                                    LinearGradient(
+                                        colors: [
+                                            MoonX7V2Palette.red.opacity(0.28),
+                                            MoonX7V2Palette.purple.opacity(0.20)
+                                        ],
+                                        startPoint: .leading,
+                                        endPoint: .trailing
+                                    )
+                                )
+                                .overlay {
+                                    Capsule(style: .continuous)
+                                        .stroke(MoonX7V2Palette.red.opacity(0.42), lineWidth: 1)
+                                }
+                        }
+                    }
+                }
+                .buttonStyle(.plain)
+            }
+        }
+        .padding(7)
+        .background(.black.opacity(0.72), in: Capsule(style: .continuous))
+        .overlay {
+            Capsule(style: .continuous)
+                .stroke(.white.opacity(0.09), lineWidth: 1)
+        }
+        .shadow(color: MoonX7V2Palette.purple.opacity(0.18), radius: 24, y: 9)
+    }
+}
+
+private struct MoonX7V2LoginView: View {
+    @ObservedObject var auth: MoonAuthManager
+    @State private var key = ""
+    @State private var appeared = false
+    @FocusState private var focused: Bool
+
+    private var canSubmit: Bool {
+        !auth.isChecking &&
+        !key.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+    }
+
+    var body: some View {
+        ZStack {
+            MoonX7V2Background()
+
+            ScrollView(showsIndicators: false) {
+                VStack(spacing: 22) {
+                    Spacer(minLength: 36)
+
+                    MoonX7V2Logo(width: 230)
+                        .scaleEffect(appeared ? 1 : 0.90)
+                        .opacity(appeared ? 1 : 0)
+
+                    VStack(spacing: 6) {
+                        Text("PRIVATE CONTROL CENTER")
+                            .font(.system(size: 10, weight: .black, design: .rounded))
+                            .tracking(2.8)
+                            .foregroundStyle(MoonX7V2Palette.redBright)
+
+                        Text("SECURE ACCESS")
+                            .font(.system(size: 23, weight: .black, design: .rounded))
+                            .foregroundStyle(.white)
+                    }
+
+                    MoonX7V2GlassCard(tint: MoonX7V2Palette.purple) {
+                        VStack(alignment: .leading, spacing: 15) {
+                            VStack(alignment: .leading, spacing: 5) {
+                                Text("LICENCIA")
+                                    .font(.system(size: 9, weight: .black, design: .rounded))
+                                    .tracking(1.8)
+                                    .foregroundStyle(.white.opacity(0.38))
+
+                                Text("Introduce tu key MOONX7")
+                                    .font(.system(size: 20, weight: .bold, design: .rounded))
+                                    .foregroundStyle(.white)
+                            }
+
+                            HStack(spacing: 10) {
+                                Image(systemName: "key.horizontal.fill")
+                                    .foregroundStyle(MoonX7V2Palette.silver)
+
+                                TextField("MOONX7-XXXX-XXXX", text: $key)
+                                    .focused($focused)
+                                    .textInputAutocapitalization(.characters)
+                                    .autocorrectionDisabled()
+                                    .font(.system(size: 14, weight: .bold, design: .monospaced))
+                                    .foregroundStyle(.white)
+
+                                Button("PEGAR") {
+                                    key = UIPasteboard.general.string ?? key
+                                    focused = true
+                                }
+                                .font(.system(size: 8.5, weight: .black, design: .rounded))
+                                .foregroundStyle(.white)
+                                .padding(.horizontal, 10)
+                                .padding(.vertical, 8)
+                                .background(MoonX7V2Palette.red.opacity(0.18), in: Capsule())
+                                .buttonStyle(.plain)
+                            }
+                            .padding(13)
+                            .background(Color.black.opacity(0.34), in: RoundedRectangle(cornerRadius: 17, style: .continuous))
+                            .overlay {
+                                RoundedRectangle(cornerRadius: 17, style: .continuous)
+                                    .stroke(auth.errorMessage == nil ? .white.opacity(0.08) : .red.opacity(0.72), lineWidth: 1)
+                            }
+
+                            Button {
+                                auth.signIn(key: key)
+                            } label: {
+                                HStack(spacing: 9) {
+                                    if auth.isChecking {
+                                        ProgressView().tint(.white)
+                                    }
+                                    Image(systemName: auth.isChecking ? "hourglass" : "arrow.right.circle.fill")
+                                    Text(auth.isChecking ? "VERIFICANDO..." : "ENTRAR")
+                                }
+                                .font(.system(size: 13, weight: .black, design: .rounded))
+                                .foregroundStyle(.white)
+                                .frame(maxWidth: .infinity)
+                                .frame(height: 52)
+                            }
+                            .background(
+                                LinearGradient(
+                                    colors: [
+                                        MoonX7V2Palette.red.opacity(canSubmit ? 0.92 : 0.32),
+                                        MoonX7V2Palette.purple.opacity(canSubmit ? 0.72 : 0.30)
+                                    ],
+                                    startPoint: .leading,
+                                    endPoint: .trailing
+                                ),
+                                in: RoundedRectangle(cornerRadius: 17, style: .continuous)
+                            )
+                            .overlay {
+                                RoundedRectangle(cornerRadius: 17, style: .continuous)
+                                    .stroke(.white.opacity(canSubmit ? 0.16 : 0.05), lineWidth: 1)
+                            }
+                            .disabled(!canSubmit)
+
+                            if let error = auth.errorMessage {
+                                Label(error, systemImage: "exclamationmark.triangle.fill")
+                                    .font(.system(size: 10.5, weight: .semibold))
+                                    .foregroundStyle(.red.opacity(0.95))
+                            }
+                        }
+                        .padding(18)
+                    }
+
+                    Text("LICENSE • DEVICE • SUPABASE")
+                        .font(.system(size: 8.5, weight: .bold, design: .monospaced))
+                        .tracking(1.3)
+                        .foregroundStyle(.white.opacity(0.22))
+                        .padding(.bottom, 38)
+                }
+                .padding(.horizontal, 16)
+            }
+        }
+        .onAppear {
+            withAnimation(.spring(response: 0.70, dampingFraction: 0.82)) {
+                appeared = true
+            }
+        }
+    }
+}
+
+private struct MoonX7V2HomeView: View {
+    @ObservedObject var auth: MoonAuthManager
+    @Binding var tab: Int
+    @State private var pulse = false
+
+    private var maskedKey: String {
+        guard let key = auth.licenseKey, key.count > 8 else { return auth.licenseKey ?? "—" }
+        return String(key.prefix(4)) + "••••••••" + String(key.suffix(4))
+    }
+
+    private var remainingText: String {
+        guard let expires = auth.expiresAt else { return "—" }
+        let seconds = max(0, Int(expires.timeIntervalSinceNow))
+        let days = seconds / 86_400
+        let hours = (seconds % 86_400) / 3_600
+        let minutes = (seconds % 3_600) / 60
+        if days > 0 { return "\(days)d \(hours)h" }
+        if hours > 0 { return "\(hours)h \(minutes)m" }
+        return "\(minutes)m"
+    }
+
+    var body: some View {
+        ScrollView(showsIndicators: false) {
+            VStack(alignment: .leading, spacing: 16) {
+                HStack(alignment: .center, spacing: 12) {
+                    MoonX7V2Logo(width: 116)
+                    Spacer()
+                    Button {
+                        auth.signOut()
+                    } label: {
+                        Label("SALIR", systemImage: "rectangle.portrait.and.arrow.right")
+                            .font(.system(size: 9, weight: .black, design: .rounded))
+                            .foregroundStyle(.white)
+                            .padding(.horizontal, 11)
+                            .frame(height: 36)
+                    }
+                    .background(.white.opacity(0.055), in: Capsule())
+                    .overlay(Capsule().stroke(.white.opacity(0.10), lineWidth: 1))
+                    .buttonStyle(.plain)
+                }
+                .padding(.top, 26)
+
+                VStack(alignment: .leading, spacing: 5) {
+                    Text("WELCOME BACK")
+                        .font(.system(size: 9, weight: .black, design: .rounded))
+                        .tracking(2.1)
+                        .foregroundStyle(MoonX7V2Palette.redBright)
+
+                    Text("MOONX7 CONTROL")
+                        .font(.system(size: 29, weight: .black, design: .rounded))
+                        .foregroundStyle(.white)
+
+                    Text("Tu sesión está protegida y lista.")
+                        .font(.system(size: 12, weight: .medium, design: .rounded))
+                        .foregroundStyle(.white.opacity(0.42))
+                }
+
+                MoonX7V2GlassCard(tint: MoonX7V2Palette.red) {
+                    HStack(spacing: 14) {
+                        ZStack {
+                            Circle()
+                                .fill(Color.green.opacity(0.13))
+                                .frame(width: 52, height: 52)
+                            Circle()
+                                .stroke(Color.green.opacity(0.42), lineWidth: 1)
+                                .frame(width: 52, height: 52)
+                            Circle()
+                                .fill(Color.green)
+                                .frame(width: 8, height: 8)
+                                .scaleEffect(pulse ? 1.35 : 0.9)
+                        }
+
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("SESSION STATUS")
+                                .font(.system(size: 8.5, weight: .black, design: .rounded))
+                                .tracking(1.5)
+                                .foregroundStyle(.white.opacity(0.36))
+                            Text("ACTIVE")
+                                .font(.system(size: 18, weight: .black, design: .rounded))
+                                .foregroundStyle(.white)
+                        }
+
+                        Spacer()
+
+                        VStack(alignment: .trailing, spacing: 4) {
+                            Text("REMAINING")
+                                .font(.system(size: 8, weight: .black, design: .rounded))
+                                .foregroundStyle(.white.opacity(0.30))
+                            Text(remainingText)
+                                .font(.system(size: 16, weight: .black, design: .rounded))
+                                .foregroundStyle(MoonX7V2Palette.silver)
+                        }
+                    }
+                    .padding(17)
+                }
+
+                MoonX7V2GlassCard(tint: MoonX7V2Palette.purple) {
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text("ACCOUNT")
+                            .font(.system(size: 9, weight: .black, design: .rounded))
+                            .tracking(1.8)
+                            .foregroundStyle(MoonX7V2Palette.purpleBright)
+
+                        HStack {
+                            Text("KEY")
+                                .foregroundStyle(.white.opacity(0.36))
+                            Spacer()
+                            Text(maskedKey)
+                                .font(.system(size: 11, weight: .bold, design: .monospaced))
+                                .foregroundStyle(.white)
+                        }
+
+                        HStack {
+                            Text("PLAN")
+                                .foregroundStyle(.white.opacity(0.36))
+                            Spacer()
+                            Text(auth.plan?.uppercased() ?? "—")
+                                .font(.system(size: 11, weight: .black, design: .rounded))
+                                .foregroundStyle(.white)
+                        }
+
+                        if let expires = auth.expiresAt {
+                            HStack {
+                                Text("EXPIRES")
+                                    .foregroundStyle(.white.opacity(0.36))
+                                Spacer()
+                                Text(expires.formatted(date: .abbreviated, time: .shortened))
+                                    .font(.system(size: 10.5, weight: .semibold, design: .monospaced))
+                                    .foregroundStyle(.white.opacity(0.78))
+                            }
+                        }
+                    }
+                    .font(.system(size: 10.5, weight: .bold, design: .rounded))
+                    .padding(17)
+                }
+
+                Text("GAMES")
+                    .font(.system(size: 9, weight: .black, design: .rounded))
+                    .tracking(1.8)
+                    .foregroundStyle(.white.opacity(0.34))
+
+                HStack(spacing: 10) {
+                    MoonX7V2GameShortcut(
+                        title: "FF NORMAL",
+                        subtitle: "MOON • HOLOS • FPS",
+                        icon: "gamecontroller.fill",
+                        tint: MoonX7V2Palette.silver
+                    ) {
+                        tab = 1
+                    }
+
+                    MoonX7V2GameShortcut(
+                        title: "FF MAX",
+                        subtitle: "AIM • HOLOS • FPS",
+                        icon: "bolt.fill",
+                        tint: MoonX7V2Palette.redBright
+                    ) {
+                        tab = 1
+                    }
+                }
+
+                MoonX7V2GlassCard(tint: MoonX7V2Palette.red) {
+                    Button {
+                        tab = 3
+                    } label: {
+                        HStack(spacing: 12) {
+                            Image(systemName: "gearshape.fill")
+                                .font(.system(size: 19, weight: .bold))
+                                .foregroundStyle(MoonX7V2Palette.silver)
+                                .frame(width: 40, height: 40)
+                                .background(MoonX7V2Palette.purple.opacity(0.18), in: RoundedRectangle(cornerRadius: 12, style: .continuous))
+
+                            VStack(alignment: .leading, spacing: 3) {
+                                Text("CONFIG")
+                                    .font(.system(size: 13, weight: .black, design: .rounded))
+                                    .foregroundStyle(.white)
+                                Text("Cuenta, dispositivo y sesión")
+                                    .font(.system(size: 9.5, weight: .medium, design: .rounded))
+                                    .foregroundStyle(.white.opacity(0.36))
+                            }
+
+                            Spacer()
+                            Image(systemName: "chevron.right")
+                                .foregroundStyle(.white.opacity(0.30))
+                        }
+                        .padding(15)
+                    }
+                    .buttonStyle(.plain)
+                }
+
+                Text("MOONX7 • SECURE SESSION")
+                    .font(.system(size: 8, weight: .bold, design: .monospaced))
+                    .tracking(1.1)
+                    .foregroundStyle(.white.opacity(0.18))
+                    .frame(maxWidth: .infinity)
+                    .padding(.top, 6)
+                    .padding(.bottom, 18)
+            }
+            .padding(.horizontal, 15)
+        }
+        .onAppear {
+            withAnimation(.easeInOut(duration: 1.1).repeatForever(autoreverses: true)) {
+                pulse = true
+            }
+        }
+    }
+}
+
+private struct MoonX7V2GameShortcut: View {
+    let title: String
+    let subtitle: String
+    let icon: String
+    let tint: Color
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            VStack(alignment: .leading, spacing: 12) {
+                Image(systemName: icon)
+                    .font(.system(size: 19, weight: .black))
+                    .foregroundStyle(tint)
+
+                Text(title)
+                    .font(.system(size: 14, weight: .black, design: .rounded))
+                    .foregroundStyle(.white)
+
+                Text(subtitle)
+                    .font(.system(size: 8.5, weight: .bold, design: .rounded))
+                    .tracking(0.5)
+                    .foregroundStyle(.white.opacity(0.34))
+                    .lineLimit(2)
+
+                Spacer(minLength: 2)
+
+                HStack {
+                    Text("ABRIR")
+                        .font(.system(size: 8.5, weight: .black, design: .rounded))
+                        .foregroundStyle(.white.opacity(0.58))
+                    Spacer()
+                    Image(systemName: "arrow.up.right")
+                        .font(.system(size: 10, weight: .black))
+                        .foregroundStyle(tint)
+                }
+            }
+            .frame(maxWidth: .infinity, minHeight: 142, alignment: .leading)
+            .padding(15)
+            .background(Color.white.opacity(0.035), in: RoundedRectangle(cornerRadius: 22, style: .continuous))
+            .overlay {
+                RoundedRectangle(cornerRadius: 22, style: .continuous)
+                    .stroke(tint.opacity(0.22), lineWidth: 1)
+            }
+        }
+        .buttonStyle(.plain)
+    }
+}
+
+private struct MoonX7V2GamesView: View {
+    @State private var game = 1
+    @State private var filter: MoonOptionFilter = .all
+    @State private var enabled = Set<String>()
+    @State private var search = ""
+
+    private let normal: [PatchOption] = [
+        PatchOption(id: "r-ffn1", title: "MOON CABEZA", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn1, patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "r-ffn2", title: "MOON CABEZA ATN", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn2, patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "r-ffn3", title: "MOON CUELLO", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn3, patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "r-ffn4", title: "MOON CUELLO ATN", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn4, patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "r-ffn5", title: "MOON DRAG", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn5, patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "r-ffn6", title: "MOON DRAG ATN", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn6, patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "r-ffn7", title: "MOON PECHO", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn7, patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "r-ffn8", title: "MOON PECHO ATN", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn8, patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "r-ffn-fps", title: "120–144 FPS", subtitle: "FF NORMAL • FPS", patchFile: PatchSlots.ffnFPS, patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "r-arm-max-rainbow", title: "ARM HOLO MOON • RAINBOW", subtitle: "FF NORMAL • HOLO ARM", patchFile: "ARM HOLO MOON RAINBOW.3105", patchPassword: PatchSlots.armHoloPassword, manualControls: true, isTexture: true)
+    ]
+
+    private let max: [PatchOption] = [
+        PatchOption(id: "r-m1", title: "AIM MOON CABEZA", subtitle: "FF MAX • AIM MOON", patchFile: "AIM MOON CABEZA.3105", patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "r-m2", title: "AIM MOON CABEZA ATN", subtitle: "FF MAX • AIM MOON", patchFile: "AIM MOON CABEZA ATN.3105", patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "r-m3", title: "AIM MOON CUELLO", subtitle: "FF MAX • AIM MOON", patchFile: "AIM MOON CUELLO.3105", patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "r-m4", title: "AIM MOON CUELLO ATN", subtitle: "FF MAX • AIM MOON", patchFile: "AIM MOON CUELLO ATN.3105", patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "r-m5", title: "AIM MOON DRAG", subtitle: "FF MAX • AIM MOON", patchFile: "AIM MOON DRAG.3105", patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "r-m6", title: "AIM MOON DRAG ATN", subtitle: "FF MAX • AIM MOON", patchFile: "AIM MOON DRAG ATN.3105", patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "r-m7", title: "AIM MOON PECHO", subtitle: "FF MAX • AIM MOON", patchFile: "AIM MOON PECHO.3105", patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "r-m8", title: "AIM MOON PECHO ATN", subtitle: "FF MAX • AIM MOON", patchFile: "AIM MOON PECHO ATN.3105", patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "r-m-fps", title: "120–144 FPS", subtitle: "FF MAX • FPS", patchFile: PatchSlots.ffmxFPS, patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "r-arm-normal-rainbow", title: "ARM MOON SPIN • RAINBOW", subtitle: "FF MAX • HOLO ARM", patchFile: "ARM MOON SPIN RAINBOW.3105", patchPassword: PatchSlots.armHoloPassword, manualControls: true, isTexture: true),
+        PatchOption(id: "r-pj1", title: "PJ HOLO • COTTON CANDY", subtitle: "FF MAX • PJ HOLO", patchFile: "PJ HOLO MOON COTTON CANDY.3105", patchPassword: PatchSlots.pjHoloPassword, manualControls: true, isTexture: true),
+        PatchOption(id: "r-pj2", title: "PJ HOLO • DARK GALAXY", subtitle: "FF MAX • PJ HOLO", patchFile: "PJ HOLO MOON DARK GALAXY.3105", patchPassword: PatchSlots.pjHoloPassword, manualControls: true, isTexture: true),
+        PatchOption(id: "r-pj3", title: "PJ HOLO • ESPEJOS", subtitle: "FF MAX • PJ HOLO", patchFile: "PJ HOLO MOON ESPEJOS.3105", patchPassword: PatchSlots.pjHoloPassword, manualControls: true, isTexture: true)
+    ]
+
+    private var allOptions: [PatchOption] { game == 0 ? normal : max }
+
+    private var filteredOptions: [PatchOption] {
+        let base: [PatchOption]
+        switch filter {
+        case .all:
+            base = allOptions
+        case .holos:
+            base = allOptions.filter { $0.isTexture }
+        case .aim:
+            base = allOptions.filter { !$0.isTexture && $0.title.localizedCaseInsensitiveContains("AIM") }
+        case .moons:
+            base = allOptions.filter {
+                !$0.isTexture &&
+                !$0.title.localizedCaseInsensitiveContains("AIM") &&
+                !$0.title.localizedCaseInsensitiveContains("ATN") &&
+                $0.title.localizedCaseInsensitiveContains("MOON")
+            }
+        case .atn:
+            base = allOptions.filter { !$0.isTexture && $0.title.localizedCaseInsensitiveContains("ATN") }
+        }
+        guard !search.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return base }
+        return base.filter {
+            $0.title.localizedCaseInsensitiveContains(search) ||
+            ($0.subtitle ?? "").localizedCaseInsensitiveContains(search)
+        }
+    }
+
+    var body: some View {
+        ScrollView(showsIndicators: false) {
+            VStack(alignment: .leading, spacing: 15) {
+                HStack(alignment: .center) {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("GAMES")
+                            .font(.system(size: 30, weight: .black, design: .rounded))
+                            .foregroundStyle(.white)
+                        Text(game == 0 ? "FREE FIRE NORMAL" : "FREE FIRE MAX")
+                            .font(.system(size: 9, weight: .black, design: .rounded))
+                            .tracking(1.7)
+                            .foregroundStyle(MoonX7V2Palette.redBright)
+                    }
+                    Spacer()
+                    Text("\(allOptions.count)")
+                        .font(.system(size: 23, weight: .black, design: .rounded))
+                        .foregroundStyle(MoonX7V2Palette.silver)
+                }
+                .padding(.top, 26)
+
+                HStack(spacing: 8) {
+                    MoonX7V2GameModeButton(title: "FF NORMAL", selected: game == 0) {
+                        withAnimation(.spring(response: 0.28, dampingFraction: 0.86)) {
+                            game = 0
+                            filter = .all
+                        }
+                    }
+                    MoonX7V2GameModeButton(title: "FF MAX", selected: game == 1) {
+                        withAnimation(.spring(response: 0.28, dampingFraction: 0.86)) {
+                            game = 1
+                            filter = .all
+                        }
+                    }
+                }
+
+                HStack(spacing: 8) {
+                    MoonX7V2FilterButton(title: "VER TODOS", selected: filter == .all) { filter = .all }
+                    MoonX7V2FilterButton(title: "HOLOS", selected: filter == .holos) { filter = .holos }
+                    MoonX7V2FilterButton(title: "AIM", selected: filter == .aim) { filter = .aim }
+                    MoonX7V2FilterButton(title: "MOONS", selected: filter == .moons) { filter = .moons }
+                    MoonX7V2FilterButton(title: "ATN", selected: filter == .atn) { filter = .atn }
+                }
+
+                HStack(spacing: 9) {
+                    Image(systemName: "magnifyingglass")
+                        .foregroundStyle(.white.opacity(0.34))
+                    TextField("Buscar opción", text: $search)
+                        .textInputAutocapitalization(.never)
+                        .autocorrectionDisabled()
+                        .foregroundStyle(.white)
+                    if !search.isEmpty {
+                        Button {
+                            search = ""
+                        } label: {
+                            Image(systemName: "xmark.circle.fill")
+                                .foregroundStyle(.white.opacity(0.30))
+                        }
+                        .buttonStyle(.plain)
+                    }
+                }
+                .font(.system(size: 12, weight: .medium, design: .rounded))
+                .padding(.horizontal, 13)
+                .frame(height: 43)
+                .background(Color.white.opacity(0.04), in: RoundedRectangle(cornerRadius: 16, style: .continuous))
+                .overlay {
+                    RoundedRectangle(cornerRadius: 16, style: .continuous)
+                        .stroke(.white.opacity(0.08), lineWidth: 1)
+                }
+
+                Text("\(filteredOptions.count) OPCIONES")
+                    .font(.system(size: 8.5, weight: .black, design: .rounded))
+                    .tracking(1.5)
+                    .foregroundStyle(.white.opacity(0.28))
+                    .padding(.top, 2)
+
+                ForEach(filteredOptions) { option in
+                    MoonX7V2PatchCard(option: option, enabled: $enabled)
+                        .transition(.asymmetric(
+                            insertion: .opacity.combined(with: .scale(scale: 0.97)),
+                            removal: .opacity
+                        ))
+                }
+
+                Spacer(minLength: 95)
+            }
+            .padding(.horizontal, 15)
+        }
+        .onAppear {
+            syncActiveReceipts()
+        }
+    }
+
+    private func syncActiveReceipts() {
+        var current = Set<String>()
+        for option in normal + max {
+            if ActivePatchReceipts.load(for: option.id) != nil {
+                current.insert(option.id)
+            }
+        }
+        enabled = current
+    }
+}
+
+private struct MoonX7V2GameModeButton: View {
+    let title: String
+    let selected: Bool
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            Text(title)
+                .font(.system(size: 10, weight: .black, design: .rounded))
+                .foregroundStyle(selected ? .white : .white.opacity(0.42))
+                .frame(maxWidth: .infinity)
+                .frame(height: 42)
+                .background(
+                    selected
+                    ? LinearGradient(
+                        colors: [MoonX7V2Palette.red.opacity(0.62), MoonX7V2Palette.purple.opacity(0.46)],
+                        startPoint: .leading,
+                        endPoint: .trailing
+                    )
+                    : LinearGradient(colors: [.white.opacity(0.035), .white.opacity(0.02)], startPoint: .leading, endPoint: .trailing),
+                    in: RoundedRectangle(cornerRadius: 15, style: .continuous)
+                )
+                .overlay {
+                    RoundedRectangle(cornerRadius: 15, style: .continuous)
+                        .stroke(selected ? MoonX7V2Palette.red.opacity(0.55) : .white.opacity(0.07), lineWidth: 1)
+                }
+        }
+        .buttonStyle(.plain)
+    }
+}
+
+private struct MoonX7V2FilterButton: View {
+    let title: String
+    let selected: Bool
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            Text(title)
+                .font(.system(size: 7.5, weight: .black, design: .rounded))
+                .tracking(0.25)
+                .foregroundStyle(selected ? .white : .white.opacity(0.35))
+                .lineLimit(1)
+                .minimumScaleFactor(0.65)
+                .frame(maxWidth: .infinity)
+                .frame(height: 35)
+                .background(
+                    selected ? MoonX7V2Palette.purple.opacity(0.22) : .white.opacity(0.025),
+                    in: RoundedRectangle(cornerRadius: 12, style: .continuous)
+                )
+                .overlay {
+                    RoundedRectangle(cornerRadius: 12, style: .continuous)
+                        .stroke(selected ? MoonX7V2Palette.purpleBright.opacity(0.48) : .white.opacity(0.06), lineWidth: 1)
+                }
+        }
+        .buttonStyle(.plain)
+    }
+}
+
+private struct MoonX7V2PatchCard: View {
+    let option: PatchOption
+    @Binding var enabled: Set<String>
+    @State private var expanded = false
+    @State private var busy = false
+    @State private var error: String?
+    @State private var success: String?
+
+    private var active: Bool { enabled.contains(option.id) }
+
+    var body: some View {
+        VStack(spacing: 0) {
+            Button {
+                withAnimation(.spring(response: 0.28, dampingFraction: 0.86)) {
+                    expanded.toggle()
+                }
+            } label: {
+                HStack(spacing: 12) {
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 15, style: .continuous)
+                            .fill((option.isTexture ? MoonX7V2Palette.purple : MoonX7V2Palette.red).opacity(0.11))
+
+                        Image(systemName: option.isTexture ? "sparkles" : "scope")
+                            .font(.system(size: 17, weight: .black))
+                            .foregroundStyle(option.isTexture ? MoonX7V2Palette.purpleBright : MoonX7V2Palette.redBright)
+                    }
+                    .frame(width: 48, height: 48)
+
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(option.title)
+                            .font(.system(size: 13.5, weight: .black, design: .rounded))
+                            .foregroundStyle(.white)
+                            .multilineTextAlignment(.leading)
+
+                        Text(option.subtitle ?? "")
+                            .font(.system(size: 8.5, weight: .black, design: .rounded))
+                            .tracking(0.8)
+                            .foregroundStyle(.white.opacity(0.32))
+                    }
+
+                    Spacer()
+
+                    if busy {
+                        ProgressView().tint(.white)
+                    } else {
+                        Circle()
+                            .fill(active ? MoonX7V2Palette.redBright : .clear)
+                            .frame(width: 10, height: 10)
+                            .overlay {
+                                Circle()
+                                    .stroke(active ? MoonX7V2Palette.redBright : .white.opacity(0.20), lineWidth: 1.3)
+                                    .frame(width: 21, height: 21)
+                            }
+                    }
+
+                    Image(systemName: expanded ? "chevron.up" : "chevron.down")
+                        .font(.system(size: 10, weight: .black))
+                        .foregroundStyle(.white.opacity(0.30))
+                }
+                .padding(14)
+            }
+            .buttonStyle(.plain)
+
+            if expanded {
+                HStack(spacing: 9) {
+                    MoonX7V2ActionButton(
+                        title: option.isTexture ? "INJETAR" : "INJETAR 40%",
+                        icon: "bolt.fill",
+                        tint: MoonX7V2Palette.redBright,
+                        disabled: busy
+                    ) {
+                        run(apply: true)
+                    }
+
+                    MoonX7V2ActionButton(
+                        title: option.isTexture ? "QUITAR" : "QUITAR LOBBY",
+                        icon: "arrow.uturn.backward",
+                        tint: MoonX7V2Palette.purpleBright,
+                        disabled: busy
+                    ) {
+                        run(apply: false)
+                    }
+                }
+                .padding(.horizontal, 14)
+                .padding(.bottom, 14)
+                .transition(.asymmetric(
+                    insertion: .move(edge: .top).combined(with: .opacity),
+                    removal: .opacity
+                ))
+            }
+        }
+        .background(
+            RoundedRectangle(cornerRadius: 21, style: .continuous)
+                .fill(Color.white.opacity(active ? 0.06 : 0.038))
+        )
+        .overlay {
+            RoundedRectangle(cornerRadius: 21, style: .continuous)
+                .stroke(
+                    active
+                    ? MoonX7V2Palette.redBright.opacity(0.62)
+                    : .white.opacity(0.075),
+                    lineWidth: active ? 1.2 : 0.8
+                )
+        }
+        .shadow(
+            color: active ? MoonX7V2Palette.red.opacity(0.16) : .clear,
+            radius: 20,
+            y: 7
+        )
+        .alert("MOONX7", isPresented: Binding(
+            get: { error != nil },
+            set: { if !$0 { error = nil } }
+        )) {
+            Button("OK") { error = nil }
+        } message: {
+            Text(error ?? "")
+        }
+        .alert("MOONX7", isPresented: Binding(
+            get: { success != nil },
+            set: { if !$0 { success = nil } }
+        )) {
+            Button("OK") { success = nil }
+        } message: {
+            Text(success ?? "")
+        }
+    }
+
+    private func run(apply: Bool) {
+        guard !busy else { return }
+        busy = true
+
+        DispatchQueue.global(qos: .userInitiated).async {
+            let result = PatchSlotRunner.setEnabled(
+                apply,
+                slotID: option.id,
+                fileName: option.patchFile,
+                configuredPassword: option.patchPassword
+            )
+
+            DispatchQueue.main.async {
+                busy = false
+
+                switch result {
+                case .success:
+                    if apply {
+                        enabled.insert(option.id)
+                    } else {
+                        enabled.remove(option.id)
+                    }
+                    success = apply ? "Patch activado correctamente." : "Patch restaurado correctamente."
+                case .failure(let err):
+                    error = PatchSlotRunner.message(for: err)
+                }
+            }
+        }
+    }
+}
+
+private struct MoonX7V2ActionButton: View {
+    let title: String
+    let icon: String
+    let tint: Color
+    let disabled: Bool
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            HStack(spacing: 7) {
+                Image(systemName: icon)
+                Text(title)
+            }
+            .font(.system(size: 9.5, weight: .black, design: .rounded))
+            .foregroundStyle(.white)
+            .frame(maxWidth: .infinity)
+            .frame(height: 43)
+        }
+        .background(tint.opacity(disabled ? 0.18 : 0.28), in: RoundedRectangle(cornerRadius: 14, style: .continuous))
+        .overlay {
+            RoundedRectangle(cornerRadius: 14, style: .continuous)
+                .stroke(tint.opacity(disabled ? 0.16 : 0.48), lineWidth: 1)
+        }
+        .buttonStyle(.plain)
+        .disabled(disabled)
+    }
+}
+
+private struct MoonX7V2ConfigView: View {
+    @ObservedObject var auth: MoonAuthManager
+
+    private var maskedKey: String {
+        guard let key = auth.licenseKey, key.count > 8 else { return auth.licenseKey ?? "—" }
+        return String(key.prefix(4)) + "••••••••" + String(key.suffix(4))
+    }
+
+    var body: some View {
+        ScrollView(showsIndicators: false) {
+            VStack(alignment: .leading, spacing: 15) {
+                VStack(alignment: .leading, spacing: 5) {
+                    Text("CONFIG")
+                        .font(.system(size: 30, weight: .black, design: .rounded))
+                        .foregroundStyle(.white)
+                    Text("ACCOUNT • APP • ABOUT")
+                        .font(.system(size: 9, weight: .black, design: .rounded))
+                        .tracking(1.8)
+                        .foregroundStyle(MoonX7V2Palette.redBright)
+                }
+                .padding(.top, 26)
+
+                MoonX7V2GlassCard(tint: MoonX7V2Palette.purple) {
+                    VStack(alignment: .leading, spacing: 12) {
+                        MoonX7V2SectionTitle("ACCOUNT", tint: MoonX7V2Palette.purpleBright)
+                        MoonX7V2ConfigRow("USUARIO", "MOONX7")
+                        MoonX7V2ConfigRow("KEY", maskedKey, mono: true)
+                        MoonX7V2ConfigRow("PLAN", auth.plan?.uppercased() ?? "—")
+                        MoonX7V2ConfigRow(
+                            "EXPIRA",
+                            auth.expiresAt?.formatted(date: .abbreviated, time: .shortened) ?? "—",
+                            mono: true
+                        )
+                    }
+                    .padding(17)
+                }
+
+                MoonX7V2GlassCard(tint: MoonX7V2Palette.red) {
+                    VStack(alignment: .leading, spacing: 12) {
+                        MoonX7V2SectionTitle("APP", tint: MoonX7V2Palette.redBright)
+                        MoonX7V2ConfigRow("ESTADO", auth.isAuthenticated ? "ACTIVE" : "OFF")
+                        MoonX7V2ConfigRow("DISPOSITIVO", DeviceInfo.machine)
+                        MoonX7V2ConfigRow("IOS", UIDevice.current.systemVersion)
+                        MoonX7V2ConfigRow("VERSION", "2.2.0")
+                    }
+                    .padding(17)
+                }
+
+                MoonX7V2GlassCard(tint: MoonX7V2Palette.silver) {
+                    VStack(alignment: .leading, spacing: 12) {
+                        MoonX7V2SectionTitle("ABOUT", tint: MoonX7V2Palette.silver)
+                        MoonX7V2ConfigRow("APP", "MOONX7")
+                        MoonX7V2ConfigRow("BUILD", "DESIGN REDESIGN")
+                        MoonX7V2ConfigRow("SECURITY", "LICENSE • DEVICE")
+                    }
+                    .padding(17)
+                }
+
+                Button {
+                    auth.signOut()
+                } label: {
+                    HStack {
+                        Image(systemName: "rectangle.portrait.and.arrow.right")
+                        Text("CERRAR SESIÓN")
+                    }
+                    .font(.system(size: 11, weight: .black, design: .rounded))
+                    .foregroundStyle(.white)
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 50)
+                }
+                .background(MoonX7V2Palette.red.opacity(0.22), in: RoundedRectangle(cornerRadius: 16, style: .continuous))
+                .overlay {
+                    RoundedRectangle(cornerRadius: 16, style: .continuous)
+                        .stroke(MoonX7V2Palette.red.opacity(0.48), lineWidth: 1)
+                }
+                .buttonStyle(.plain)
+
+                Spacer(minLength: 95)
+            }
+            .padding(.horizontal, 15)
+        }
+    }
+}
+
+private struct MoonX7V2SectionTitle: View {
+    let title: String
+    let tint: Color
+
+    init(_ title: String, tint: Color) {
+        self.title = title
+        self.tint = tint
+    }
+
+    var body: some View {
+        Text(title)
+            .font(.system(size: 9, weight: .black, design: .rounded))
+            .tracking(1.8)
+            .foregroundStyle(tint)
+    }
+}
+
+private struct MoonX7V2ConfigRow: View {
+    let title: String
+    let value: String
+    let mono: Bool
+
+    init(_ title: String, _ value: String, mono: Bool = false) {
+        self.title = title
+        self.value = value
+        self.mono = mono
+    }
+
+    var body: some View {
+        HStack(alignment: .top, spacing: 12) {
+            Text(title)
+                .font(.system(size: 8.5, weight: .black, design: .rounded))
+                .tracking(0.9)
+                .foregroundStyle(.white.opacity(0.32))
+
+            Spacer(minLength: 10)
+
+            Text(value)
+                .font(.system(size: 10.5, weight: .bold, design: mono ? .monospaced : .rounded))
+                .foregroundStyle(.white.opacity(0.86))
+                .multilineTextAlignment(.trailing)
         }
     }
 }
