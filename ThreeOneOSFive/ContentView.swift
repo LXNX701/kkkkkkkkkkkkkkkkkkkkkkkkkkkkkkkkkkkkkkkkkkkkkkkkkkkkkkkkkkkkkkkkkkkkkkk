@@ -4295,7 +4295,7 @@ private struct MoonX7V2ConfigView: View {
                     VStack(alignment: .leading, spacing: 12) {
                         MoonX7V2SectionTitle("ABOUT", tint: MoonX7V2Palette.silver)
                         MoonX7V2ConfigRow("APP", "MOONX7")
-                        MoonX7V2ConfigRow("BUILD", "DESIGN REDESIGN")
+                        MoonX7V2ConfigRow("BUILD", "METALLIC EDITION")
                         MoonX7V2ConfigRow("SECURITY", "LICENSE • DEVICE")
                     }
                     .padding(17)
