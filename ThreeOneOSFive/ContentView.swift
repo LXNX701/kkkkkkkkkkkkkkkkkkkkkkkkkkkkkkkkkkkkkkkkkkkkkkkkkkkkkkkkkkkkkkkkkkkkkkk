@@ -9,7 +9,12 @@ import AVKit
 // MARK: - CONTENT VIEW
 // ============================================================
 
-private let moonX7UIBuildStamp = "MOON-X7-UI-REDESIGN-2.1.0-HOLO"
+private let moonX7UIBuildStamp = "MOON-X7 • LIQUID GLASS • 2.2.0 • LIQUID GLASS EDITION"
+
+private enum MoonRemoteMedia {
+    static let dashboardBanner = "https://media3.giphy.com/media/0WrS97JxpzwmTPbviV/giphy.gif?cid=9b38fe91uxzhi4x5aq594g2wnsczkch3iyao9zsd0knbsbr5&ep=v1_channels_id_gifs&rid=giphy.gif&ct=g"
+    static let loginBanner = "https://media0.giphy.com/media/zn5a8GjiDwu0VNrPMU/giphy.gif?cid=9b38fe91f7v98wdew07jfl146qpm6wsl8bpy65wr4q4hjjjl&ep=v1_gifs_search&rid=giphy.gif&ct=g"
+}
 
 struct ContentView: View {
     @State private var tab = 0
@@ -30,57 +35,16 @@ struct ContentView: View {
             } else if auth.isAuthenticated {
                 authenticatedView
             } else {
-                MoonLoginView(auth: auth)
+                MoonLoginRedesign(auth: auth)
             }
         }
         .preferredColorScheme(.dark)
     }
 
     private var authenticatedView: some View {
-        ZStack(alignment: .bottom) {
-            bg.ignoresSafeArea()
-
-            Group {
-                if tab == 0 {
-                    ExternalFunctionsView(darkMode: darkMode)
-                } else if tab == 1 {
-                    PreviewView(darkMode: darkMode)
-                } else {
-                    ConfigDashboardView(auth: auth, darkMode: $darkMode)
-                }
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .safeAreaInset(edge: .bottom, spacing: 0) {
-                HStack(spacing: 8) {
-                    BottomItem(icon: "house.fill", title: "Function", selected: tab == 0, darkMode: darkMode) { tab = 0 }
-                    BottomItem(icon: "play.rectangle.fill", title: "Preview", selected: tab == 1, darkMode: darkMode) { tab = 1 }
-                    BottomItem(icon: "cube.fill", title: "Config", selected: tab == 2, darkMode: darkMode) { tab = 2 }
-                }
-                .padding(.horizontal, 12)
-                .padding(.top, 6)
-                .padding(.bottom, 4)
-                .background(.black.opacity(0.96))
-            }
-
-            if auth.isAuthenticated {
-                VStack {
-                    HStack {
-                        Spacer()
-                        Button("Salir") { auth.signOut() }
-                            .font(.system(size: 11, weight: .semibold))
-                            .foregroundStyle(.white.opacity(0.65))
-                            .padding(.horizontal, 12)
-                            .padding(.vertical, 7)
-                            .background(.white.opacity(0.07), in: Capsule())
-                    }
-                    .padding(.top, 48)
-                    .padding(.horizontal, 18)
-                    Spacer()
-                }
-            }
-        }
-        .environment(\.colorScheme, scheme)
-        .preferredColorScheme(scheme)
+        MoonX7RedesignedShell(auth: auth, darkMode: $darkMode)
+            .environment(\.colorScheme, scheme)
+            .preferredColorScheme(scheme)
     }
 }
 
@@ -619,22 +583,25 @@ private struct PatchOption: Identifiable {
 // ============================================================
 
 private enum PatchSlots {
+    // FREE FIRE NORMAL
+    static let ffn1 = "MOON CABEZA.3105"
+    static let ffn2 = "MOON CABEZA ATN.3105"
+    static let ffn3 = "MOON CUELLO.3105"
+    static let ffn4 = "MOON CUELLO ATN.3105"
+    static let ffn5 = "MOON DRAG.3105"
+    static let ffn6 = "MOON DRAG ATN.3105"
+    static let ffn7 = "MOON PECHO.3105"
+    static let ffn8 = "MOON PECHO ATN.3105"
+    static let ffnFPS = "120-144 FPS FF.3105"
 
-    // FREE FIRE NORMAL - 8 available options.
-    static let ffn1 = "MOON CABEZA ATN--.3105"
-    static let ffn2 = "MOON CUELLO ATN --.3105"
-    static let ffn3 = "MOON DRAG ANT ---.3105"
-    static let ffn4 = "MOON CABEZA--.3105"
-    static let ffn5 = "MOON DRAG --.3105"
-    static let ffn6 = "MOON CUELLO--.3105"
-    static let ffn7 = "MOON PECHO ---∩╕Å-.3105"
-    static let ffn8 = "MOON PECHO ATN ---.3105"
+    // FREE FIRE MAX
+    static let ffmxFPS = "120-144 FPS FFMAX.3105"
 
-    // FF MAX now resolves the three new PJ HOLO packages directly from Patches/FF Max.
-
-    static let password = "0"
+    // Passwords
+    static let password = "moonx7"
+    static let armHoloPassword = "moonx7"
+    static let pjHoloPassword = "0"
 }
-
 
 // ============================================================
 // MARK: - SHARED THEME
@@ -668,14 +635,16 @@ private struct ExternalFunctionsView: View {
     // --------------------------------------------------------
 
     private let freeFireOptions: [PatchOption] = [
-        PatchOption(id: "ffn-01", title: "MOON CABEZA ATN", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn1, patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "ffn-02", title: "MOON CUELLO ATN", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn2, patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "ffn-03", title: "MOON DRAG ANT", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn3, patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "ffn-04", title: "MOON CABEZA", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn4, patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "ffn-01", title: "MOON CABEZA", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn1, patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "ffn-02", title: "MOON CABEZA ATN", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn2, patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "ffn-03", title: "MOON CUELLO", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn3, patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "ffn-04", title: "MOON CUELLO ATN", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn4, patchPassword: PatchSlots.password, manualControls: true),
         PatchOption(id: "ffn-05", title: "MOON DRAG", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn5, patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "ffn-06", title: "MOON CUELLO", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn6, patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "ffn-06", title: "MOON DRAG ATN", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn6, patchPassword: PatchSlots.password, manualControls: true),
         PatchOption(id: "ffn-07", title: "MOON PECHO", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn7, patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "ffn-08", title: "MOON PECHO ATN", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn8, patchPassword: PatchSlots.password, manualControls: true)
+        PatchOption(id: "ffn-08", title: "MOON PECHO ATN", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn8, patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "ffn-120fps", title: "120–144 FPS", subtitle: "FF NORMAL • FPS", patchFile: PatchSlots.ffnFPS, patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "ffn-arm-holo", title: "ARM HOLO MOON • RAINBOW", subtitle: "FF NORMAL • HOLO ARM", patchFile: "ARM HOLO MOON RAINBOW.3105", patchPassword: PatchSlots.armHoloPassword, manualControls: true, isTexture: true)
     ]
 
     // --------------------------------------------------------
@@ -683,27 +652,19 @@ private struct ExternalFunctionsView: View {
     // --------------------------------------------------------
 
     private let freeFireMaxOptions: [PatchOption] = [
-        // Existing FF MAX options — kept.
-        PatchOption(id: "ffmx-01", title: "MOON CABEZA ATN", subtitle: "FF MAX", patchFile: "FFMX MOON CABEZA ATN.3105", patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "ffmx-02", title: "MOON CUELLO ATN", subtitle: "FF MAX", patchFile: "FFMX MOON CUELLO ATN.3105", patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "ffmx-03", title: "MOON CUELLO", subtitle: "FF MAX", patchFile: "FFMX MOON CUELLO.3105", patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "ffmx-04", title: "MOON DRAG ATN", subtitle: "FF MAX", patchFile: "FFMX MOON DRAG ATN.3105", patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "ffmx-05", title: "MOON DRAG", subtitle: "FF MAX", patchFile: "FFMX MOON DRAG.3105", patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "ffmx-06", title: "MOON MAGIC ATN", subtitle: "FF MAX", patchFile: "FFMX MOON MAGIC ATN.3105", patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "ffmx-07", title: "MOON MAGICA", subtitle: "FF MAX", patchFile: "FFMX MOON MAGICA.3105", patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "ffmx-08", title: "MOON PECHO ATN", subtitle: "FF MAX", patchFile: "FFMX MOON PECHO ATN.3105", patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "ffmx-09", title: "MOON PECHO", subtitle: "FF MAX", patchFile: "FFMX MOON PECHO.3105", patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "ffmx-10", title: "MOON CABEZA", subtitle: "FF MAX", patchFile: "MOON CABEZA.3105", patchPassword: PatchSlots.password, manualControls: true),
-
-        // Existing ARM HOLO options — kept.
-        PatchOption(id: "ffmx-arm-01", title: "ARM HOLO BORDE AZUL Y ROJO", subtitle: "FF MAX • HOLO", patchFile: "ARM HOLO BORDE AZUL Y ROJO.3105", patchPassword: PatchSlots.password, manualControls: false, isTexture: true),
-        PatchOption(id: "ffmx-arm-02", title: "ARM HOLO BORDE RTX", subtitle: "FF MAX • HOLO", patchFile: "ARM HOLO BORDE RTX.3105", patchPassword: PatchSlots.password, manualControls: false, isTexture: true),
-        PatchOption(id: "ffmx-arm-03", title: "ARM HOLO BORDE VERDE AMARILLO", subtitle: "FF MAX • HOLO", patchFile: "ARM HOLO BORDE VERDE AMARILLO.3105", patchPassword: PatchSlots.password, manualControls: false, isTexture: true),
-
-        // PJ HOLO — old PJ entries replaced by the new collection.
-        PatchOption(id: "ffmx-holo-cotton-candy", title: "PJ HOLO MOON COTTON CANDY", subtitle: "FF MAX • PJ HOLO", patchFile: "PJ HOLO MOON COTTON CANDY.3105", patchPassword: PatchSlots.password, manualControls: false, isTexture: true),
-        PatchOption(id: "ffmx-holo-dark-galaxy", title: "PJ HOLO MOON DARK GALAXY", subtitle: "FF MAX • PJ HOLO", patchFile: "PJ HOLO MOON DARK GALAXY.3105", patchPassword: PatchSlots.password, manualControls: false, isTexture: true),
-        PatchOption(id: "ffmx-holo-espejos", title: "PJ HOLO MOON ESPEJOS", subtitle: "FF MAX • PJ HOLO", patchFile: "PJ HOLO MOON ESPEJOS.3105", patchPassword: PatchSlots.password, manualControls: false, isTexture: true)
+        PatchOption(id: "ffmx-01", title: "AIM MOON CABEZA", subtitle: "FF MAX • AIM MOON", patchFile: "AIM MOON CABEZA.3105", patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "ffmx-02", title: "AIM MOON CABEZA ATN", subtitle: "FF MAX • AIM MOON", patchFile: "AIM MOON CABEZA ATN.3105", patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "ffmx-03", title: "AIM MOON CUELLO", subtitle: "FF MAX • AIM MOON", patchFile: "AIM MOON CUELLO.3105", patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "ffmx-04", title: "AIM MOON CUELLO ATN", subtitle: "FF MAX • AIM MOON", patchFile: "AIM MOON CUELLO ATN.3105", patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "ffmx-05", title: "AIM MOON DRAG", subtitle: "FF MAX • AIM MOON", patchFile: "AIM MOON DRAG.3105", patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "ffmx-06", title: "AIM MOON DRAG ATN", subtitle: "FF MAX • AIM MOON", patchFile: "AIM MOON DRAG ATN.3105", patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "ffmx-07", title: "AIM MOON PECHO", subtitle: "FF MAX • AIM MOON", patchFile: "AIM MOON PECHO.3105", patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "ffmx-08", title: "AIM MOON PECHO ATN", subtitle: "FF MAX • AIM MOON", patchFile: "AIM MOON PECHO ATN.3105", patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "ffmx-120fps", title: "120–144 FPS", subtitle: "FF MAX • FPS", patchFile: PatchSlots.ffmxFPS, patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "r-arm-normal-rainbow", title: "ARM MOON SPIN • RAINBOW", subtitle: "FF MAX • HOLO ARM", patchFile: "ARM MOON SPIN RAINBOW.3105", patchPassword: PatchSlots.armHoloPassword, manualControls: true, isTexture: true),
+        PatchOption(id: "r-pj1", title: "PJ HOLO • COTTON CANDY", subtitle: "FF MAX • PJ HOLO", patchFile: "PJ HOLO MOON COTTON CANDY.3105", patchPassword: PatchSlots.pjHoloPassword, manualControls: true, isTexture: true),
+        PatchOption(id: "r-pj2", title: "PJ HOLO • DARK GALAXY", subtitle: "FF MAX • PJ HOLO", patchFile: "PJ HOLO MOON DARK GALAXY.3105", patchPassword: PatchSlots.pjHoloPassword, manualControls: true, isTexture: true),
+        PatchOption(id: "r-pj3", title: "PJ HOLO • ESPEJOS", subtitle: "FF MAX • PJ HOLO", patchFile: "PJ HOLO MOON ESPEJOS.3105", patchPassword: PatchSlots.pjHoloPassword, manualControls: true, isTexture: true)
     ]
 
     private var currentOptions: [PatchOption] {
@@ -1115,10 +1076,10 @@ private struct PatchCard: View {
 
     private var manualControls: some View {
         HStack(spacing: 10) {
-            actionCard("INJETAR (40%)") {
+            actionCard(row.isTexture ? "INJETAR" : "INJETAR (40%)") {
                 runManual(row: row, apply: true)
             }
-            actionCard("LOBBY") {
+            actionCard(row.isTexture ? "QUITAR" : "LOBBY") {
                 runManual(row: row, apply: false)
             }
         }
@@ -1153,6 +1114,7 @@ private struct PatchCard: View {
         DispatchQueue.global(qos: .userInitiated).async {
             let result = PatchSlotRunner.setEnabled(
                 enabledState,
+                slotID: row.id,
                 fileName: row.patchFile,
                 configuredPassword: row.patchPassword
             )
@@ -1182,6 +1144,7 @@ private struct PatchCard: View {
         DispatchQueue.global(qos: .userInitiated).async {
             let result = PatchSlotRunner.setEnabled(
                 apply,
+                slotID: row.id,
                 fileName: row.patchFile,
                 configuredPassword: row.patchPassword
             )
@@ -1202,12 +1165,62 @@ private struct PatchCard: View {
 
 
 // ============================================================
+// MARK: - PERSISTENT ACTIVE PATCH RECEIPTS
+// ============================================================
+
+private enum ActivePatchReceipts {
+    private static let prefix = "moonx7.activePatchReceipt."
+
+    private struct StoredReceipt: Codable {
+        let id: UUID
+        let projectID: UUID
+    }
+
+    static func save(_ receipt: PatchTransactionReceipt, for slotID: String) {
+        let value = StoredReceipt(id: receipt.id, projectID: receipt.projectID)
+        guard let data = try? JSONEncoder().encode(value) else { return }
+        UserDefaults.standard.set(data, forKey: key(slotID))
+    }
+
+    static func load(for slotID: String) -> PatchTransactionReceipt? {
+        guard let data = UserDefaults.standard.data(forKey: key(slotID)),
+              let stored = try? JSONDecoder().decode(StoredReceipt.self, from: data),
+              let backupRoot = try? PatchProjectLibrary.backupRootURL() else {
+            return nil
+        }
+
+        let journalURL = backupRoot
+            .appendingPathComponent(stored.projectID.uuidString, isDirectory: true)
+            .appendingPathComponent(stored.id.uuidString, isDirectory: true)
+            .appendingPathComponent("journal.plist", isDirectory: false)
+
+        guard FileManager.default.fileExists(atPath: journalURL.path) else {
+            return nil
+        }
+
+        return PatchTransactionReceipt(
+            id: stored.id,
+            projectID: stored.projectID,
+            journalURL: journalURL
+        )
+    }
+
+    static func remove(for slotID: String) {
+        UserDefaults.standard.removeObject(forKey: key(slotID))
+    }
+
+    private static func key(_ slotID: String) -> String {
+        prefix + slotID
+    }
+}
+
+// ============================================================
 // MARK: - PATCH SLOT RUNNER
 // ============================================================
 
 private enum PatchSlotRunner {
 
-    static func setEnabled(_ enabled: Bool, fileName: String, configuredPassword: String) -> Result<String, Error> {
+    static func setEnabled(_ enabled: Bool, slotID: String, fileName: String, configuredPassword: String) -> Result<String, Error> {
         do {
             let url = try bundledPatchURL(fileName: fileName)
             let data = try Data(contentsOf: url, options: [.mappedIfSafe])
@@ -1216,10 +1229,12 @@ private enum PatchSlotRunner {
             let decoded = try PatchPackageCodec.decode(data, password: password)
 
             if enabled {
-                _ = try DevicePatchService.apply(project: decoded.project)
+                let receipt = try DevicePatchService.apply(project: decoded.project)
+                ActivePatchReceipts.save(receipt, for: slotID)
                 return .success("Patch aplicado. Backup original criado.")
             } else {
-                guard let receipt = DevicePatchService.latestReceipt(projectID: decoded.project.id) else {
+                guard let receipt = ActivePatchReceipts.load(for: slotID)
+                    ?? DevicePatchService.latestReceipt(projectID: decoded.project.id) else {
                     throw PatchSlotError.noBackup
                 }
                 try DevicePatchService.restore(receipt: receipt)
@@ -1481,6 +1496,64 @@ private struct PreviewCard: View {
 }
 
 
+
+private struct CleanVideoPlayer: UIViewRepresentable {
+    let url: URL
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator()
+    }
+
+    func makeUIView(context: Context) -> PlayerContainerView {
+        let view = PlayerContainerView()
+        view.backgroundColor = .black
+        view.playerLayer.player = AVPlayer(url: url)
+        view.playerLayer.videoGravity = .resizeAspectFill
+        context.coordinator.player = view.playerLayer.player
+        view.onTap = {
+            guard let player = context.coordinator.player else { return }
+            if player.timeControlStatus == .playing {
+                player.pause()
+            } else {
+                player.play()
+            }
+        }
+        return view
+    }
+
+    func updateUIView(_ uiView: PlayerContainerView, context: Context) {}
+
+    final class Coordinator {
+        var player: AVPlayer?
+    }
+}
+
+private final class PlayerContainerView: UIView {
+    let playerLayer = AVPlayerLayer()
+    var onTap: (() -> Void)?
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        layer.addSublayer(playerLayer)
+        let tap = UITapGestureRecognizer(target: self, action: #selector(tapped))
+        addGestureRecognizer(tap)
+    }
+
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        layer.addSublayer(playerLayer)
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        playerLayer.frame = bounds
+    }
+
+    @objc private func tapped() {
+        onTap?()
+    }
+}
+
 private struct PreviewMediaView: View {
     let url: URL
 
@@ -1489,7 +1562,7 @@ private struct PreviewMediaView: View {
         case "gif":
             AnimatedGIFView(filename: url.lastPathComponent)
         case "mp4", "mov", "m4v":
-            VideoPlayer(player: AVPlayer(url: url))
+            CleanVideoPlayer(url: url)
                 .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
         default:
             if let image = UIImage(contentsOfFile: url.path) {
@@ -1745,6 +1818,7 @@ private struct SocialLinkButton: View {
             .overlay(RoundedRectangle(cornerRadius: 14, style: .continuous).stroke(Theme.accent.opacity(0.18)))
         }
         .buttonStyle(.plain)
+        .contentShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
         .disabled(urlString.isEmpty)
         .opacity(urlString.isEmpty ? 0.45 : 1)
     }
@@ -1788,6 +1862,7 @@ private struct RGBGlowBorder: View {
 
 private struct AnimatedGIFView: UIViewRepresentable {
     let filename: String
+    @ObservedObject private var capture = MoonCaptureState.shared
 
     func makeUIView(context: Context) -> UIImageView {
         let view = UIImageView()
@@ -1795,12 +1870,22 @@ private struct AnimatedGIFView: UIViewRepresentable {
         view.clipsToBounds = false
         view.backgroundColor = .clear
         view.image = animatedImage()
+        if capture.isCaptured {
+            view.stopAnimating()
+        } else {
+            view.startAnimating()
+        }
         return view
     }
 
     func updateUIView(_ uiView: UIImageView, context: Context) {
         if uiView.image == nil {
             uiView.image = animatedImage()
+        }
+        if capture.isCaptured {
+            uiView.stopAnimating()
+        } else {
+            uiView.startAnimating()
         }
     }
 
@@ -1844,6 +1929,74 @@ private struct AnimatedGIFView: UIViewRepresentable {
         return max(unclamped ?? clamped ?? defaultDuration, 0.02)
     }
 }
+private struct RemoteAnimatedGIFView: UIViewRepresentable {
+    let urlString: String
+    let contentMode: UIView.ContentMode
+    @ObservedObject private var capture = MoonCaptureState.shared
+
+    func makeUIView(context: Context) -> UIImageView {
+        let view = UIImageView()
+        view.contentMode = contentMode
+        view.clipsToBounds = true
+        view.backgroundColor = .clear
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        view.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        load(into: view)
+        return view
+    }
+
+    func updateUIView(_ uiView: UIImageView, context: Context) {
+        if uiView.image == nil {
+            load(into: uiView)
+        }
+        if capture.isCaptured {
+            uiView.stopAnimating()
+        } else {
+            uiView.startAnimating()
+        }
+    }
+
+    private func load(into imageView: UIImageView) {
+        guard let url = URL(string: urlString) else { return }
+        URLSession.shared.dataTask(with: url) { data, _, _ in
+            guard let data,
+                  let source = CGImageSourceCreateWithData(data as CFData, nil) else { return }
+
+            let count = CGImageSourceGetCount(source)
+            guard count > 0 else { return }
+
+            var frames: [UIImage] = []
+            var duration: TimeInterval = 0
+
+            for index in 0..<count {
+                guard let cgImage = CGImageSourceCreateImageAtIndex(source, index, nil) else { continue }
+                frames.append(UIImage(cgImage: cgImage))
+                duration += Self.frameDuration(source: source, index: index)
+            }
+
+            guard !frames.isEmpty else { return }
+            let animated = UIImage.animatedImage(with: frames, duration: max(duration, 0.8))
+
+            DispatchQueue.main.async {
+                imageView.image = animated
+            }
+        }.resume()
+    }
+
+    private static func frameDuration(source: CGImageSource, index: Int) -> TimeInterval {
+        let fallback = 0.08
+        guard
+            let properties = CGImageSourceCopyPropertiesAtIndex(source, index, nil) as? [CFString: Any],
+            let gif = properties[kCGImagePropertyGIFDictionary] as? [CFString: Any]
+        else { return fallback }
+
+        let unclamped = gif[kCGImagePropertyGIFUnclampedDelayTime] as? Double
+        let clamped = gif[kCGImagePropertyGIFDelayTime] as? Double
+        return max(unclamped ?? clamped ?? fallback, 0.02)
+    }
+}
+
 
 // ============================================================
 // MARK: - DEVICE INFO
@@ -1889,5 +2042,1193 @@ private struct BottomItem: View {
             }
         }
         .buttonStyle(.plain)
+    }
+}
+
+
+// ============================================================
+// MARK: - MOON X7 LIQUID GLASS REDESIGN
+// ============================================================
+
+private struct MoonBootView: View {
+    @State private var pulse = false
+
+    var body: some View {
+        ZStack {
+            MoonAnimatedBackground()
+            VStack(spacing: 18) {
+                ZStack {
+                    Circle()
+                        .fill(Theme.accent.opacity(0.18))
+                        .frame(width: 130, height: 130)
+                        .blur(radius: 24)
+                        .scaleEffect(pulse ? 1.18 : 0.86)
+                    Image(systemName: "moon.stars.fill")
+                        .font(.system(size: 54, weight: .black))
+                        .foregroundStyle(LinearGradient(colors: [Theme.silver, Theme.accent], startPoint: .topLeading, endPoint: .bottomTrailing))
+                }
+                Text("MOON X7")
+                    .font(.system(size: 28, weight: .black, design: .rounded))
+                    .tracking(3)
+                    .foregroundStyle(.white)
+                ProgressView()
+                    .tint(Theme.accent)
+                Text("VALIDANDO ACCESO")
+                    .font(.system(size: 9, weight: .black, design: .rounded))
+                    .tracking(2)
+                    .foregroundStyle(.white.opacity(0.42))
+            }
+        }
+        .onAppear { withAnimation(.easeInOut(duration: 1.4).repeatForever(autoreverses: true)) { pulse = true } }
+    }
+}
+
+private final class MoonCaptureState: ObservableObject {
+    static let shared = MoonCaptureState()
+
+    @Published private(set) var isCaptured = UIScreen.main.isCaptured
+
+    private var observer: NSObjectProtocol?
+
+    private init() {
+        observer = NotificationCenter.default.addObserver(
+            forName: UIScreen.capturedDidChangeNotification,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            self?.isCaptured = UIScreen.main.isCaptured
+        }
+    }
+
+    deinit {
+        if let observer {
+            NotificationCenter.default.removeObserver(observer)
+        }
+    }
+}
+
+private struct MoonAnimatedBackground: View {
+    @ObservedObject private var capture = MoonCaptureState.shared
+
+    var body: some View {
+        Group {
+            if capture.isCaptured {
+                Color.black
+                    .ignoresSafeArea()
+                    .overlay {
+                        LinearGradient(
+                            colors: [
+                                Theme.accent.opacity(0.045),
+                                .clear,
+                                Theme.violet.opacity(0.035)
+                            ],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                        .ignoresSafeArea()
+                    }
+            } else {
+                TimelineView(.animation(minimumInterval: 1.0 / 24.0)) { timeline in
+                    let t = timeline.date.timeIntervalSinceReferenceDate
+
+                    ZStack {
+                        Color.black.ignoresSafeArea()
+
+                        Circle()
+                            .fill(Theme.accent.opacity(0.18))
+                            .frame(width: 360, height: 360)
+                            .blur(radius: 78)
+                            .offset(
+                                x: CGFloat(sin(t * 0.34) * 155.0),
+                                y: CGFloat(-245.0 + cos(t * 0.22) * 55.0)
+                            )
+
+                        Circle()
+                            .fill(Color.orange.opacity(0.075))
+                            .frame(width: 300, height: 300)
+                            .blur(radius: 85)
+                            .offset(
+                                x: CGFloat(cos(t * 0.28) * 165.0),
+                                y: CGFloat(185.0 + sin(t * 0.31) * 80.0)
+                            )
+
+                        Circle()
+                            .fill(Theme.violet.opacity(0.13))
+                            .frame(width: 390, height: 390)
+                            .blur(radius: 92)
+                            .offset(
+                                x: CGFloat(sin(t * 0.19 + 2.4) * 150.0),
+                                y: CGFloat(330.0 + cos(t * 0.17) * 70.0)
+                            )
+
+                        ForEach(0..<14, id: \.self) { index in
+                            let seed = Double(index)
+                            let x = sin(t * (0.20 + seed * 0.012) + seed * 1.73) * 180.0
+                            let y = cos(t * (0.27 + seed * 0.009) + seed * 2.11) * 390.0
+                            let size = 2.0 + seed.truncatingRemainder(dividingBy: 3.0)
+
+                            Circle()
+                                .fill(index.isMultiple(of: 3) ? Color.orange.opacity(0.55) : Theme.accent.opacity(0.48))
+                                .frame(width: size, height: size)
+                                .blur(radius: 1.0)
+                                .offset(x: CGFloat(x), y: CGFloat(y))
+                        }
+
+                        ForEach(0..<4, id: \.self) { index in
+                            MoonLightningBolt(phase: t, index: index)
+                        }
+
+                        LinearGradient(
+                            colors: [.black.opacity(0.08), .clear, Theme.accent.opacity(0.035), .black.opacity(0.16)],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                        .ignoresSafeArea()
+                    }
+                }
+            }
+        }
+        .allowsHitTesting(false)
+    }
+}
+
+private struct MoonLightningBolt: View {
+    let phase: TimeInterval
+    let index: Int
+
+    private var flash: Double {
+        let wave = sin(phase * (0.75 + Double(index) * 0.08) + Double(index) * 1.9)
+        return max(0.0, wave * wave * wave)
+    }
+
+    var body: some View {
+        Path { path in
+            path.move(to: CGPoint(x: 50, y: 0))
+            path.addLine(to: CGPoint(x: 28, y: 62))
+            path.addLine(to: CGPoint(x: 45, y: 57))
+            path.addLine(to: CGPoint(x: 18, y: 128))
+            path.addLine(to: CGPoint(x: 68, y: 52))
+            path.addLine(to: CGPoint(x: 51, y: 58))
+            path.closeSubpath()
+        }
+        .fill(
+            LinearGradient(
+                colors: [
+                    Color.white.opacity(0.88 * flash),
+                    Theme.accent.opacity(0.82 * flash),
+                    Color.orange.opacity(0.18 * flash)
+                ],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+        )
+        .frame(width: 90, height: 145)
+        .rotationEffect(.degrees(-18 + Double(index) * 31.0))
+        .offset(
+            x: CGFloat(-145.0 + Double(index) * 96.0),
+            y: CGFloat(-115.0 + sin(phase * 0.31 + Double(index)) * 135.0)
+        )
+        .opacity(0.18 + flash * 0.82)
+        .blur(radius: flash > 0.65 ? 0.0 : 0.8)
+        .shadow(color: Theme.accent.opacity(0.40 * flash), radius: 16)
+    }
+}
+
+private extension View {
+    @ViewBuilder
+    func moonGlass(cornerRadius: CGFloat = 22, tint: Color = Theme.accent) -> some View {
+        if #available(iOS 26.0, *) {
+            self.glassEffect(.regular.tint(tint.opacity(0.16)), in: RoundedRectangle(cornerRadius: cornerRadius, style: .continuous))
+        } else {
+            self.background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: cornerRadius, style: .continuous))
+                .overlay {
+                    RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
+                        .stroke(.white.opacity(0.10), lineWidth: 1)
+                }
+        }
+    }
+}
+
+private extension View {
+    @ViewBuilder
+    func moonGlassButton(prominent: Bool = false) -> some View {
+        if #available(iOS 26.0, *) {
+            if prominent {
+                self.buttonStyle(.glassProminent)
+            } else {
+                self.buttonStyle(.glass)
+            }
+        } else {
+            self.buttonStyle(.borderedProminent)
+        }
+    }
+}
+
+private struct MoonX7RedesignedShell: View {
+    @ObservedObject var auth: MoonAuthManager
+    @Binding var darkMode: Bool
+    @State private var tab = 0
+    @State private var appeared = false
+    @State private var showDeveloperSupport = true
+    @State private var supportReady = false
+
+    private let tabs = [
+        ("house.fill", "Inicio"),
+        ("bolt.horizontal.fill", "Funciones"),
+        ("play.rectangle.fill", "Preview"),
+        ("gearshape.fill", "Config")
+    ]
+
+    var body: some View {
+        ZStack(alignment: .bottom) {
+            MoonAnimatedBackground()
+
+            Group {
+                switch tab {
+                case 0: MoonHomeRedesign(auth: auth, tab: $tab)
+                case 1: MoonFunctionsRedesign(darkMode: darkMode)
+                case 2: MoonPreviewRedesign()
+                default: MoonConfigRedesign(auth: auth)
+                }
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .transition(.opacity.combined(with: .scale(scale: 0.985)))
+
+            if showDeveloperSupport {
+                MoonDeveloperSupportOverlay(
+                    supportReady: $supportReady,
+                    dismiss: {
+                        withAnimation(.spring(response: 0.42, dampingFraction: 0.86)) {
+                            showDeveloperSupport = false
+                        }
+                    }
+                )
+                .transition(.opacity.combined(with: .scale(scale: 0.94)))
+                .zIndex(20)
+            }
+
+            HStack(spacing: 7) {
+                ForEach(Array(tabs.enumerated()), id: \.offset) { index, item in
+                    Button {
+                        withAnimation(.spring(response: 0.34, dampingFraction: 0.82)) { tab = index }
+                    } label: {
+                        VStack(spacing: 4) {
+                            Image(systemName: item.0)
+                                .font(.system(size: 15, weight: .bold))
+                            Text(item.1)
+                                .font(.system(size: 8.5, weight: .bold, design: .rounded))
+                        }
+                        .foregroundStyle(tab == index ? .white : .white.opacity(0.42))
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 51)
+                        .background {
+                            if tab == index {
+                                Capsule().fill(Theme.accent.opacity(0.24))
+                                    .overlay(Capsule().stroke(Theme.accent.opacity(0.55), lineWidth: 1))
+                            }
+                        }
+                    }
+                    .buttonStyle(.plain)
+                }
+            }
+            .padding(7)
+            .background(.black.opacity(0.55), in: Capsule())
+            .moonGlass(cornerRadius: 28, tint: Theme.accent)
+            .padding(.horizontal, 14)
+            .padding(.bottom, 7)
+        }
+        .onAppear {
+            withAnimation(.spring(response: 0.65, dampingFraction: 0.82)) { appeared = true }
+            supportReady = false
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.95) {
+                withAnimation(.spring(response: 0.52, dampingFraction: 0.82)) {
+                    supportReady = true
+                }
+            }
+        }
+    }
+}
+
+private struct MoonDeveloperSupportOverlay: View {
+    @Binding var supportReady: Bool
+    let dismiss: () -> Void
+    @Environment(\.openURL) private var openURL
+    @State private var pulse = false
+
+    private let discordURL = URL(string: MoonSocialLinks.discord)!
+
+    var body: some View {
+        ZStack {
+            Color.black.opacity(0.72)
+                .ignoresSafeArea()
+                .onTapGesture { dismiss() }
+
+            VStack(spacing: 0) {
+                ZStack {
+                    Circle()
+                        .fill(Theme.accent.opacity(0.20))
+                        .frame(width: 118, height: 118)
+                        .blur(radius: 20)
+                        .scaleEffect(pulse ? 1.16 : 0.86)
+
+                    Circle()
+                        .stroke(
+                            AngularGradient(
+                                colors: [Theme.accent, Theme.violet, .white, Theme.accent],
+                                center: .center
+                            ),
+                            lineWidth: 2
+                        )
+                        .frame(width: 78, height: 78)
+                        .rotationEffect(.degrees(pulse ? 360 : 0))
+
+                    Image(systemName: supportReady ? "person.2.fill" : "ellipsis")
+                        .font(.system(size: 27, weight: .black))
+                        .foregroundStyle(.white)
+                }
+                .padding(.top, 22)
+                .padding(.bottom, 14)
+
+                Text("MOON X7")
+                    .font(.system(size: 11, weight: .black, design: .rounded))
+                    .tracking(2.2)
+                    .foregroundStyle(Theme.accent)
+
+                Text(supportReady ? "NO OLVIDES APOYAR AL DEVELOPER" : "CARGANDO PANEL...")
+                    .font(.system(size: 20, weight: .black, design: .rounded))
+                    .multilineTextAlignment(.center)
+                    .foregroundStyle(.white)
+                    .padding(.top, 7)
+
+                Text(supportReady
+                     ? "Únete al Discord para recibir avisos, novedades y soporte de MOON X7."
+                     : "Preparando tu sesión segura...")
+                    .font(.system(size: 12, weight: .medium, design: .rounded))
+                    .multilineTextAlignment(.center)
+                    .foregroundStyle(.white.opacity(0.52))
+                    .padding(.horizontal, 24)
+                    .padding(.top, 9)
+
+                if supportReady {
+                    Button {
+                        openURL(discordURL)
+                    } label: {
+                        HStack(spacing: 9) {
+                            Image(systemName: "bubble.left.and.bubble.right.fill")
+                            Text("UNIRME AL DISCORD")
+                        }
+                        .font(.system(size: 12, weight: .black, design: .rounded))
+                        .foregroundStyle(.white)
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 50)
+                    }
+                    .moonGlassButton(prominent: true)
+                    .tint(Theme.violet)
+                    .padding(.horizontal, 18)
+                    .padding(.top, 18)
+                    .transition(.move(edge: .bottom).combined(with: .opacity))
+
+                    Button("CONTINUAR") {
+                        dismiss()
+                    }
+                    .font(.system(size: 10, weight: .black, design: .rounded))
+                    .foregroundStyle(.white.opacity(0.45))
+                    .padding(.top, 12)
+                    .padding(.bottom, 20)
+                    .buttonStyle(.plain)
+                } else {
+                    ProgressView()
+                        .tint(Theme.accent)
+                        .scaleEffect(1.15)
+                        .padding(.top, 20)
+                        .padding(.bottom, 24)
+                }
+            }
+            .frame(maxWidth: 360)
+            .background(.black.opacity(0.72), in: RoundedRectangle(cornerRadius: 30, style: .continuous))
+            .overlay {
+                RoundedRectangle(cornerRadius: 30, style: .continuous)
+                    .stroke(
+                        LinearGradient(
+                            colors: [Theme.accent.opacity(0.70), Theme.violet.opacity(0.48), .white.opacity(0.10)],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        ),
+                        lineWidth: 1
+                    )
+            }
+            .shadow(color: Theme.accent.opacity(0.25), radius: 35, y: 18)
+            .padding(.horizontal, 22)
+        }
+        .onAppear {
+            withAnimation(.easeInOut(duration: 1.25).repeatForever(autoreverses: true)) {
+                pulse = true
+            }
+        }
+    }
+}
+
+private struct MoonLoginRedesign: View {
+    @ObservedObject var auth: MoonAuthManager
+    @State private var key = ""
+    @State private var reveal = false
+    @FocusState private var focused: Bool
+
+    private var canSubmit: Bool {
+        !auth.isChecking && !key.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+    }
+
+    var body: some View {
+        ZStack {
+            MoonAnimatedBackground()
+            ScrollView(showsIndicators: false) {
+                VStack(spacing: 18) {
+                    Spacer(minLength: 42)
+
+                    ZStack {
+                        Circle().fill(Theme.accent.opacity(0.20)).frame(width: 130, height: 130).blur(radius: 24)
+                        Image(systemName: "moon.stars.fill")
+                            .font(.system(size: 52, weight: .black))
+                            .foregroundStyle(LinearGradient(colors: [Theme.silver, Theme.accent], startPoint: .topLeading, endPoint: .bottomTrailing))
+                    }
+                    .scaleEffect(reveal ? 1 : 0.78)
+                    .opacity(reveal ? 1 : 0)
+
+                    ZStack(alignment: .bottomLeading) {
+                        RemoteAnimatedGIFView(urlString: MoonRemoteMedia.loginBanner, contentMode: .scaleAspectFill)
+                            .frame(height: 205)
+                        LinearGradient(
+                            colors: [.clear, .black.opacity(0.92)],
+                            startPoint: .center,
+                            endPoint: .bottom
+                        )
+                        .frame(height: 205)
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("MOON X7")
+                                .font(.system(size: 28, weight: .black, design: .rounded))
+                            Text("PRIVATE CONTROL CENTER")
+                                .font(.system(size: 9, weight: .black, design: .rounded))
+                                .tracking(2.2)
+                                .foregroundStyle(Theme.accent)
+                        }
+                        .padding(17)
+                        .foregroundStyle(.white)
+                    }
+                    .frame(height: 205)
+                    .frame(width: Swift.max(1, UIScreen.main.bounds.width - 40))
+                    .clipShape(RoundedRectangle(cornerRadius: 28, style: .continuous))
+                        .overlay { RoundedRectangle(cornerRadius: 28, style: .continuous).stroke(Theme.accent.opacity(0.48), lineWidth: 1) }
+                        .shadow(color: Theme.accent.opacity(0.18), radius: 28, y: 12)
+                        .padding(.horizontal, 4)
+
+                    VStack(spacing: 6) {
+                        Text("MOON X7")
+                            .font(.system(size: 38, weight: .black, design: .rounded))
+                            .tracking(3.8)
+                            .foregroundStyle(.white)
+                        Text("PRIVATE CONTROL CENTER")
+                            .font(.system(size: 10, weight: .black, design: .rounded))
+                            .tracking(2.6)
+                            .foregroundStyle(Theme.accent)
+                    }
+
+                    VStack(alignment: .leading, spacing: 16) {
+                        VStack(alignment: .leading, spacing: 5) {
+                            Text("ACCESO SEGURO")
+                                .font(.system(size: 10, weight: .black, design: .rounded))
+                                .tracking(1.8)
+                                .foregroundStyle(.white.opacity(0.42))
+                            Text("Introduce tu key para entrar")
+                                .font(.system(size: 21, weight: .bold, design: .rounded))
+                                .foregroundStyle(.white)
+                        }
+
+                        HStack(spacing: 10) {
+                            Image(systemName: "key.horizontal.fill")
+                                .foregroundStyle(Theme.accent)
+                            TextField("MOONX7-XXXX-XXXX", text: $key)
+                                .focused($focused)
+                                .textInputAutocapitalization(.characters)
+                                .autocorrectionDisabled()
+                                .font(.system(size: 14, weight: .bold, design: .monospaced))
+                                .foregroundStyle(.white)
+                            Button {
+                                key = UIPasteboard.general.string ?? key
+                                focused = true
+                            } label: {
+                                Text("PEGAR")
+                                    .font(.system(size: 9, weight: .black, design: .rounded))
+                                    .foregroundStyle(.white)
+                                    .padding(.horizontal, 11)
+                                    .padding(.vertical, 8)
+                                    .background(Theme.accent.opacity(0.20), in: Capsule())
+                            }
+                            .buttonStyle(.plain)
+                        }
+                        .padding(14)
+                        .background(Color.white.opacity(0.045), in: RoundedRectangle(cornerRadius: 18, style: .continuous))
+                        .overlay { RoundedRectangle(cornerRadius: 18).stroke(auth.errorMessage == nil ? .white.opacity(0.10) : .red.opacity(0.78), lineWidth: 1) }
+
+                        Button {
+                            auth.signIn(key: key)
+                        } label: {
+                            HStack(spacing: 9) {
+                                if auth.isChecking { ProgressView().tint(.white) }
+                                Image(systemName: auth.isChecking ? "hourglass" : "arrow.right.circle.fill")
+                                Text(auth.isChecking ? "VERIFICANDO..." : "ENTRAR AL PANEL")
+                            }
+                            .font(.system(size: 14, weight: .black, design: .rounded))
+                            .foregroundStyle(.white)
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 56)
+                        }
+                        .moonGlassButton(prominent: true)
+                        .tint(Theme.accent)
+                        .disabled(!canSubmit)
+
+                        if let error = auth.errorMessage {
+                            Label(error, systemImage: "exclamationmark.triangle.fill")
+                                .font(.system(size: 11, weight: .semibold))
+                                .foregroundStyle(.red.opacity(0.95))
+                                .transition(.move(edge: .top).combined(with: .opacity))
+                        }
+                    }
+                    .padding(18)
+                    .moonGlass(cornerRadius: 28, tint: Theme.accent)
+
+                    Text("LICENCIA • DISPOSITIVO • SUPABASE")
+                        .font(.system(size: 8.5, weight: .bold, design: .monospaced))
+                        .tracking(1.4)
+                        .foregroundStyle(.white.opacity(0.28))
+                        .padding(.bottom, 42)
+                }
+                .padding(.horizontal, 16)
+            }
+        }
+        .onAppear {
+            withAnimation(.spring(response: 0.7, dampingFraction: 0.8).delay(0.05)) { reveal = true }
+        }
+    }
+}
+
+private struct MoonHomeRedesign: View {
+    @ObservedObject var auth: MoonAuthManager
+    @Binding var tab: Int
+    @State private var glow = false
+
+    var body: some View {
+        ScrollView(showsIndicators: false) {
+            VStack(alignment: .leading, spacing: 16) {
+                HStack {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("MOON X7")
+                            .font(.system(size: 31, weight: .black, design: .rounded))
+                            .tracking(2.4)
+                        Text("CONTROL CENTER")
+                            .font(.system(size: 9, weight: .black, design: .rounded))
+                            .tracking(2)
+                            .foregroundStyle(Theme.accent)
+                    }
+                    Spacer()
+                    Button("SALIR") { auth.signOut() }
+                        .font(.system(size: 9, weight: .black, design: .rounded))
+                        .foregroundStyle(.white)
+                        .padding(.horizontal, 13).padding(.vertical, 9)
+                        .moonGlassButton()
+                }
+                .padding(.top, 48)
+
+                RemoteAnimatedGIFView(urlString: MoonRemoteMedia.dashboardBanner, contentMode: .scaleAspectFill)
+                    .frame(height: 165)
+                    .frame(width: Swift.max(1, UIScreen.main.bounds.width - 30))
+                    .clipShape(RoundedRectangle(cornerRadius: 26, style: .continuous))
+                    .overlay {
+                        LinearGradient(colors: [.clear, .black.opacity(0.78)], startPoint: .center, endPoint: .bottom)
+                            .clipShape(RoundedRectangle(cornerRadius: 26, style: .continuous))
+                    }
+                    .overlay(alignment: .bottomLeading) {
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("NEW REALM")
+                                .font(.system(size: 24, weight: .black, design: .rounded))
+                            Text("LIQUID GLASS EDITION")
+                                .font(.system(size: 9, weight: .black, design: .rounded))
+                                .tracking(1.6)
+                                .foregroundStyle(Theme.accent)
+                        }
+                        .padding(17)
+                    }
+                    .overlay { RoundedRectangle(cornerRadius: 26).stroke(Theme.accent.opacity(0.48), lineWidth: 1) }
+
+                HStack(spacing: 10) {
+                    MoonStatCard(icon: "checkmark.shield.fill", title: "LICENCIA", value: "ACTIVA", tint: .green)
+                    MoonStatCard(icon: "bolt.fill", title: "MODO", value: "READY", tint: Theme.accent)
+                }
+
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("ACCESOS RÁPIDOS")
+                        .font(.system(size: 10, weight: .black, design: .rounded))
+                        .tracking(1.7)
+                        .foregroundStyle(.white.opacity(0.42))
+
+                    Button { withAnimation(.spring(response: 0.35, dampingFraction: 0.82)) { tab = 1 } } label: {
+                        HStack(spacing: 14) {
+                            ZStack {
+                                Circle().fill(Theme.accent.opacity(0.16)).frame(width: 46, height: 46)
+                                Image(systemName: "bolt.horizontal.fill").foregroundStyle(Theme.accent)
+                            }
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text("FUNCIONES")
+                                    .font(.system(size: 15, weight: .black, design: .rounded))
+                                Text("FF NORMAL • FF MAX • HOLO")
+                                    .font(.system(size: 9, weight: .bold, design: .rounded))
+                                    .foregroundStyle(.white.opacity(0.40))
+                            }
+                            Spacer()
+                            Image(systemName: "chevron.right").foregroundStyle(.white.opacity(0.35))
+                        }
+                        .padding(14)
+                        .foregroundStyle(.white)
+                    }
+                    .buttonStyle(.plain)
+                    .frame(maxWidth: .infinity)
+                    .contentShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+                    .moonGlass(cornerRadius: 20, tint: Theme.accent)
+                }
+
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("REDES SOCIALES")
+                        .font(.system(size: 10, weight: .black, design: .rounded))
+                        .tracking(1.7)
+                        .foregroundStyle(.white.opacity(0.42))
+
+                    VStack(spacing: 9) {
+                        SocialLinkButton(title: "WhatsApp • Contact Dev", icon: "message.fill", urlString: MoonSocialLinks.whatsapp)
+                            .overlay { RGBGlowBorder(cornerRadius: 14, lineWidth: 0.8) }
+                        SocialLinkButton(title: "YouTube", icon: "play.rectangle.fill", urlString: MoonSocialLinks.youtube)
+                            .overlay { RGBGlowBorder(cornerRadius: 14, lineWidth: 0.8) }
+                        SocialLinkButton(title: "Discord", icon: "bubble.left.and.bubble.right.fill", urlString: MoonSocialLinks.discord)
+                            .overlay { RGBGlowBorder(cornerRadius: 14, lineWidth: 0.8) }
+                        SocialLinkButton(title: "Telegram", icon: "paperplane.fill", urlString: MoonSocialLinks.telegram)
+                            .overlay { RGBGlowBorder(cornerRadius: 14, lineWidth: 0.8) }
+                        SocialLinkButton(title: "Web", icon: "globe", urlString: MoonSocialLinks.web)
+                            .overlay { RGBGlowBorder(cornerRadius: 14, lineWidth: 0.8) }
+                    }
+                    .padding(13)
+                    .moonGlass(cornerRadius: 22, tint: Theme.accent)
+                }
+            }
+            .frame(width: Swift.max(1, UIScreen.main.bounds.width - 30), alignment: .leading)
+            .padding(.horizontal, 15)
+            .padding(.bottom, 100)
+        }
+    }
+}
+
+private struct MoonStatCard: View {
+    let icon: String
+    let title: String
+    let value: String
+    let tint: Color
+
+    var body: some View {
+        HStack(spacing: 10) {
+            Image(systemName: icon).foregroundStyle(tint)
+            VStack(alignment: .leading, spacing: 2) {
+                Text(title).font(.system(size: 8, weight: .black, design: .rounded)).foregroundStyle(.white.opacity(0.40))
+                Text(value).font(.system(size: 13, weight: .black, design: .rounded)).foregroundStyle(.white)
+            }
+            Spacer()
+        }
+        .padding(14)
+        .moonGlass(cornerRadius: 19, tint: tint)
+    }
+}
+
+private struct MoonFunctionsRedesign: View {
+    let darkMode: Bool
+    @State private var game = 1
+    @State private var enabled = Set<String>()
+    @State private var filter: MoonOptionFilter = .all
+
+    private let normal: [PatchOption] = [
+        PatchOption(id:"r-ffn1", title:"MOON CABEZA", subtitle:"FF NORMAL", patchFile:PatchSlots.ffn1, patchPassword:PatchSlots.password, manualControls:true),
+        PatchOption(id:"r-ffn2", title:"MOON CABEZA ATN", subtitle:"FF NORMAL", patchFile:PatchSlots.ffn2, patchPassword:PatchSlots.password, manualControls:true),
+        PatchOption(id:"r-ffn3", title:"MOON CUELLO", subtitle:"FF NORMAL", patchFile:PatchSlots.ffn3, patchPassword:PatchSlots.password, manualControls:true),
+        PatchOption(id:"r-ffn4", title:"MOON CUELLO ATN", subtitle:"FF NORMAL", patchFile:PatchSlots.ffn4, patchPassword:PatchSlots.password, manualControls:true),
+        PatchOption(id:"r-ffn5", title:"MOON DRAG", subtitle:"FF NORMAL", patchFile:PatchSlots.ffn5, patchPassword:PatchSlots.password, manualControls:true),
+        PatchOption(id:"r-ffn6", title:"MOON DRAG ATN", subtitle:"FF NORMAL", patchFile:PatchSlots.ffn6, patchPassword:PatchSlots.password, manualControls:true),
+        PatchOption(id:"r-ffn7", title:"MOON PECHO", subtitle:"FF NORMAL", patchFile:PatchSlots.ffn7, patchPassword:PatchSlots.password, manualControls:true),
+        PatchOption(id:"r-ffn8", title:"MOON PECHO ATN", subtitle:"FF NORMAL", patchFile:PatchSlots.ffn8, patchPassword:PatchSlots.password, manualControls:true),
+        PatchOption(id:"r-ffn-fps", title:"120–144 FPS", subtitle:"FF NORMAL • FPS", patchFile:PatchSlots.ffnFPS, patchPassword:PatchSlots.password, manualControls:true),
+        PatchOption(id:"r-arm-max-rainbow", title:"ARM HOLO MOON • RAINBOW", subtitle:"FF NORMAL • HOLO ARM", patchFile:"ARM HOLO MOON RAINBOW.3105", patchPassword:PatchSlots.armHoloPassword, manualControls:true, isTexture:true)
+    ]
+
+    private let max: [PatchOption] = [
+        PatchOption(id:"r-m1", title:"AIM MOON CABEZA", subtitle:"FF MAX • AIM MOON", patchFile:"AIM MOON CABEZA.3105", patchPassword:PatchSlots.password, manualControls:true),
+        PatchOption(id:"r-m2", title:"AIM MOON CABEZA ATN", subtitle:"FF MAX • AIM MOON", patchFile:"AIM MOON CABEZA ATN.3105", patchPassword:PatchSlots.password, manualControls:true),
+        PatchOption(id:"r-m3", title:"AIM MOON CUELLO", subtitle:"FF MAX • AIM MOON", patchFile:"AIM MOON CUELLO.3105", patchPassword:PatchSlots.password, manualControls:true),
+        PatchOption(id:"r-m4", title:"AIM MOON CUELLO ATN", subtitle:"FF MAX • AIM MOON", patchFile:"AIM MOON CUELLO ATN.3105", patchPassword:PatchSlots.password, manualControls:true),
+        PatchOption(id:"r-m5", title:"AIM MOON DRAG", subtitle:"FF MAX • AIM MOON", patchFile:"AIM MOON DRAG.3105", patchPassword:PatchSlots.password, manualControls:true),
+        PatchOption(id:"r-m6", title:"AIM MOON DRAG ATN", subtitle:"FF MAX • AIM MOON", patchFile:"AIM MOON DRAG ATN.3105", patchPassword:PatchSlots.password, manualControls:true),
+        PatchOption(id:"r-m7", title:"AIM MOON PECHO", subtitle:"FF MAX • AIM MOON", patchFile:"AIM MOON PECHO.3105", patchPassword:PatchSlots.password, manualControls:true),
+        PatchOption(id:"r-m8", title:"AIM MOON PECHO ATN", subtitle:"FF MAX • AIM MOON", patchFile:"AIM MOON PECHO ATN.3105", patchPassword:PatchSlots.password, manualControls:true),
+        PatchOption(id:"r-m-fps", title:"120–144 FPS", subtitle:"FF MAX • FPS", patchFile:PatchSlots.ffmxFPS, patchPassword:PatchSlots.password, manualControls:true),
+        PatchOption(id:"r-arm-normal-rainbow", title:"ARM MOON SPIN • RAINBOW", subtitle:"FF MAX • HOLO ARM", patchFile:"ARM MOON SPIN RAINBOW.3105", patchPassword:PatchSlots.armHoloPassword, manualControls:true, isTexture:true),
+        PatchOption(id:"r-pj1", title:"PJ HOLO • COTTON CANDY", subtitle:"FF MAX • PJ HOLO", patchFile:"PJ HOLO MOON COTTON CANDY.3105", patchPassword:PatchSlots.pjHoloPassword, manualControls:true, isTexture:true),
+        PatchOption(id:"r-pj2", title:"PJ HOLO • DARK GALAXY", subtitle:"FF MAX • PJ HOLO", patchFile:"PJ HOLO MOON DARK GALAXY.3105", patchPassword:PatchSlots.pjHoloPassword, manualControls:true, isTexture:true),
+        PatchOption(id:"r-pj3", title:"PJ HOLO • ESPEJOS", subtitle:"FF MAX • PJ HOLO", patchFile:"PJ HOLO MOON ESPEJOS.3105", patchPassword:PatchSlots.pjHoloPassword, manualControls:true, isTexture:true)
+    ]
+
+    private var allOptions: [PatchOption] { game == 0 ? normal : max }
+
+    private var options: [PatchOption] {
+        switch filter {
+        case .all:
+            return allOptions
+        case .holos:
+            return allOptions.filter { $0.isTexture }
+        case .aim:
+            return allOptions.filter {
+                !$0.isTexture &&
+                $0.title.localizedCaseInsensitiveContains("AIM")
+            }
+        case .moons:
+            return allOptions.filter {
+                !$0.isTexture &&
+                !$0.title.localizedCaseInsensitiveContains("AIM") &&
+                !$0.title.localizedCaseInsensitiveContains("ATN") &&
+                $0.title.localizedCaseInsensitiveContains("MOON")
+            }
+        case .atn:
+            return allOptions.filter {
+                !$0.isTexture &&
+                $0.title.localizedCaseInsensitiveContains("ATN")
+            }
+        }
+    }
+
+    var body: some View {
+        ScrollView(showsIndicators:false) {
+            VStack(alignment:.leading, spacing:15) {
+                HStack {
+                    VStack(alignment:.leading, spacing:4) {
+                        Text("FUNCIONES")
+                            .font(.system(size:30, weight:.black, design:.rounded))
+                        Text(game == 0 ? "FREE FIRE NORMAL" : "FREE FIRE MAX")
+                            .font(.system(size:9, weight:.black, design:.rounded))
+                            .tracking(1.7)
+                            .foregroundStyle(Theme.accent)
+                    }
+                    Spacer()
+                    Text("\(allOptions.count) OPCIONES")
+                        .font(.system(size:9, weight:.black, design:.rounded))
+                        .foregroundStyle(.white.opacity(0.35))
+                }
+                .padding(.top,48)
+
+                ZStack(alignment:.bottomLeading) {
+                    RemoteAnimatedGIFView(urlString: MoonRemoteMedia.dashboardBanner, contentMode:.scaleAspectFill)
+                        .frame(height:165)
+                        .frame(maxWidth:.infinity)
+                        .clipShape(RoundedRectangle(cornerRadius:24, style:.continuous))
+
+                    LinearGradient(
+                        colors:[.clear,.black.opacity(0.86)],
+                        startPoint:.center,
+                        endPoint:.bottom
+                    )
+                    .clipShape(RoundedRectangle(cornerRadius:24, style:.continuous))
+
+                    VStack(alignment:.leading, spacing:4) {
+                        Text("MOON X7")
+                            .font(.system(size:23, weight:.black, design:.rounded))
+                        Text("LIQUID GLASS • CONTROL CENTER")
+                            .font(.system(size:9, weight:.black, design:.rounded))
+                            .tracking(1.5)
+                            .foregroundStyle(Theme.accent)
+                    }
+                    .padding(15)
+                    .foregroundStyle(.white)
+                }
+                .overlay {
+                    RoundedRectangle(cornerRadius:24, style:.continuous)
+                        .stroke(
+                            LinearGradient(
+                                colors:[Theme.accent.opacity(0.72),Theme.violet.opacity(0.45),.white.opacity(0.08)],
+                                startPoint:.topLeading,
+                                endPoint:.bottomTrailing
+                            ),
+                            lineWidth:1.2
+                        )
+                }
+
+                HStack(spacing:8) {
+                    MoonSegment(title:"FREE FIRE", selected:game == 0) {
+                        withAnimation(.spring(response:0.35,dampingFraction:0.82)) {
+                            game = 0
+                            filter = .all
+                        }
+                    }
+                    MoonSegment(title:"FREE FIRE MAX", selected:game == 1) {
+                        withAnimation(.spring(response:0.35,dampingFraction:0.82)) {
+                            game = 1
+                            filter = .all
+                        }
+                    }
+                }
+
+                HStack(spacing:7) {
+                    filterCard(.all, title:"VER TODOS", value:allOptions.count, icon:"square.grid.2x2.fill", tint:.white)
+                    filterCard(.holos, title:"HOLOS", value:allOptions.filter { $0.isTexture }.count, icon:"sparkles", tint:Theme.violet)
+                    filterCard(.aim, title:"AIM", value:allOptions.filter { !$0.isTexture && $0.title.localizedCaseInsensitiveContains("AIM") }.count, icon:"scope", tint:Theme.accent)
+                    filterCard(.moons, title:"MOONS", value:allOptions.filter { !$0.isTexture && !$0.title.localizedCaseInsensitiveContains("AIM") && !$0.title.localizedCaseInsensitiveContains("ATN") && $0.title.localizedCaseInsensitiveContains("MOON") }.count, icon:"circle.grid.3x3.fill", tint:.white)
+                    filterCard(.atn, title:"ATN", value:allOptions.filter { !$0.isTexture && $0.title.localizedCaseInsensitiveContains("ATN") }.count, icon:"target", tint:Theme.accent)
+                }
+
+                HStack {
+                    Text(filter.label)
+                        .font(.system(size:9, weight:.black, design:.rounded))
+                        .tracking(1.4)
+                        .foregroundStyle(Theme.accent)
+                    Spacer()
+                    Text("\(options.count) MOSTRANDO")
+                        .font(.system(size:8.5, weight:.black, design:.rounded))
+                        .foregroundStyle(.white.opacity(0.34))
+                }
+                .padding(.top,4)
+
+                ForEach(options) { option in
+                    MoonPatchRedesignCard(option: option, enabled: $enabled)
+                }
+            }
+            .frame(width:Swift.max(1,UIScreen.main.bounds.width - 30), alignment:.leading)
+            .padding(.horizontal,15)
+            .padding(.bottom,105)
+        }
+    }
+
+    private func filterCard(_ filterValue: MoonOptionFilter, title:String, value:Int, icon:String, tint:Color) -> some View {
+        Button {
+            withAnimation(.spring(response:0.30,dampingFraction:0.84)) { filter = filterValue }
+        } label: {
+            VStack(alignment:.leading, spacing:4) {
+                Image(systemName:icon)
+                    .font(.system(size:11, weight:.black))
+                    .foregroundStyle(tint)
+                Text("\(value)")
+                    .font(.system(size:17, weight:.black, design:.rounded))
+                Text(title)
+                    .font(.system(size:6.8, weight:.black, design:.rounded))
+                    .tracking(0.45)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.72)
+                    .foregroundStyle(.white.opacity(0.40))
+            }
+            .frame(maxWidth:.infinity, alignment:.leading)
+            .padding(9)
+            .foregroundStyle(.white)
+            .background(filter == filterValue ? tint.opacity(0.16) : .clear, in:RoundedRectangle(cornerRadius:15,style:.continuous))
+            .overlay {
+                RoundedRectangle(cornerRadius:15,style:.continuous)
+                    .stroke(filter == filterValue ? tint.opacity(0.65) : .white.opacity(0.08), lineWidth:1)
+            }
+        }
+        .buttonStyle(.plain)
+    }
+}
+
+private enum MoonOptionFilter {
+    case all, holos, aim, moons, atn
+
+    var label: String {
+        switch self {
+        case .all: return "VER TODOS"
+        case .holos: return "HOLOS"
+        case .aim: return "AIM"
+        case .moons: return "MOONS"
+        case .atn: return "ATN"
+        }
+    }
+}
+
+private struct MoonSummaryCard: View {
+    let title: String
+    let value: String
+    let icon: String
+    let tint: Color
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 5) {
+            Image(systemName: icon)
+                .font(.system(size: 12, weight: .black))
+                .foregroundStyle(tint)
+            Text(value)
+                .font(.system(size: 18, weight: .black, design: .rounded))
+            Text(title)
+                .font(.system(size: 7.5, weight: .black, design: .rounded))
+                .tracking(0.7)
+                .foregroundStyle(.white.opacity(0.38))
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(11)
+        .foregroundStyle(.white)
+        .moonGlass(cornerRadius: 16, tint: tint)
+    }
+}
+private struct MoonSegment: View {
+    let title: String
+    let selected: Bool
+    let action: () -> Void
+
+    var body: some View {
+        Button(action:action) {
+            Text(title)
+                .font(.system(size:11.5, weight:.black, design:.rounded))
+                .foregroundStyle(selected ? .white : .white.opacity(0.42))
+                .frame(maxWidth:.infinity).frame(height:50)
+        }
+        .buttonStyle(.plain)
+        .background(selected ? Theme.accent.opacity(0.22) : .white.opacity(0.035), in: RoundedRectangle(cornerRadius:16, style:.continuous))
+        .overlay { RoundedRectangle(cornerRadius:16).stroke(selected ? Theme.accent.opacity(0.55) : .white.opacity(0.08), lineWidth:1) }
+        .animation(.easeInOut(duration:0.2), value:selected)
+    }
+}
+
+private struct MoonPatchRedesignCard: View {
+    let option: PatchOption
+    @Binding var enabled: Set<String>
+    @State private var busy = false
+    @State private var expanded = false
+    @State private var error: String?
+    @State private var successMessage: String?
+
+    private var active: Bool { enabled.contains(option.id) }
+    private var holo: Bool { option.isTexture }
+
+    var body: some View {
+        VStack(spacing:0) {
+            Button {
+                withAnimation(.spring(response:0.34,dampingFraction:0.82)) { expanded.toggle() }
+            } label: {
+                HStack(spacing:13) {
+                    ZStack {
+                        RoundedRectangle(cornerRadius:15).fill(holo ? Theme.violet.opacity(0.18) : Theme.accent.opacity(0.13))
+                        Image(systemName: holo ? "sparkles" : "scope")
+                            .font(.system(size:18, weight:.bold))
+                            .foregroundStyle(holo ? Theme.violet : Theme.accent)
+                    }
+                    .frame(width:48,height:48)
+
+                    VStack(alignment:.leading, spacing:4) {
+                        Text(option.title)
+                            .font(.system(size:14.5, weight:.black, design:.rounded))
+                            .foregroundStyle(.white).multilineTextAlignment(.leading)
+                        Text(option.subtitle ?? "")
+                            .font(.system(size:9, weight:.black, design:.rounded))
+                            .tracking(1.1).foregroundStyle(.white.opacity(0.38))
+                    }
+                    Spacer()
+                    if busy { ProgressView().tint(.white) }
+                    Circle()
+                        .stroke(active ? Theme.accent : .white.opacity(0.16), lineWidth:1.4)
+                        .frame(width:23,height:23)
+                        .overlay {
+                            if active { Circle().fill(Theme.accent).frame(width:11,height:11) }
+                        }
+                    Image(systemName: expanded ? "chevron.up" : "chevron.down")
+                        .font(.system(size:10, weight:.black))
+                        .foregroundStyle(.white.opacity(0.38))
+                }
+                .padding(14)
+            }
+            .buttonStyle(.plain)
+
+            if expanded {
+                HStack(spacing:9) {
+                    MoonActionButton(title: holo ? "INJETAR" : "INJETAR 40%", icon:"bolt.fill", tint:Theme.accent, disabled:busy) {
+                        run(apply:true)
+                    }
+                    MoonActionButton(title: holo ? "QUITAR" : "QUITAR LOBBY", icon:"arrow.uturn.backward", tint:Theme.violet, disabled:busy) {
+                        run(apply:false)
+                    }
+                }
+                .padding(.horizontal,14).padding(.bottom,14)
+                .transition(.asymmetric(insertion:.scale(scale:0.96).combined(with:.opacity), removal:.opacity))
+            }
+        }
+        .foregroundStyle(.white)
+        .moonGlass(cornerRadius:21, tint:holo ? Theme.violet : Theme.accent)
+        .overlay {
+            RoundedRectangle(cornerRadius:21).stroke(
+                LinearGradient(colors:[active ? Theme.accent.opacity(0.78) : .white.opacity(0.08), holo ? Theme.violet.opacity(0.38) : .clear], startPoint:.leading, endPoint:.trailing),
+                lineWidth: active ? 1.2 : 0.8
+            )
+        }
+        .alert("MOON X7", isPresented: Binding(get:{error != nil}, set:{if !$0{error=nil}})) {
+            Button("OK") { error=nil }
+        } message: { Text(error ?? "") }
+        .alert("MOONCONFIG", isPresented: Binding(get: { successMessage != nil }, set: { if !$0 { successMessage = nil } })) {
+            Button("OK") { successMessage = nil }
+        } message: {
+            Text(successMessage ?? "")
+        }
+    }
+
+    private func run(apply: Bool) {
+        guard !busy else { return }
+        busy = true
+        DispatchQueue.global(qos:.userInitiated).async {
+            let result = PatchSlotRunner.setEnabled(apply, slotID: option.id, fileName: option.patchFile, configuredPassword: option.patchPassword)
+            DispatchQueue.main.async {
+                busy = false
+                switch result {
+                case .success:
+                    if apply { enabled.insert(option.id) } else { enabled.remove(option.id) }
+                    successMessage = apply ? "moonconfig apply" : "moonconfig org restore"
+                case .failure(let err):
+                    error = PatchSlotRunner.message(for: err)
+                }
+            }
+        }
+    }
+}
+
+private struct MoonActionButton: View {
+    let title: String
+    let icon: String
+    let tint: Color
+    let disabled: Bool
+    let action: () -> Void
+
+    var body: some View {
+        Button(action:action) {
+            Label(title, systemImage:icon)
+                .font(.system(size:11, weight:.black, design:.rounded))
+                .foregroundStyle(.white)
+                .frame(maxWidth:.infinity).frame(height:44)
+        }
+        .moonGlassButton()
+        .tint(tint)
+        .disabled(disabled)
+    }
+}
+
+private struct MoonPreviewRedesign: View {
+    private let items = [
+        ("ARM HOLO MOON • RAINBOW", "ARM HOLO MOON RAINBOW.mp4"),
+        ("ARM MOON SPIN • RAINBOW", "ARM MOON SPIN RAINBOW.mp4"),
+        ("PJ HOLO MOON COTTON CANDY", "PJ HOLO MOON COTTON CANDY.mp4"),
+        ("PJ HOLO MOON DARK GALAXY", "PJ HOLO MOON DARK GALAXY.mp4"),
+        ("PJ HOLO MOON ESPEJOS", "PJ HOLO MOON ESPEJOS.mp4")
+    ]
+    @State private var selected: String?
+
+    var body: some View {
+        ScrollView(showsIndicators:false) {
+            VStack(alignment:.leading, spacing:15) {
+                VStack(alignment:.leading, spacing:5) {
+                    Text("PREVIEW").font(.system(size:31, weight:.black, design:.rounded))
+                    Text("HOLO COLLECTION").font(.system(size:9, weight:.black, design:.rounded)).tracking(1.8).foregroundStyle(Theme.accent)
+                }
+                .padding(.top,48)
+
+                ForEach(items, id:\.0) { item in
+                    VStack(spacing:0) {
+                        Button {
+                            withAnimation(.spring(response:0.35,dampingFraction:0.82)) {
+                                selected = selected == item.0 ? nil : item.0
+                            }
+                        } label: {
+                            HStack {
+                                Image(systemName:"play.circle.fill").font(.system(size:28)).foregroundStyle(Theme.accent)
+                                VStack(alignment:.leading, spacing:3) {
+                                    Text(item.0).font(.system(size:13.5, weight:.black, design:.rounded))
+                                    Text(item.1).font(.system(size:8.5, weight:.medium, design:.monospaced)).foregroundStyle(.white.opacity(0.32))
+                                }
+                                Spacer()
+                                Image(systemName:selected == item.0 ? "chevron.up" : "chevron.down").foregroundStyle(.white.opacity(0.35))
+                            }
+                            .foregroundStyle(.white)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(14)
+                            .contentShape(Rectangle())
+                        }
+                        .buttonStyle(.plain)
+
+                        if selected == item.0 {
+                            if let root = Bundle.main.resourceURL {
+                                let url = root.appendingPathComponent("PreviewImages", isDirectory:true).appendingPathComponent(item.1)
+                                if FileManager.default.fileExists(atPath:url.path) {
+                                    CleanVideoPlayer(url: url)
+                                        .frame(height:230)
+                                        .clipShape(RoundedRectangle(cornerRadius:16, style:.continuous))
+                                        .padding(.horizontal,12).padding(.bottom,12)
+                                } else {
+                                    Text("Preview no disponible en el bundle.")
+                                        .font(.system(size:10, weight:.semibold))
+                                        .foregroundStyle(.white.opacity(0.35))
+                                        .padding(.bottom,14)
+                                }
+                            }
+                        }
+                    }
+                    .moonGlass(cornerRadius:20, tint:Theme.accent)
+                }
+            }
+            .padding(.horizontal,15).padding(.bottom,105)
+        }
+    }
+}
+
+private struct MoonConfigRedesign: View {
+    @ObservedObject var auth: MoonAuthManager
+
+    var body: some View {
+        ScrollView(showsIndicators:false) {
+            VStack(alignment:.leading, spacing:15) {
+                Text("CONFIG").font(.system(size:31, weight:.black, design:.rounded)).padding(.top,48)
+                Text("LICENCIA • DISPOSITIVO • SESIÓN")
+                    .font(.system(size:9, weight:.black, design:.rounded))
+                    .tracking(1.7).foregroundStyle(Theme.accent)
+
+                VStack(alignment:.leading, spacing:12) {
+                    configLine("ESTADO", auth.isAuthenticated ? "ACTIVA" : "SIN SESIÓN", color:.green)
+                    configLine("KEY", auth.licenseKey ?? "—")
+                    configLine("PLAN", auth.plan?.uppercased() ?? "—")
+                    configLine("DÍAS", auth.durationDays.map(String.init) ?? "—")
+                    configLine("ACTIVADA", auth.activatedAt.map { $0.formatted(date:.abbreviated, time:.shortened) } ?? "—")
+                    configLine("EXPIRA", auth.expiresAt.map { $0.formatted(date:.abbreviated, time:.shortened) } ?? "—")
+                }
+                .padding(17)
+                .moonGlass(cornerRadius:24, tint:Theme.accent)
+
+                VStack(alignment:.leading, spacing:10) {
+                    Text("DISPOSITIVO")
+                        .font(.system(size:9, weight:.black, design:.rounded))
+                        .tracking(1.6).foregroundStyle(.white.opacity(0.38))
+                    configLine("MODELO", DeviceInfo.machine)
+                    configLine("IOS", UIDevice.current.systemVersion)
+                    configLine("BUILD", "2.2.0")
+                }
+                .padding(17)
+                .moonGlass(cornerRadius:24, tint:Theme.violet)
+
+                Button("CERRAR SESIÓN") { auth.signOut() }
+                    .font(.system(size:12, weight:.black, design:.rounded))
+                    .foregroundStyle(.white)
+                    .frame(maxWidth:.infinity).frame(height:50)
+                    .moonGlassButton(prominent: true)
+                    .tint(Theme.accent)
+            }
+            .padding(.horizontal,15).padding(.bottom,105)
+        }
+    }
+
+    private func configLine(_ title:String, _ value:String, color:Color = .white) -> some View {
+        HStack {
+            Text(title).font(.system(size:8.5, weight:.black, design:.rounded)).tracking(1).foregroundStyle(.white.opacity(0.34))
+            Spacer(minLength:12)
+            Text(value).font(.system(size:11, weight:.bold, design:.monospaced)).foregroundStyle(color).multilineTextAlignment(.trailing)
+        }
     }
 }
