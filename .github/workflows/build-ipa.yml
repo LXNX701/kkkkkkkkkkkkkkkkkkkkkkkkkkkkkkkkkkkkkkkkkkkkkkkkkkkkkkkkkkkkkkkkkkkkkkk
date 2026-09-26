@@ -3,7 +3,7 @@ name: Build MOON X7 IPA
 on:
   workflow_dispatch:
   push:
-    branches: [main, master, 'redesign/moonx7-liquid-glass']
+    branches: [main, master, 'redesign/moonx7-liquid-glass', 'design/moonx7-redesign']
   pull_request:
     branches: [main]
 
@@ -58,8 +58,8 @@ jobs:
           grep -q "PreviewView" "$BUILD_SOURCE" || { echo "ERROR: PreviewView missing"; exit 1; }
           grep -q "MoonPatchRedesignCard" "$BUILD_SOURCE" || { echo "ERROR: redesigned patch cards missing"; exit 1; }
           grep -q "MoonPreviewRedesign" "$BUILD_SOURCE" || { echo "ERROR: redesigned preview missing"; exit 1; }
-          grep -q "MoonX7RedesignedShell(auth: auth" "$BUILD_SOURCE" || { echo "ERROR: redesigned shell is not the active authenticated UI"; exit 1; }
-          grep -q "case 1: MoonFunctionsRedesign" "$BUILD_SOURCE" || { echo "ERROR: redesigned functions screen is not active"; exit 1; }
+          grep -q "MoonX7V2Shell(auth: auth" "$BUILD_SOURCE" || { echo "ERROR: MOONX7 redesign shell is not the active authenticated UI"; exit 1; }
+          grep -q "MoonX7V2GamesView" "$BUILD_SOURCE" || { echo "ERROR: MOONX7 games screen is missing"; exit 1; }
           grep -q "durationDays" "$BUILD_SOURCE" || { echo "ERROR: license metadata missing"; exit 1; }
           grep -q 'r-pj1' "$BUILD_SOURCE" || { echo "ERROR: new FFMAX Cotton Candy option missing"; exit 1; }
           grep -q 'r-pj2' "$BUILD_SOURCE" || { echo "ERROR: new FFMAX Dark Galaxy option missing"; exit 1; }
@@ -131,7 +131,7 @@ jobs:
           [ -f "$EXEC" ] || { echo "ERROR: MOONX7 executable missing"; exit 1; }
 
           strings "$EXEC" > "$GITHUB_WORKSPACE/compiled-strings.txt"
-          grep -Fq "LIQUID GLASS EDITION" "$GITHUB_WORKSPACE/compiled-strings.txt" || {
+          grep -Fq "METALLIC EDITION" "$GITHUB_WORKSPACE/compiled-strings.txt" || {
             echo "ERROR: compiled executable is missing the unique MOON X7 redesign build stamp"
             exit 1
           }
@@ -185,8 +185,8 @@ jobs:
           VERIFY_EXEC="$GITHUB_WORKSPACE/IPA_VERIFY/Payload/MOONX7.app/MOONX7"
           [ -f "$VERIFY_EXEC" ] || { echo "ERROR: packaged executable missing"; exit 1; }
           strings "$VERIFY_EXEC" > "$GITHUB_WORKSPACE/ipa-compiled-strings.txt"
-          grep -Fq "LIQUID GLASS EDITION" "$GITHUB_WORKSPACE/ipa-compiled-strings.txt" || {
-            echo "ERROR: IPA contains wrong/old binary; Liquid Glass redesign marker is missing"
+          grep -Fq "METALLIC EDITION" "$GITHUB_WORKSPACE/ipa-compiled-strings.txt" || {
+            echo "ERROR: IPA contains wrong/old binary; MOONX7 redesign marker is missing"
             exit 1
           }
 
