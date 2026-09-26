@@ -593,7 +593,7 @@ private enum PatchSlots {
     static let ffn7 = "MOON PECHO.3105"
     static let ffn8 = "MOON PECHO ATN.3105"
 
-    static let password = "0"
+    static let password = "moonx7"
     static let armHoloPassword = "moonx7"
 }
 
