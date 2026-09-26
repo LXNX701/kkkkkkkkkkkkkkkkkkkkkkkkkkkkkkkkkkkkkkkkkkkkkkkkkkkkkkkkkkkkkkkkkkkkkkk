@@ -1114,6 +1114,7 @@ private struct PatchCard: View {
         DispatchQueue.global(qos: .userInitiated).async {
             let result = PatchSlotRunner.setEnabled(
                 enabledState,
+                slotID: row.id,
                 fileName: row.patchFile,
                 configuredPassword: row.patchPassword
             )
@@ -1143,6 +1144,7 @@ private struct PatchCard: View {
         DispatchQueue.global(qos: .userInitiated).async {
             let result = PatchSlotRunner.setEnabled(
                 apply,
+                slotID: row.id,
                 fileName: row.patchFile,
                 configuredPassword: row.patchPassword
             )
@@ -1163,12 +1165,62 @@ private struct PatchCard: View {
 
 
 // ============================================================
+// MARK: - PERSISTENT ACTIVE PATCH RECEIPTS
+// ============================================================
+
+private enum ActivePatchReceipts {
+    private static let prefix = "moonx7.activePatchReceipt."
+
+    private struct StoredReceipt: Codable {
+        let id: UUID
+        let projectID: UUID
+    }
+
+    static func save(_ receipt: PatchTransactionReceipt, for slotID: String) {
+        let value = StoredReceipt(id: receipt.id, projectID: receipt.projectID)
+        guard let data = try? JSONEncoder().encode(value) else { return }
+        UserDefaults.standard.set(data, forKey: key(slotID))
+    }
+
+    static func load(for slotID: String) -> PatchTransactionReceipt? {
+        guard let data = UserDefaults.standard.data(forKey: key(slotID)),
+              let stored = try? JSONDecoder().decode(StoredReceipt.self, from: data),
+              let backupRoot = try? PatchProjectLibrary.backupRootURL() else {
+            return nil
+        }
+
+        let journalURL = backupRoot
+            .appendingPathComponent(stored.projectID.uuidString, isDirectory: true)
+            .appendingPathComponent(stored.id.uuidString, isDirectory: true)
+            .appendingPathComponent("journal.plist", isDirectory: false)
+
+        guard FileManager.default.fileExists(atPath: journalURL.path) else {
+            return nil
+        }
+
+        return PatchTransactionReceipt(
+            id: stored.id,
+            projectID: stored.projectID,
+            journalURL: journalURL
+        )
+    }
+
+    static func remove(for slotID: String) {
+        UserDefaults.standard.removeObject(forKey: key(slotID))
+    }
+
+    private static func key(_ slotID: String) -> String {
+        prefix + slotID
+    }
+}
+
+// ============================================================
 // MARK: - PATCH SLOT RUNNER
 // ============================================================
 
 private enum PatchSlotRunner {
 
-    static func setEnabled(_ enabled: Bool, fileName: String, configuredPassword: String) -> Result<String, Error> {
+    static func setEnabled(_ enabled: Bool, slotID: String, fileName: String, configuredPassword: String) -> Result<String, Error> {
         do {
             let url = try bundledPatchURL(fileName: fileName)
             let data = try Data(contentsOf: url, options: [.mappedIfSafe])
@@ -1177,10 +1229,12 @@ private enum PatchSlotRunner {
             let decoded = try PatchPackageCodec.decode(data, password: password)
 
             if enabled {
-                _ = try DevicePatchService.apply(project: decoded.project)
+                let receipt = try DevicePatchService.apply(project: decoded.project)
+                ActivePatchReceipts.save(receipt, for: slotID)
                 return .success("Patch aplicado. Backup original criado.")
             } else {
-                guard let receipt = DevicePatchService.latestReceipt(projectID: decoded.project.id) else {
+                guard let receipt = ActivePatchReceipts.load(for: slotID)
+                    ?? DevicePatchService.latestReceipt(projectID: decoded.project.id) else {
                     throw PatchSlotError.noBackup
                 }
                 try DevicePatchService.restore(receipt: receipt)
