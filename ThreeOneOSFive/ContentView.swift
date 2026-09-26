@@ -2792,13 +2792,6 @@ private struct MoonFunctionsRedesign: View {
                 !$0.isTexture &&
                 $0.title.localizedCaseInsensitiveContains("AIM")
             }
-        case .moons:
-            return allOptions.filter {
-                !$0.isTexture &&
-                !$0.title.localizedCaseInsensitiveContains("AIM") &&
-                !$0.title.localizedCaseInsensitiveContains("ATN") &&
-                $0.title.localizedCaseInsensitiveContains("MOON")
-            }
         case .atn:
             return allOptions.filter {
                 !$0.isTexture &&
