@@ -4132,6 +4132,12 @@ private struct MoonX7V2PatchCard: View {
 
     private var active: Bool { enabled.contains(option.id) }
 
+    // AIM/ATN keep the legacy lobby actions; FPS and HOLOS use simple actions.
+    private var usesLobbyActions: Bool {
+        !option.isTexture && (option.title.localizedCaseInsensitiveContains("AIM")
+            || option.title.localizedCaseInsensitiveContains("ATN"))
+    }
+
     var body: some View {
         VStack(spacing: 0) {
             Button {
@@ -4188,7 +4194,7 @@ private struct MoonX7V2PatchCard: View {
             if expanded {
                 HStack(spacing: 9) {
                     MoonX7V2ActionButton(
-                        title: option.isTexture ? "INJETAR" : "INJETAR",
+                        title: usesLobbyActions ? "INJETAR 40%" : "INJETAR",
                         icon: "bolt.fill",
                         tint: MoonX7V2Palette.redBright,
                         disabled: busy
@@ -4197,7 +4203,7 @@ private struct MoonX7V2PatchCard: View {
                     }
 
                     MoonX7V2ActionButton(
-                        title: option.isTexture ? "QUITAR" : "QUITAR",
+                        title: usesLobbyActions ? "QUITAR LOBBY" : "QUITAR",
                         icon: "arrow.uturn.backward",
                         tint: MoonX7V2Palette.purpleBright,
                         disabled: busy
