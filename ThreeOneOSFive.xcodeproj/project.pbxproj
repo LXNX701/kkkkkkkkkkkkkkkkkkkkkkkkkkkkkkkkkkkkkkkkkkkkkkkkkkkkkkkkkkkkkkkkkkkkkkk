@@ -64,12 +64,14 @@
 		3105A228 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3105A120; };
 		3105A211 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3105A031; };
 		3105J200 /* TexturePatchRunner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3105J100; };
+		3105K200 /* MoonX7Eye.gif in Resources */ = {isa = PBXBuildFile; fileRef = 3105K100; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		3105A010 /* 3105.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "3105.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3105A020 /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 		3105A021 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		3105K100 /* MoonX7Eye.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = MoonX7Eye.gif; sourceTree = "<group>"; };
 		3105A023 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		3105A024 /* LogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogView.swift; sourceTree = "<group>"; };
 		3105A025 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
@@ -175,6 +177,7 @@
 				3105A406 /* kexploit */,
 				3105A120 /* Localizable.strings */,
 				3105A031 /* Assets.xcassets */,
+				3105K100 /* MoonX7Eye.gif */,
 			);
 			path = ThreeOneOSFive;
 			sourceTree = "<group>";
@@ -337,6 +340,7 @@
 			files = (
 				3105A211,
 				3105A228,
+				3105K200,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

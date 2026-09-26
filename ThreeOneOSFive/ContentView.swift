@@ -643,7 +643,7 @@ private struct ExternalFunctionsView: View {
         PatchOption(id: "ffn-06", title: "AIM MOON DRAG ATN", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn6, patchPassword: PatchSlots.password, manualControls: true),
         PatchOption(id: "ffn-07", title: "AIM MOON PECHO", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn7, patchPassword: PatchSlots.password, manualControls: true),
         PatchOption(id: "ffn-08", title: "AIM MOON PECHO ATN", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn8, patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "ffn-120fps", title: "AIM 120–144 FPS", subtitle: "FF NORMAL • AIM • FPS", patchFile: PatchSlots.ffnFPS, patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "ffn-120fps", title: "120–144 FPS", subtitle: "FF NORMAL • FPS", patchFile: PatchSlots.ffnFPS, patchPassword: PatchSlots.password, manualControls: true),
         PatchOption(id: "ffn-arm-holo", title: "ARM HOLO MOON • RAINBOW", subtitle: "FF NORMAL • HOLO ARM", patchFile: "ARM HOLO MOON RAINBOW.3105", patchPassword: PatchSlots.armHoloPassword, manualControls: true, isTexture: true)
     ]
 
@@ -1866,8 +1866,8 @@ private struct AnimatedGIFView: UIViewRepresentable {
 
     func makeUIView(context: Context) -> UIImageView {
         let view = UIImageView()
-        view.contentMode = .scaleAspectFit
-        view.clipsToBounds = false
+        view.contentMode = .scaleAspectFill
+        view.clipsToBounds = true
         view.backgroundColor = .clear
         view.image = animatedImage()
         if capture.isCaptured {
@@ -3036,10 +3036,10 @@ private struct MoonPatchRedesignCard: View {
 
             if expanded {
                 HStack(spacing:9) {
-                    MoonActionButton(title: holo ? "INJETAR" : "INJETAR 40%", icon:"bolt.fill", tint:Theme.accent, disabled:busy) {
+                    MoonActionButton(title: holo ? "INJETAR" : "INJETAR", icon:"bolt.fill", tint:Theme.accent, disabled:busy) {
                         run(apply:true)
                     }
-                    MoonActionButton(title: holo ? "QUITAR" : "QUITAR LOBBY", icon:"arrow.uturn.backward", tint:Theme.violet, disabled:busy) {
+                    MoonActionButton(title: holo ? "QUITAR" : "QUITAR", icon:"arrow.uturn.backward", tint:Theme.violet, disabled:busy) {
                         run(apply:false)
                     }
                 }
@@ -3659,6 +3659,35 @@ private struct MoonX7V2HomeView: View {
                 .overlay { RoundedRectangle(cornerRadius: 22, style: .continuous).stroke(MoonX7V2Palette.purple.opacity(0.30), lineWidth: 1) }
                 .shadow(color: MoonX7V2Palette.purple.opacity(0.13), radius: 22, y: 8)
 
+                ZStack {
+                    AnimatedGIFView(filename: "MoonX7Eye.gif")
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 178)
+                        .clipped()
+
+                    LinearGradient(
+                        colors: [.clear, .black.opacity(0.24)],
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                    .allowsHitTesting(false)
+                }
+                .frame(maxWidth: .infinity)
+                .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
+                .overlay {
+                    RoundedRectangle(cornerRadius: 22, style: .continuous)
+                        .stroke(
+                            LinearGradient(
+                                colors: [MoonX7V2Palette.purpleBright.opacity(0.38), MoonX7V2Palette.redBright.opacity(0.32)],
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            ),
+                            lineWidth: 1
+                        )
+                }
+                .shadow(color: MoonX7V2Palette.purple.opacity(0.14), radius: 22, y: 8)
+                .transition(.opacity.combined(with: .scale(scale: 0.98)))
+
                 VStack(alignment: .leading, spacing: 5) {
                     Text("WELCOME BACK")
                         .font(.system(size: 9, weight: .black, design: .rounded))
@@ -3891,7 +3920,7 @@ private struct MoonX7V2GamesView: View {
         PatchOption(id: "r-ffn6", title: "AIM MOON DRAG ATN", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn6, patchPassword: PatchSlots.password, manualControls: true),
         PatchOption(id: "r-ffn7", title: "AIM MOON PECHO", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn7, patchPassword: PatchSlots.password, manualControls: true),
         PatchOption(id: "r-ffn8", title: "AIM MOON PECHO ATN", subtitle: "FF NORMAL", patchFile: PatchSlots.ffn8, patchPassword: PatchSlots.password, manualControls: true),
-        PatchOption(id: "r-ffn-fps", title: "AIM 120–144 FPS", subtitle: "FF NORMAL • AIM • FPS", patchFile: PatchSlots.ffnFPS, patchPassword: PatchSlots.password, manualControls: true),
+        PatchOption(id: "r-ffn-fps", title: "120–144 FPS", subtitle: "FF NORMAL • FPS", patchFile: PatchSlots.ffnFPS, patchPassword: PatchSlots.password, manualControls: true),
         PatchOption(id: "r-arm-max-rainbow", title: "ARM HOLO MOON • RAINBOW", subtitle: "FF NORMAL • HOLO ARM", patchFile: "ARM HOLO MOON RAINBOW.3105", patchPassword: PatchSlots.armHoloPassword, manualControls: true, isTexture: true)
     ]
 
@@ -4159,7 +4188,7 @@ private struct MoonX7V2PatchCard: View {
             if expanded {
                 HStack(spacing: 9) {
                     MoonX7V2ActionButton(
-                        title: option.isTexture ? "INJETAR" : "INJETAR 40%",
+                        title: option.isTexture ? "INJETAR" : "INJETAR",
                         icon: "bolt.fill",
                         tint: MoonX7V2Palette.redBright,
                         disabled: busy
@@ -4168,7 +4197,7 @@ private struct MoonX7V2PatchCard: View {
                     }
 
                     MoonX7V2ActionButton(
-                        title: option.isTexture ? "QUITAR" : "QUITAR LOBBY",
+                        title: option.isTexture ? "QUITAR" : "QUITAR",
                         icon: "arrow.uturn.backward",
                         tint: MoonX7V2Palette.purpleBright,
                         disabled: busy
